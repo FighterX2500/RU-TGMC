@@ -18,6 +18,8 @@
 	var/zoom = FALSE
 	var/zoom_size = 14
 
+	pixel_x = -16
+
 	health = 400
 	maxhealth = 400
 
@@ -62,6 +64,19 @@
 	to_chat(usr, "[left ? left.name : "Nothing"] is placed on its left hardpoint.")
 	to_chat(usr, "[right ? right.name : "Nothing"] is placed on its right hardpoint.")
 
+/obj/vehicle/walker/ex_act(severity)
+	switch(severity)
+		if (1)
+			if(prob(10))									// "- You have three seconds to run before I stab you in the anus!"@ Walker Pilot to rocket spec.
+				health = 0
+				healthcheck()
+				return
+			take_damage(20, "explosive")					// 100 damage btw. 2 instance of MT repair. 3-4 minutes standing IDLY near walker.
+		if (2)
+			take_damage(15, "explosive")
+		if (3)
+			take_damage(10, "explosive")					// 10 * 5.0 = 50. Maxhealth is 400. Hellova damage
+
 /obj/vehicle/walker/relaymove(mob/user, direction)
 	if(user.is_mob_incapacitated())
 		return
@@ -88,27 +103,33 @@
 	else if(istype(obstacle, /obj/structure/fence))
 		var/obj/structure/fence/F = obstacle
 		F.visible_message("<span class='danger'>[src.name] smashes through [F]!</span>")
+		take_damage(5, "abstract")
 		F.health = 0
 		F.healthcheck()
 	else if(istype(obstacle, /obj/structure/table))
 		var/obj/structure/table/T = obstacle
 		T.visible_message("<span class='danger'>[src.name] crushes [T]!</span>")
+		take_damage(5, "abstract")
 		T.destroy_structure(TRUE)
 	else if(istype(obstacle, /obj/structure/showcase))
 		var/obj/structure/showcase/S = obstacle
 		S.visible_message("<span class='danger'>[src.name] bulldozes over [S]!</span>")
+		take_damage(15, "abstract")
 		S.destroy_structure(TRUE)
 	else if(istype(obstacle, /obj/structure/rack))
 		var/obj/structure/rack/R = obstacle
 		R.visible_message("<span class='danger'>[src.name] smashes through the [R]!</span>")
+		take_damage(5, "abstract")
 		R.destroy_structure(TRUE)
 	else if(istype(obstacle, /obj/structure/window/framed))
 		var/obj/structure/window/framed/W = obstacle
 		W.visible_message("<span class='danger'>[src.name] crashes through the [W]!</span>")
+		take_damage(20, "abstract")
 		W.shatter_window(1)
 	else if(istype(obstacle, /obj/structure/window_frame))
 		var/obj/structure/window_frame/WF = obstacle
 		WF.visible_message("<span class='danger'>[src.name] runs over the [WF]!</span>")
+		take_damage(20, "abstract")
 		WF.Destroy()
 	else
 		..()
@@ -137,6 +158,7 @@
 		to_chat(usr, "How to operate it?")
 
 /obj/vehicle/walker/proc/move_in(mob/living/carbon/user)
+	set waitfor = FALSE
 	if(!ishuman(user))
 		return
 	if(pilot)
@@ -149,7 +171,10 @@
 			user.loc = src
 			pilot.client.mouse_pointer_icon = file("icons/mecha/mecha_mouse.dmi")
 			pilot.set_interaction(src)
+			pilot << sound('sound/mecha/powerup.ogg',volume=50)
 			update_icon()
+			sleep(50)
+			pilot << sound('sound/mecha/nominalsyndi.ogg',volume=50)
 			return
 
 	to_chat(user, "Access denied.")
@@ -167,7 +192,7 @@
 	move_out()
 
 /obj/vehicle/walker/proc/move_out()
-	if(!pilot)
+	if(!ismob(pilot))
 		return FALSE
 	if(health <= 0)
 		to_chat(pilot, "<span class='danger'>ALERT! Chassis integrity failing. Systems shutting down.</span>")
@@ -193,7 +218,7 @@
 	else
 		lights = TRUE
 		SetLuminosity(initial(luminosity))
-	pilot << sound('sound/mecha/imag_enh.ogg',volume=50)
+	pilot << sound('sound/machines/click.ogg',volume=50)
 
 /obj/vehicle/walker/verb/deploy_magazine()
 	set name = "Deploy Magazine"
@@ -284,7 +309,7 @@
 	else
 		pilot.client.change_view(world.view)//world.view - default mob view size
 		pilot.client.change_view(zoom_size)
-		pilot << sound('sound/mecha/imag_enh.ogg',volume=50)
+		pilot << sound('sound/mecha/imag_enhsyndi.ogg',volume=50)
 		zoom = TRUE
 	to_chat(pilot, "Notification. Cameras zooming [zoom ? "activated" : "deactivated"].")
 
@@ -358,13 +383,17 @@
 					left.loc = loc
 					left = null
 					return
+				else
+					to_chat(user, "Dismounting has been interrupted.")
 			if("Right")
 				to_chat(user, "You start dismounting [right.name] from walker.")
 				if(do_after(user, 100, needhand = FALSE, show_busy_icon = TRUE))
 					right.loc = loc
 					right = null
 					return
-		to_chat(user, "Dismounting has been interrupted.")
+				else
+					to_chat(user, "Dismounting has been interrupted.")
+		return
 
 	if(iswelder(W))
 		var/obj/item/tool/weldingtool/weld = W
@@ -372,6 +401,7 @@
 			return
 		if(health >= maxhealth)
 			to_chat(user, "Armor seems fully intact.")
+			return
 		to_chat(user, "You start repairing broken part of [src.name]'s armor...")
 		if(do_after(user, 1000, needhand = FALSE, show_busy_icon = TRUE))
 			if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer >= SKILL_ENGINEER_ENGI)
@@ -386,6 +416,8 @@
 			if(pilot)
 				to_chat(pilot, "Notification.Armor partly restored.")
 			return
+		else
+			to_chat(user, "Repair has been interrupted.")
 
 
 /obj/vehicle/walker/attack_alien(mob/living/carbon/Xenomorph/M)
@@ -430,17 +462,20 @@
 		if(TOX, OXY, CLONE)
 			return
 
-/obj/vehicle/walker/proc/take_damage(damage, damtype = "blunt")
-	if(!damage || damage <= 0)
+/obj/vehicle/walker/proc/take_damage(dam, damtype = "blunt")
+	if(!dam || dam <= 0)
 		return
 	if(!(damtype in list("explosive", "acid", "energy", "blunt", "slash", "bullet", "all", "abstract")))
 		return
+	var/damage = dam * dmg_multipliers[damtype]
 	if(damage <= 10)
 		to_chat(pilot, "<span class='danger'>ALERT! Hostile incursion detected. Deflected.</span>")
 		return
 
-	health -= damage * dmg_multipliers[damtype]
+	health -= damage
 	to_chat(pilot, "<span class='danger'>ALERT! Hostile incursion detected. Chassis taking damage.</span>")
+	if(pilot && damage >= 50)
+		pilot << sound('sound/mecha/critdestrsyndi.ogg',volume=50)
 	healthcheck()
 
 /////////////////
@@ -449,8 +484,9 @@
 
 /obj/item/walker_gun
 	name = "walker gun"
-	icon = 'icons/mecha/mecha_equipment.dmi'
+	icon = 'icons/obj/vehicles/mecha_guns.dmi'
 	icon_state = "mecha_equip"
+	w_class = 12.0
 	var/obj/vehicle/walker/owner = null
 	var/magazine_type = /obj/item/ammo_magazine/walker
 	var/obj/item/ammo_magazine/walker/ammo = null
@@ -510,10 +546,14 @@
 		ammo = null
 		visible_message("[owner.name]'s systems deployed used magazine.","")
 
+/obj/item/walker_gun
+	w_class = 12.0
+
+
 /obj/item/walker_gun/smartgun
 	name = "M56 Double-Barrel Mounted Smartgun"
 	desc = "Modifyed version of standart USCM Smartgun System, mounted on military walkers"
-	icon_state = "mecha_scatter"
+	icon_state = "mecha_smartgun"
 	magazine_type = /obj/item/ammo_magazine/walker/smartgun
 	burst = 2
 	fire_delay = 6
@@ -521,16 +561,16 @@
 /obj/item/walker_gun/hmg
 	name = "M30 Machine Gun"
 	desc = "High-caliber machine gun firing small bursts of AP bullets, tearing into shreds unfortunate fellas on its way."
-	icon_state = "mecha_scatter"
+	icon_state = "mecha_machinegun"
 	fire_sound = 'sound/weapons/gun_minigun.ogg'
 	magazine_type = /obj/item/ammo_magazine/walker/hmg
 	fire_delay = 20
-	burst = 5
+	burst = 3
 
 /obj/item/walker_gun/flamer
 	name = "F40 \"Hellfire\" Flamethower"
 	desc = "Powerful flamethower, that can send any unprotected target straight to hell."
-	icon_state = "mecha_exting"
+	icon_state = "mecha_flamer"
 	fire_sound = 'sound/weapons/gun_flamethrower2.ogg'
 	magazine_type = /obj/item/ammo_magazine/walker/flamer
 	var/burnlevel = 24
@@ -599,7 +639,7 @@
 	desc = "A armament M30 magazine"
 	icon_state = "ua571c"
 	max_rounds = 300
-	default_ammo = /datum/ammo/bullet/minigun
+	default_ammo = /datum/ammo/bullet/machinegun
 	gun_type = /obj/item/walker_gun/hmg
 
 /obj/item/ammo_magazine/walker/flamer
@@ -804,9 +844,11 @@
 		return
 	if(href_list["lights"])
 		handle_lights()
+		updateUsrDialog()
 		return
 	if(href_list["zoom"])
 		zoom_activate()
+		updateUsrDialog()
 		return
 
 
