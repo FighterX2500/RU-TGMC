@@ -405,7 +405,7 @@
 			return
 		to_chat(user, "You start repairing broken part of [src.name]'s armor...")
 		if(do_after(user, 1000, needhand = FALSE, show_busy_icon = TRUE))
-			if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer >= SKILL_ENGINEER_ENGI)
+			if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer <= SKILL_ENGINEER_ENGI)
 				to_chat(user, "You haphazardly weld together chunks of broken armor.")
 				health += 10
 				healthcheck()
@@ -625,12 +625,14 @@
 		visible_message("[owner.name]'s systems deployed used magazine.","")
 		return
 
+/obj/item/ammo_magazine/walker
+	w_class = 12.0
+
 /obj/item/ammo_magazine/walker/smartgun
 	name = "M56 Double-Barrel Magazine"
 	desc = "A armament MG magazine"
 	caliber = "10x28mm" //Correlates to smartguns
 	icon_state = "big_ammo_box"
-	w_class = 12
 	default_ammo = /datum/ammo/bullet/smartgun
 	max_rounds = 700
 	gun_type = /obj/item/walker_gun/smartgun
