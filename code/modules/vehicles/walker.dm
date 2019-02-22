@@ -192,13 +192,14 @@
 	move_out()
 
 /obj/vehicle/walker/proc/move_out()
-	if(!ismob(pilot))
+	if(!pilot)
 		return FALSE
 	if(health <= 0)
 		to_chat(pilot, "<span class='danger'>ALERT! Chassis integrity failing. Systems shutting down.</span>")
 	if(zoom)
 		zoom_activate()
-	pilot.client.mouse_pointer_icon = initial(pilot.client.mouse_pointer_icon)
+	if(pilot.client)
+		pilot.client.mouse_pointer_icon = initial(pilot.client.mouse_pointer_icon)
 	pilot.loc = src.loc
 	pilot = null
 	update_icon()
@@ -575,7 +576,7 @@
 	magazine_type = /obj/item/ammo_magazine/walker/flamer
 	var/burnlevel = 24
 	var/burntime = 17
-	var/max_range = 6
+	var/max_range = 4
 	fire_delay = 30
 
 /obj/item/walker_gun/flamer/active_effect(var/atom/target)
