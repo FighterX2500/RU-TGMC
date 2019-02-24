@@ -188,3 +188,15 @@ It is a modified Beretta 93R, and can fire three round burst or single fire. Whe
 	max_rounds = 300
 	gun_type = /obj/item/weapon/gun/pistol/chimp
 
+	//-------------------------------------------------------
+//Magazine to Makarov, has 10 rounds, caliber 9mm.
+
+/obj/item/ammo_magazine/pistol/Mak_9mm
+	name = "Mak_9mm"
+	default_ammo = /datum/ammo/bullet/pistol/heavy
+	caliber = "9mm"
+	icon_state = "Mak_9mm"
+	max_rounds = 10
+	gun_type = /obj/item/weapon/gun/pistol/Makarov
+
+

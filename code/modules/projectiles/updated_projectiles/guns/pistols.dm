@@ -433,3 +433,24 @@ It is a modified Beretta 93R, and can fire three round burst or single fire. Whe
 	scatter = config.med_scatter_value
 	scatter_unwielded = config.med_scatter_value
 	damage_mult = config.base_hit_damage_mult
+
+	//-------------------------------------------------------
+//Makarov pistol(MP), Self-loading 9 mm pistol
+
+/obj/item/weapon/gun/pistol/Makarov
+	name = "Makarov"
+	desc = "A standard Makarov chambered in 9mm. Has 10 rounds."
+	icon_state = "Makarov"
+	item_state = "Makarov"
+	origin_tech = "combat=5;materials=3"
+	fire_sound = 'sound/weapons/gun_glock.ogg'
+	current_mag = /obj/item/ammo_magazine/pistol/Mak_9mm
+
+/obj/item/weapon/gun/pistol/Makarov/custom/set_gun_config_values()
+	fire_delay = config.mlow_fire_delay
+	accuracy_mult = config.base_hit_accuracy_mult + config.low_hit_accuracy_mult
+	accuracy_mult_unwielded = config.base_hit_accuracy_mult - config.low_hit_accuracy_mult
+	scatter = config.med_scatter_value
+	scatter_unwielded = config.hmed_hit_accuracy_mult
+	damage_mult = config.base_hit_damage_mult + config.low_hit_damage_mult
+	recoil_unwielded = config.min_recoil_value
