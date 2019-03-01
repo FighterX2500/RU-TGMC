@@ -818,6 +818,16 @@
 /datum/reagent/xeno_neurotoxin/overdose_crit_process(mob/living/M)
 		M.adjustOxyLoss(min(4,volume * 0.2 * REM)) //Overdose starts applying more oxy damage
 
+/datum/reagent/xeno_psyattack
+	name = "Psyattack"
+	id = "xeno_psyattack"
+	description = "Pizdec."
+	reagent_state = LIQUID
+	color = "#CF3600" // rgb: 207, 54, 0
+	custom_metabolism = 1.25 // Fast meta rate.
+	overdose_threshold = REAGENTS_OVERDOSE
+	overdose_crit_threshold = REAGENTS_OVERDOSE_CRITICAL
+
 /datum/reagent/xeno_psyattack/on_mob_life(mob/living/M)
 	. = ..()
 	if(!.)
