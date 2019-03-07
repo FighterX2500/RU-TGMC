@@ -5,8 +5,8 @@
 /obj/vehicle/walker
 	name = "CW13 \"Megalodon\" Assault Walker"
 	desc = "Relatively new combat walker of \"Megalodon\"-series. Unlike its predecessor, \"Carharodon\"-series, slower, but relays on its tough armor and rapid-firing weapons."
-	icon = 'icons/obj/vehicles/Mecha.dmi'
-	icon_state = "mecha-open"
+	icon = 'icons/obj/vehicles/mech-walker.dmi'
+	icon_state = "mech"
 	layer = ABOVE_LYING_MOB_LAYER
 	opacity = TRUE
 	can_buckle = FALSE
@@ -42,10 +42,18 @@
 	var/selected = 1					//0 - right, 1 - left
 
 /obj/vehicle/walker/update_icon()
-	if(!pilot)
-		icon_state = "mecha-open"
-	else
-		icon_state = "mecha"
+	overlays.Cut()
+
+	if(left)
+		var/image/left_gun = left.get_icon_image("-l")
+		overlays += left_gun
+	if(right)
+		var/image/right_gun = right.get_icon_image("-r")
+		overlays += right_gun
+
+	if(pilot)
+		var/image/occupied = image(icon, icon_state = "mech-face")
+		overlays += occupied
 
 /obj/vehicle/walker/examine(mob/user)
 	..()
@@ -351,6 +359,7 @@
 				left = W
 				left.owner = src
 				to_chat(user, "You mount [W.name] on left hardpoint.")
+				update_icon()
 				return
 			else
 				to_chat(user, "Mounting has been interrupted.")
@@ -363,6 +372,7 @@
 				right = W
 				right.owner = src
 				to_chat(user, "You mount [W.name] on right hardpoint.")
+				update_icon()
 				return
 			else
 				to_chat(user, "Mounting has been interrupted.")
@@ -383,6 +393,7 @@
 				if(do_after(user, 100, needhand = FALSE, show_busy_icon = TRUE))
 					left.loc = loc
 					left = null
+					update_icon()
 					return
 				else
 					to_chat(user, "Dismounting has been interrupted.")
@@ -391,6 +402,7 @@
 				if(do_after(user, 100, needhand = FALSE, show_busy_icon = TRUE))
 					right.loc = loc
 					right = null
+					update_icon()
 					return
 				else
 					to_chat(user, "Dismounting has been interrupted.")
@@ -486,7 +498,7 @@
 /obj/item/walker_gun
 	name = "walker gun"
 	icon = 'icons/obj/vehicles/mecha_guns.dmi'
-	icon_state = "mecha_equip"
+	var/equip_state = ""
 	w_class = 12.0
 	var/obj/vehicle/walker/owner = null
 	var/magazine_type = /obj/item/ammo_magazine/walker
@@ -496,8 +508,16 @@
 	var/can_fire = TRUE
 	var/burst = 1
 
+	w_class = 12.0
+
 	var/muzzle_flash 	= "muzzle_flash"
 	var/muzzle_flash_lum = 3 //muzzle flash brightness
+
+/obj/item/walker_gun/proc/get_icon_image(var/hardpoint)
+	if(!owner)
+		return
+
+	return image(owner.icon, equip_state + hardpoint)
 
 /obj/item/walker_gun/proc/handle_delay()
 	can_fire = TRUE
@@ -547,14 +567,12 @@
 		ammo = null
 		visible_message("[owner.name]'s systems deployed used magazine.","")
 
-/obj/item/walker_gun
-	w_class = 12.0
-
 
 /obj/item/walker_gun/smartgun
 	name = "M56 Double-Barrel Mounted Smartgun"
 	desc = "Modifyed version of standart USCM Smartgun System, mounted on military walkers"
 	icon_state = "mecha_smartgun"
+	equip_state = "mech-shot"
 	magazine_type = /obj/item/ammo_magazine/walker/smartgun
 	burst = 2
 	fire_delay = 6
@@ -563,6 +581,7 @@
 	name = "M30 Machine Gun"
 	desc = "High-caliber machine gun firing small bursts of AP bullets, tearing into shreds unfortunate fellas on its way."
 	icon_state = "mecha_machinegun"
+	equip_state = "mech-gatt"
 	fire_sound = 'sound/weapons/gun_minigun.ogg'
 	magazine_type = /obj/item/ammo_magazine/walker/hmg
 	fire_delay = 20
@@ -572,6 +591,7 @@
 	name = "F40 \"Hellfire\" Flamethower"
 	desc = "Powerful flamethower, that can send any unprotected target straight to hell."
 	icon_state = "mecha_flamer"
+	equip_state = "mech-flam"
 	fire_sound = 'sound/weapons/gun_flamethrower2.ogg'
 	magazine_type = /obj/item/ammo_magazine/walker/flamer
 	var/burnlevel = 24
@@ -665,9 +685,9 @@
 		return
 
 	if(owner.luminosity <= muzzle_flash_lum)
-		owner.SetLuminosity(muzzle_flash_lum)
+		owner.SetLuminosity(luminosity + muzzle_flash_lum)
 		spawn(10)
-			owner.SetLuminosity(-muzzle_flash_lum)
+			owner.SetLuminosity(luminosity - muzzle_flash_lum)
 
 	if(prob(65)) //Not all the time.
 		var/image_layer = (owner && owner.dir == SOUTH) ? MOB_LAYER+0.1 : MOB_LAYER-0.1
