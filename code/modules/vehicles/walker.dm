@@ -18,7 +18,7 @@
 	var/zoom = FALSE
 	var/zoom_size = 14
 
-	pixel_x = -16
+	pixel_x = -18
 
 	health = 400
 	maxhealth = 400
@@ -208,6 +208,7 @@
 		zoom_activate()
 	if(pilot.client)
 		pilot.client.mouse_pointer_icon = initial(pilot.client.mouse_pointer_icon)
+	pilot.unset_interaction()
 	pilot.loc = src.loc
 	pilot = null
 	update_icon()
@@ -878,8 +879,8 @@
 /obj/structure/walker_wreckage
 	name = "CW13 wreckage"
 	desc = "Remains of some unfortunate walker. Completely unrepairable."
-	icon = 'icons/obj/vehicles/Mecha.dmi'
-	icon_state = "mecha-broken"
+	icon = 'icons/obj/vehicles/mech-walker.dmi'
+	icon_state = "mech-damaged"
 	density = TRUE
 	anchored = TRUE
 	opacity = FALSE
