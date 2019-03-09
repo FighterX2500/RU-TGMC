@@ -1,5 +1,4 @@
 
-
 /mob/living/carbon/Xenomorph/proc/upgrade_xeno(newlevel)
 	upgrade = newlevel
 	upgrade_stored = 0
@@ -26,7 +25,6 @@
 	hud_set_queen_overwatch() //update the upgrade level insignia on our xeno hud.
 
 	update_spits() //Update spits to new/better ones
-
 
 //Tiered spawns.
 /mob/living/carbon/Xenomorph/PsyAlien/mature

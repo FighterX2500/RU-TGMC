@@ -290,6 +290,7 @@
 			if("spitter")			M.change_mob_type( /mob/living/carbon/Xenomorph/Spitter, location, null, delmob )
 			if("boiler")			M.change_mob_type( /mob/living/carbon/Xenomorph/Boiler, location, null, delmob )
 			if("crusher")			M.change_mob_type( /mob/living/carbon/Xenomorph/Crusher, location, null, delmob )
+			if("psyalien")			M.change_mob_type( /mob/living/carbon/Xenomorph/PsyAlien, location, null, delmob )
 			if("queen")				M.change_mob_type( /mob/living/carbon/Xenomorph/Queen, location, null, delmob )
 			if("human")				M.change_mob_type( /mob/living/carbon/human, location, null, delmob, href_list["species"])
 			if("monkey")			M.change_mob_type( /mob/living/carbon/monkey, location, null, delmob )
@@ -1572,6 +1573,7 @@
 			return
 
 		var/input = input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from USCM", "")
+		input = sanitize(input)
 		if(!input)	return
 
 		to_chat(src.owner, "You sent [input] to [H] via a secure channel.")
@@ -1591,6 +1593,7 @@
 			return
 
 		var/input = input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from The Syndicate", "")
+		input = sanitize(input)
 		if(!input)	return
 
 		to_chat(src.owner, "You sent [input] to [H] via a secure channel.")
@@ -1626,6 +1629,7 @@
 				else
 					return
 				var/message_body = input(src.owner, "Enter Message Body, use <p></p> for paragraphs", "Outgoing message from Weyland-Yutani USCM", "") as message|null
+				message_body = sanitize(message_body)
 				if(!message_body) return
 				var/sent_by = input(src.owner, "Enter the name and rank you are sending from.", "Outgoing message from USCM", "") as message|null
 				if(!sent_by) return

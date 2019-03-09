@@ -1,6 +1,7 @@
 /datum/xeno_caste/psyalien
 	caste_name = "PsyAlien"
 	display_name = "PsyAlien"
+	upgrade_name = "Young"
 	caste_type_path = /mob/living/carbon/Xenomorph/PsyAlien
 	caste_desc = "The biggest alien with psy power."
 
@@ -20,7 +21,7 @@
 	speed = 0.2
 
 	// *** Plasma *** //
-	plasma_max = 700
+	plasma_max = 300
 	plasma_gain = 40
 
 	// *** Health *** //
@@ -30,7 +31,7 @@
 	upgrade_threshold = 400
 
 	// *** Flags *** //
-	caste_flags = CASTE_IS_INTELLIGENT|CASTE_CAN_HOLD_FACEHUGGERS
+	caste_flags = CASTE_CAN_BE_QUEEN_HEALED|CASTE_CAN_BE_GIVEN_PLASMA
 
 	can_hold_eggs = CAN_HOLD_TWO_HANDS
 
@@ -39,13 +40,14 @@
 
 	// *** Ranged Attack *** //
 	spit_delay = 1.5 SECONDS
-	spit_types = list(/datum/ammo/xeno/toxin/medium, /datum/ammo/xeno/acid/medium)
+	spit_types = list(/datum/ammo/xeno/psyattack)
 
 	// *** Pheromones *** //
 	aura_strength = 2.5
 	aura_allowed = list("frenzy", "warding", "recovery")
 
 /datum/xeno_caste/psyalien/mature
+	upgrade_name = "Mature"
 	caste_desc = "The biggest alien with psy power/"
 
 	upgrade = 1
@@ -61,8 +63,8 @@
 	speed = 0.1
 
 	// *** Plasma *** //
-	plasma_max = 800
-	plasma_gain = 50
+	plasma_max = 400
+	plasma_gain = 45
 
 	// *** Health *** //
 	max_health = 225
@@ -71,17 +73,18 @@
 	upgrade_threshold = 800
 
 	// *** Defense *** //
-	armor_deflection = 50
+	armor_deflection = 35
 
 	// *** Ranged Attack *** //
 	spit_delay = 1.5 SECONDS
-	spit_types = list(/datum/ammo/xeno/toxin/medium/upgrade2, /datum/ammo/xeno/acid/medium)
+	spit_types = list(/datum/ammo/xeno/psyattack/upgrade2)
 
 	// *** Pheromones *** //
 	aura_strength = 3
 
 
 /datum/xeno_caste/psyalien/elder
+	upgrade_name = "Elder"
 	caste_desc = "The biggest and baddest xeno."
 
 	upgrade = 2
@@ -97,8 +100,8 @@
 	speed = 0
 
 	// *** Plasma *** //
-	plasma_max = 900
-	plasma_gain = 60
+	plasma_max = 500
+	plasma_gain = 50
 
 	// *** Health *** //
 	max_health = 250
@@ -111,13 +114,14 @@
 
 	// *** Ranged Attack *** //
 	spit_delay = 1.5 SECONDS
-	spit_types = list(/datum/ammo/xeno/toxin/medium/upgrade3, /datum/ammo/xeno/acid/medium)
+	spit_types = list(/datum/ammo/xeno/psyattack/upgrade3)
 
 	// *** Pheromones *** //
 	aura_strength = 3.5
 
 
 /datum/xeno_caste/psyalien/ancient
+	upgrade_name = "Ancient"
 	caste_desc = "The most perfect Xeno form imaginable."
 	ancient_message = "You are the Alpha and the Omega.Row! Row! Fight to power."
 	upgrade = 3
@@ -133,21 +137,21 @@
 	speed = -0.1
 
 	// *** Plasma *** //
-	plasma_max = 1000
-	plasma_gain = 70
+	plasma_max = 600
+	plasma_gain = 55
 
 	// *** Health *** //
-	max_health = 375
+	max_health = 275
 
 	// *** Evolution *** //
 	upgrade_threshold = 1600
 
 	// *** Defense *** //
-	armor_deflection = 50
+	armor_deflection = 45
 
 	// *** Ranged Attack *** //
 	spit_delay = 1.5 SECONDS
-	spit_types = list(/datum/ammo/xeno/toxin/medium/upgrade2, /datum/ammo/xeno/acid/medium)
+	spit_types = list(/datum/ammo/xeno/psyattack/upgrade3)
 
 	// *** Pheromones *** //
 	aura_strength = 4
@@ -180,8 +184,7 @@
 		/datum/action/xeno_action/activable/screech_psy,
 		/datum/action/xeno_action/toggle_range,
 		/datum/action/xeno_action/emit_pheromones,
-		/datum/action/xeno_action/shift_spits,
-		/datum/action/xeno_action/activable/xeno_spit,
+		/datum/action/xeno_action/activable/xeno_psypower,
 	)
 
 /mob/living/carbon/Xenomorph/PsyAlien/update_icons()
@@ -234,8 +237,8 @@
 	//playsound(loc, 'sound/voice/alien_queen_screech.ogg', 75, 0)
 	visible_message("<span class='xenohighdanger'>\The [src] emits a deafening psi-attack!</span>")
 	round_statistics.queen_screech++
-	create_shriekwave() //Adds the visual effect. Wom wom wom
-	//stop_momentum(charge_dir) //Screech kills a charge
+	create_shriekwave()
+	//stop_momentum(charge_dir)
 
 	for(var/mob/M in view())
 		if(M && M.client)
@@ -246,9 +249,9 @@
 
 	for(var/mob/living/carbon/human/H in oview(7, src))
 		var/dist = get_dist(src,H)
-		var/reduction = max(1 - 0.1 * H.protection_aura, 0) //Hold orders will reduce the Halloss; 10% per rank.
-		var/halloss_damage = (max(0,140 - dist * 10)) * reduction //Max 130 beside Queen, 70 at the edge
-		var/stun_duration = max(0,1.1 - dist * 0.1) * reduction //Max 1 beside Queen, 0.4 at the edge.
+		var/reduction = max(1 - 0.1 * H.protection_aura, 0)
+		var/halloss_damage = (max(0,140 - dist * 10)) * reduction
+		var/stun_duration = max(0,1.1 - dist * 0.1) * reduction
 
 		if(dist < 10)
 			to_chat(H, "<span class='danger'>An ear-splitting guttural roar tears through your mind and makes your world convulse!</span>")
@@ -259,3 +262,15 @@
 				H.ear_deaf += stun_duration * 20  //Deafens them temporarily
 			spawn(31)
 				shake_camera(H, stun_duration * 10, 0.75) //Perception distorting effects of the psychic scream
+
+/proc/update_living_psyaliens()
+	outer_loop:
+		for(var/datum/hive_status/hive in hive_datum)
+			if(hive.living_xeno_psyalien)
+				if(hive.living_xeno_psyalien.hivenumber == hive.hivenumber)
+					continue
+			for(var/mob/living/carbon/Xenomorph/PsyAlien/P in living_mob_list)
+				if(P.hivenumber == hive.hivenumber)
+					hive.living_xeno_psyalien = P
+					continue outer_loop
+			hive.living_xeno_psyalien = null

@@ -1173,19 +1173,6 @@ datum/action/xeno_action/activable/salvage_plasma/improved
 
 		E.stage++
 		X.larva_growth_used = world.time + 1 MINUTES
-/*
-/datum/action/xeno_action/evo_menu
-	name = "Evolution Menu"
-	action_icon_state = "evo_menu"
-	plasma_cost = 0
-
-/datum/action/xeno_action/evo_menu/action_activate()
-	var/mob/living/carbon/Xenomorph/X = owner
-	if(!X.check_state())
-		return
-	evolution_tree.show_tree(X)
-	return
-*/
 
 //Ravager Abilities
 
@@ -1224,7 +1211,6 @@ datum/action/xeno_action/activable/salvage_plasma/improved
 /datum/action/xeno_action/second_wind/action_activate()
 	var/mob/living/carbon/Xenomorph/Ravager/X = owner
 	X.Second_Wind()
-
 
 
 //Ravenger
@@ -1355,11 +1341,11 @@ datum/action/xeno_action/activable/salvage_plasma/improved
 			"<span class='notice'>You start focusing your sight to look off into the distance.</span>", null, 5)
 		if(!do_after(X, 20, FALSE)) return
 		if(X.is_zoomed) return
-		X.zoom_in()
+		X.zoom_in(0, 12)
 		..()
 
 /datum/action/xeno_action/activable/screech_psy
-	name = "Screech (100)"
+	name = "Massive PsyAttack (100)"
 	action_icon_state = "screech"
 	ability_name = "screech"
 
@@ -1371,6 +1357,21 @@ datum/action/xeno_action/activable/salvage_plasma/improved
 	var/mob/living/carbon/Xenomorph/PsyAlien/X = owner
 	X.screech()
 
+/datum/action/xeno_action/activable/xeno_psypower
+	name = "PsyAttack"
+	action_icon_state = "xeno_spit"
+	ability_name = "xeno spit"
+
+/datum/action/xeno_action/activable/xeno_psypower/use_ability(atom/A)
+	var/mob/living/carbon/Xenomorph/X = owner
+	if(!X.is_zoomed)
+		X.xeno_spit(A)
+	else
+		X.visible_message(null,"<span class='notice'>You can't spit with zoom.</span>", null, 5)
+
+/datum/action/xeno_action/activable/xeno_psypower/action_cooldown_check()
+	var/mob/living/carbon/Xenomorph/X = owner
+	if(X.has_spat < world.time) return TRUE
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
