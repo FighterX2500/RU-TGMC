@@ -198,6 +198,35 @@ If you are not piloting, there is an autopilot fallback for command, but don't l
 	return {"Your job is to operate and maintain thee ship's armored vehicles.
 While you are an officer, your authority is limited to your own vehicle, where you have authority over the enlisted personnel. You will need MTs to repair and replace hardpoints."}
 
+/datum/job/command/mech_pilot
+	title = "Walker Pilot"
+	comm_title = "WP"
+	paygrade = "O1"
+	flag = ROLE_MECH_OFFICER
+	total_positions = 1
+	spawn_positions = 1
+	access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_TANK)
+	minimal_access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_TANK)
+	flags_startup_parameters = ROLE_ADD_TO_DEFAULT|ROLE_ADD_TO_MODE
+	skills_type = /datum/skills/tank_crew
+	idtype = /obj/item/card/id/dogtag
+	equipment = TRUE
+
+/datum/job/command/mech_pilot/generate_equipment(mob/living/carbon/human/H)
+	H.equip_to_slot_or_del(new /obj/item/device/radio/headset/almayer/mcom(H), WEAR_EAR)
+	H.equip_to_slot_or_del(new /obj/item/clothing/under/marine/officer/tanker(H), WEAR_BODY)
+	H.equip_to_slot_or_del(new /obj/item/clothing/gloves/yellow(H), WEAR_HANDS)
+	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/marine(H), WEAR_FEET)
+	H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/marine/M3P/tanker(H), WEAR_JACKET)
+	H.equip_to_slot_or_del(new /obj/item/storage/backpack/marine/satchel(H), WEAR_BACK)
+	H.equip_to_slot_or_del(new /obj/item/storage/belt/gun/m4a3/vp70(H), WEAR_WAIST)
+	H.equip_to_slot_or_del(new /obj/item/storage/pouch/general/large(H), WEAR_R_STORE)
+	H.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/marine/tanker(H), WEAR_R_HAND)
+
+/datum/job/command/mech_pilot/generate_entry_message(mob/living/carbon/human/H)
+	return {"Your job is to operate and maintain combat walkers.
+While you are an officer, your authority is limited to your own vehicle, where you have authority over the enlisted personnel."}
+
 
 //Military Police
 /datum/job/command/police
