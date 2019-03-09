@@ -757,6 +757,45 @@ HARDPOINT MODULES (and their ammo)
 	containername = "tank ammo crate"
 	group = "Tank Hardpoint Modules"
 
+/datum/supply_packs/mech_smartgun_ammo
+	name = "M56 Double-Barrel Smartgun Magazines (x4)"
+	contains = list(
+					/obj/item/ammo_magazine/walker/smartgun,
+					/obj/item/ammo_magazine/walker/smartgun,
+					/obj/item/ammo_magazine/walker/smartgun,
+					/obj/item/ammo_magazine/walker/smartgun
+					)
+	cost = RO_PRICE_CHEAP
+	containertype = /obj/structure/closet/crate/ammo
+	containername = "tank ammo crate"
+	group = "Tank Hardpoint Modules"
+
+/datum/supply_packs/mech_machinegun_ammo
+	name = "M30 Machine Gun Magazines (x4)"
+	contains = list(
+					/obj/item/ammo_magazine/walker/hmg,
+					/obj/item/ammo_magazine/walker/hmg,
+					/obj/item/ammo_magazine/walker/hmg,
+					/obj/item/ammo_magazine/walker/hmg
+					)
+	cost = RO_PRICE_CHEAP
+	containertype = /obj/structure/closet/crate/ammo
+	containername = "tank ammo crate"
+	group = "Tank Hardpoint Modules"
+
+/datum/supply_packs/mech_f40_ammo
+	name = "F40 Canisters (x2)"
+	contains = list(
+					/obj/item/ammo_magazine/walker/flamer,
+					/obj/item/ammo_magazine/walker/flamer,
+					/obj/item/ammo_magazine/walker/flamer,
+					/obj/item/ammo_magazine/walker/flamer
+					)
+	cost = RO_PRICE_CHEAP
+	containertype = /obj/structure/closet/crate/ammo
+	containername = "tank ammo crate"
+	group = "Tank Hardpoint Modules"
+
 /datum/supply_packs/tank_slauncher_ammo
 	name = "M75 Smoke Deploy System Magazines (x3)"
 	contains = list(
