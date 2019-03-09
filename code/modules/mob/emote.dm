@@ -12,14 +12,14 @@
 		comm_paygrade = H.get_paygrade()
 
 	var/muzzled = istype(wear_mask, /obj/item/clothing/mask/muzzle)
-	if(m_type == EMOTE_AUDIBLE && muzzled) 
+	if(m_type == EMOTE_AUDIBLE && muzzled)
 		return
 
 	var/input
 	if(!message)
 		input = copytext(sanitize(input(src, "Choose an emote to display.") as text|null), 1, MAX_MESSAGE_LEN)
 	else
-		input = message
+		input = sanitize(message)
 
 	if(input)
 		message = "<B>[comm_paygrade][src]</B> [input]"

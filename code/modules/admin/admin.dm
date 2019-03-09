@@ -757,7 +757,7 @@ var/global/respawntime = 15
 	if(!check_rights(0))
 		return
 
-	var/message = input("Global message to send:", "Admin Announce") as message|null
+	var/message = sanitize(input("Global message to send:", "Admin Announce") as message|null)
 
 	if(!message)
 		return
