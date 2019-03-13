@@ -652,7 +652,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 			var/mob/living/carbon/Xenomorph/XEN = M
 			switch(CA.vehicle_class)
 				if(WEIGHT_LIGHT)
-					switch(XEN.upgrade)
+					switch(XEN.xeno_caste.t_squish_level)
 						if(0)
 							M.KnockDown(5)
 						if(1)
@@ -676,7 +676,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 							//M.visible_message("<span class='danger'>[M] pushes against the [src], holding it in place with ease!</span>", "<span class='xenodanger'>You stopped [src]! It's no match to you!</span>")
 							return
 				if(WEIGHT_MEDIUM)
-					switch(XEN.upgrade)
+					switch(XEN.xeno_caste.t_squish_level)
 						if(0)
 							M.KnockDown(5)
 						if(1)
@@ -701,7 +701,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 							//M.visible_message("<span class='danger'>[M] pushes against the [src], holding it in place with effort!</span>", "<span class='xenodanger'>You stopped [src]!</span>")
 							return
 				if(WEIGHT_HEAVY)
-					switch(XEN.upgrade)
+					switch(XEN.xeno_caste.t_squish_level)
 						if(0)
 							M.KnockDown(5)
 						if(1)
