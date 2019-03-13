@@ -7,6 +7,9 @@
 	tier = 0
 	upgrade = 0
 
+	// *** Vehicle-related *** //
+	t_squish_level = 3
+
 	// *** Melee Attacks *** //
 	melee_damage_lower = 45
 	melee_damage_upper = 55
