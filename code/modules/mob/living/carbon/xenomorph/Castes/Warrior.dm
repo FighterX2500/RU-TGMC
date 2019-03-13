@@ -4,8 +4,12 @@
 	upgrade_name = "Young"
 	caste_desc = "A powerful front line combatant."
 	caste_type_path = /mob/living/carbon/Xenomorph/Warrior
+
 	tier = 2
 	upgrade = 0
+
+	// *** Vehicle-related *** //
+	t_squish_level = 2
 
 	// *** Melee Attacks *** //
 	melee_damage_lower = 30
