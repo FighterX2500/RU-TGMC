@@ -11,6 +11,13 @@
 	var/tier = 0
 	var/upgrade = 0
 
+	// *** Vehicle-related *** //
+	var/t_squish_level		//This variable is used to determine what will happen with alien after tank bumps into it.
+	//0 - always crush and drive over the thing (currently larva only)
+	//1 - very squishy and/or relatively light alien, (light tank can throw it away, heavy tank will just straight crush it and drive over it)
+	//2 - average alien, quite tough (light tank won't knock this one down, just push it one tile, other tank classes will push one tile and knock down)
+	//3 - fortified alien, big and heavy will block light and medium tank, however heavy tank won't be blocked, it will push them away 1 tile.
+
 	var/language = "Xenomorph"
 
 	// *** Melee Attacks *** //
