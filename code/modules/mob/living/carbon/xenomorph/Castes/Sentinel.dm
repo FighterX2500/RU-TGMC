@@ -4,8 +4,12 @@
 	upgrade_name = "Young"
 	caste_desc = "A weak ranged combat alien."
 	caste_type_path = /mob/living/carbon/Xenomorph/Sentinel
+
 	tier = 1
 	upgrade = 0
+
+	// *** Vehicle-related *** //
+	t_squish_level = 1
 
 	// *** Melee Attacks *** //
 	melee_damage_lower = 15
