@@ -4,8 +4,12 @@
 	upgrade_name = ""
 	caste_desc = "D'awwwww, so cute!"
 	caste_type_path = /mob/living/carbon/Xenomorph/Larva
+
 	tier = 0
 	upgrade = -1
+
+	// *** Vehicle-related *** //
+	t_squish_level = 0
 
 	// *** Melee Attacks *** //
 	melee_damage_lower = 0

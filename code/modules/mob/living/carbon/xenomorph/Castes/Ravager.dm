@@ -4,8 +4,12 @@
 	upgrade_name = "Young"
 	caste_desc = "A brutal, devastating front-line attacker."
 	caste_type_path = /mob/living/carbon/Xenomorph/Ravager
+
 	tier = 3
 	upgrade = 0
+
+	// *** Vehicle-related *** //
+	t_squish_level = 2
 
 	// *** Melee Attacks *** //
 	melee_damage_lower = 40

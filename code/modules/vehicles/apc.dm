@@ -740,7 +740,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 		to_chat(X, "<span class='xenowarning'>[src] door is locked, you can't get in!</span>")
 		return
 
-	if(X.upgrade > 2 || X.tier > 2)
+	if(X.xeno_caste.t_squish_level > 2 || X.tier > 2)
 		to_chat(X, "<span class='xenowarning'>[src] door way is too small for you, you can't fit through!</span>")
 		return
 
