@@ -8,6 +8,9 @@
 	tier = 3
 	upgrade = 0
 
+	// *** Vehicle-related *** //
+	t_squish_level = 2
+
 	deevolves_to = /mob/living/carbon/Xenomorph/Drone
 
 	// *** Melee Attacks *** //
