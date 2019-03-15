@@ -4,8 +4,12 @@
 	upgrade_name = "Young"
 	caste_desc = "A builder of REALLY BIG hives."
 	caste_type_path = /mob/living/carbon/Xenomorph/Hivelord
+
 	tier = 2
 	upgrade = 0
+
+	// *** Vehicle-related *** //
+	t_squish_level = 1
 
 	// *** Melee Attacks *** //
 	melee_damage_lower = 15

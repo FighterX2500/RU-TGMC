@@ -3,8 +3,12 @@
 	display_name = "Abomination"
 	upgrade_name = ""
 	caste_type_path = /mob/living/carbon/Xenomorph/Predalien
+
 	tier = 1
 	upgrade = 0
+
+	// *** Vehicle-related *** //
+	t_squish_level = 2
 
 	// *** Melee Attacks *** //
 	melee_damage_lower = 65

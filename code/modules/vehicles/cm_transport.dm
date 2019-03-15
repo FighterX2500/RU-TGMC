@@ -473,7 +473,7 @@ var/list/apc_dmg_distributions = list(
 				return
 			if(isXenoCrusher(XEN))
 				return
-			switch(XEN.upgrade)
+			switch(XEN.xeno_caste.t_squish_level)
 				if(0)
 					M.KnockDown(5)
 				if(1)

@@ -4,10 +4,10 @@ obj/machinery/vehicle_vendor/mech_vendor_ui
 	icon = 'icons/obj/machines/vending.dmi'
 	icon_state = "engi"
 
-	vendor_role = list("Walker Pilot", "Tank Crewman") //everyone else, mind your business
+	vendor_role = list("Walker Pilot") //everyone else, mind your business
 
 
-	var/list/aval_tank_mod = list("weapon" = 2, "ammo" = 5, "misc" = 0)
+	var/list/aval_tank_mod = list("weapon" = 2, "ammo" = 7, "misc" = 0)
 
 	listed_products = list(
 							list("WEAPONS (choose 2)", null, null, "misc", null),
@@ -169,7 +169,7 @@ obj/machinery/vehicle_vendor/mech_vendor_ui
 				IT.add_fingerprint(usr)
 				H.update_action_buttons()
 			else
-				to_chat(H, "<span class='warning'>You already took something from this category.</span>")
+				to_chat(H, "<span class='warning'>Not enough points in this category remain.</span>")
 				return
 		src.add_fingerprint(usr)
 		ui_interact(usr) //updates the nanoUI window

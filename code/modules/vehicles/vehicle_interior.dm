@@ -60,7 +60,7 @@
 			passengers_left++
 		else
 			var/mob/living/carbon/Xenomorph/X = user
-			if(X.upgrade > 2 || X.tier > 2)
+			if(X.xeno_caste.t_squish_level > 2 || X.tier > 2)
 				to_chat(X, "<span class='xenowarning'>The doorway is too small for you, you can't get out! You are doomed.</span>")
 				return
 

@@ -4,8 +4,12 @@
 	upgrade_name = "Young"
 	caste_desc = "A fast, four-legged terror, but weak in sustained combat."
 	caste_type_path = /mob/living/carbon/Xenomorph/Runner
+
 	tier = 1
 	upgrade = 0
+
+	// *** Vehicle-related *** //
+	t_squish_level = 1
 
 	// *** Melee Attacks *** //
 	melee_damage_lower = 10
