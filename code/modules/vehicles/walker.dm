@@ -28,12 +28,12 @@
 	var/acid_process_cooldown = null
 	var/list/dmg_multipliers = list(
 		"all" = 1.0, //for when you want to make it invincible
-		"acid" = 1.5,
-		"slash" = 0.9,
-		"bullet" = 0.4,
+		"acid" = 0.9,
+		"slash" = 0.6,
+		"bullet" = 0.2,
 		"explosive" = 5.0,
 		"blunt" = 0.1,
-		"energy" = 1.4,
+		"energy" = 1.0,
 		"abstract" = 1.0) //abstract for when you just want to hurt it
 
 	var/max_angle = 45
@@ -107,10 +107,9 @@
 		else
 			flick("door_deny", door)
 
-	else if(isliving(obstacle))
-		if(ishuman(obstacle))
-			step_away(obstacle, src, 0)
-			return
+	else if(ishuman(obstacle))
+		step_away(obstacle, src, 0)
+		return
 
 //Breaking stuff
 	else if(istype(obstacle, /obj/structure/fence))
