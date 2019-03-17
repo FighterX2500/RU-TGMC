@@ -600,7 +600,7 @@
 	equip_state = "mech-flam"
 	fire_sound = 'sound/weapons/gun_flamethrower2.ogg'
 	magazine_type = /obj/item/ammo_magazine/walker/flamer
-	var/burnlevel = 60
+	var/burnlevel = 40
 	var/burntime = 17
 	var/max_range = 4
 	fire_delay = 30
