@@ -107,6 +107,11 @@
 		else
 			flick("door_deny", door)
 
+	else if(isliving(obstacle))
+		if(ishuman(obstacle))
+			step_away(obstacle, src, 0)
+			return
+
 //Breaking stuff
 	else if(istype(obstacle, /obj/structure/fence))
 		var/obj/structure/fence/F = obstacle
