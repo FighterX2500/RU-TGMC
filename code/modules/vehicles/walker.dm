@@ -600,7 +600,7 @@
 	equip_state = "mech-flam"
 	fire_sound = 'sound/weapons/gun_flamethrower2.ogg'
 	magazine_type = /obj/item/ammo_magazine/walker/flamer
-	var/burnlevel = 24
+	var/burnlevel = 60
 	var/burntime = 17
 	var/max_range = 4
 	fire_delay = 30
@@ -621,6 +621,7 @@
 		addtimer(CALLBACK(src, .proc/handle_delay), fire_delay)
 	var/list/turf/turfs = getline2(owner,target)
 	playsound(owner, fire_sound, 50, 1)
+	ammo.current_rounds--
 	var/distance = 1
 	var/turf/prev_T
 
@@ -636,7 +637,6 @@
 			break
 		if(prev_T && LinkPreBlocksFire(prev_T, T))
 			break
-		ammo.current_rounds--
 		flame_turf(T,owner.pilot, burntime, burnlevel)
 		if(PostBlocksFire(T))
 			break
