@@ -788,8 +788,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 	cabin_door_busy = TRUE
 	sleep(30)
 	cabin_door_busy = FALSE
-	var/turf/T = get_turf(interior_cabin_door)
-	T = get_step(T, WEST)
+	var/turf/T = get_turf(multitile_interior_cabin_exit)
 
 	if(M == gunner)
 		deactivate_all_hardpoints()
