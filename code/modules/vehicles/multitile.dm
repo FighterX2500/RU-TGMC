@@ -31,6 +31,7 @@ Vehicles are placed on the map by a spawner or admin verb
 
 	var/obj/vehicle/multitile/root/master
 	invisibility = 101
+	anchored = TRUE
 
 /obj/effect/multitile_entrance/Destroy(var/override = 0)
 	if(!override) return TA_IGNORE_ME
@@ -56,6 +57,7 @@ Vehicles are placed on the map by a spawner or admin verb
 	desc = "Marker for the exit of the interior"
 
 	invisibility = 101
+	anchored = TRUE
 	var/obj/vehicle/multitile/root/master
 
 /obj/effect/landmark/multitile_interior_cabin_exit
@@ -63,6 +65,7 @@ Vehicles are placed on the map by a spawner or admin verb
 	desc = "Marker for the exit from the vehicle into interior"
 
 	invisibility = 101
+	anchored = TRUE
 	var/obj/vehicle/multitile/root/master
 
 //Super super generic, doesn't really need to exist
