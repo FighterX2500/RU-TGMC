@@ -516,6 +516,10 @@
 
 	to_chat(M, "<span class='notice'>You start climbing out of [src].</span>")
 
+	if(tile_blocked_check(entrance.loc))
+		to_chat(M, "<span class='notice'>Something is blocking you from exiting.</span>")
+		return
+
 	occupant_exiting = 1
 	sleep(50)
 	occupant_exiting = 0
