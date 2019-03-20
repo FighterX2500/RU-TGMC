@@ -84,6 +84,11 @@
 		if(hivenumber != XENO_HIVE_CORRUPTED)
 			if(hive.hive_orders && hive.hive_orders != "")
 				stat(null,"Hive Orders: [fix_rus_stats(hive.hive_orders)]")
+			stat(null, "Cost: [evo_points]")
+			if(!upgrades_bought)
+				for(var/datum/upgrade/U in upgrades_bought)
+					text_upgrades += U
+				stat(null, "Mutators: [text_upgrades]")
 		else
 			stat(null,"Hive Orders: Follow the instructions of your masters")
 
@@ -204,6 +209,9 @@
 				if(upgrade_stored >= xeno_caste.upgrade_threshold)
 					if(health == maxHealth && !is_mob_incapacitated() && !handcuffed && !legcuffed)
 						upgrade_xeno(upgrade+1)
+						for(var/datum/upgrade/U in upgrades_bought)
+							U = get_upgrade_by_u_tag(U)
+							call(U.procpath)()
 				else
 					upgrade_stored = min(upgrade_stored + 1, xeno_caste.upgrade_threshold)
 
