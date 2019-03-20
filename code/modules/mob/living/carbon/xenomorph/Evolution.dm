@@ -248,3 +248,4 @@
 	qdel(src)
 	spawn(0)
 		new_xeno.do_jitter_animation(1000)
+	upgrades_bought = ""
