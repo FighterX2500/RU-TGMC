@@ -47,6 +47,7 @@ proc/initialize_upgrades()
 /mob/living/carbon/Xenomorph/proc/upgrade_armor()
 	if(src.xeno_caste.armor_deflection > 0)
 		xeno_caste.armor_deflection += 15
+		delta_armor += 15
 	else
 		xeno_caste.armor_deflection = 60
 	to_chat(src, "<span class='xenonotice'>Your exoskeleton feels thicker.</span>")
@@ -61,8 +62,14 @@ proc/initialize_upgrades()
 						/mob/living/carbon/Xenomorph/Hunter,
 						/mob/living/carbon/Xenomorph/Praetorian,
 						/mob/living/carbon/Xenomorph/Ravager,
+						/mob/living/carbon/Xenomorph/Runner,
 						/mob/living/carbon/Xenomorph/Sentinel,
-						/mob/living/carbon/Xenomorph/Spitter
+						/mob/living/carbon/Xenomorph/Spitter,
+						/mob/living/carbon/Xenomorph/Warrior,
+						/mob/living/carbon/Xenomorph/Queen,
+						/mob/living/carbon/Xenomorph/Boiler,
+						/mob/living/carbon/Xenomorph/Crusher,
+						/mob/living/carbon/Xenomorph/Drone
 					)
 	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_bombs
 	u_tag = "antibomb"
@@ -70,6 +77,7 @@ proc/initialize_upgrades()
 
 /mob/living/carbon/Xenomorph/proc/upgrade_bombs()
 	src.maxHealth = round(maxHealth * 8 / 7)
+	delta_hp = delta_hp * 8/7
 	to_chat(src, "<span class='xenonotice'>You grow a new layer on your exoskeleton.</span>")
 
 
@@ -97,7 +105,7 @@ proc/initialize_upgrades()
 	helptext = "Quicken the speed at which royal jelly metabolizes, granting you new forms faster."
 
 /mob/living/carbon/Xenomorph/proc/upgrade_jelly()
-	if(!(xeno_caste.caste_flags & CASTE_EVOLUTION_ALLOWED))
+	if(hive_datum[hivenumber].living_xeno_queen.ovipositor)
 		evolution_stored += 80
 	else
 		evolution_stored += 20
@@ -143,6 +151,7 @@ proc/initialize_upgrades()
 /mob/living/carbon/Xenomorph/proc/upgrade_hive()
 	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
 		X.maxHealth = round(maxHealth * 8 / 7)
+	hive_datum[hivenumber].baff_hp = hive_datum[hivenumber].baff_hp * 8/7
 
 /datum/upgrade/hive2
 	name = "Hive Upgrades HP"
@@ -157,6 +166,7 @@ proc/initialize_upgrades()
 /mob/living/carbon/Xenomorph/proc/upgrade_hive2()
 	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
 		X.xeno_caste.armor_deflection += 15
+	hive_datum[hivenumber].baff_armor += 15
 
 //Changes a xeno's evolution points.
 /mob/living/carbon/Xenomorph/proc/change_ep(var/amount)
@@ -215,7 +225,7 @@ proc/get_upgrade_by_u_tag(var/u_tag)
 
 /mob/living/carbon/Xenomorph/verb/Upgrades()
 	set name = "Upgrades"
-	set desc = "Upgrades."
+	set desc = "Time upgrades."
 	set category = "Alien"
 	var/upgrade_to_pick = list()
 	var/text_helps = ""
