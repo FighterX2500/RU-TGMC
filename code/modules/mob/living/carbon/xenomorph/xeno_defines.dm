@@ -144,6 +144,7 @@
 
 	var/evo_points = 0 //Current # of evolution points. Max is 1000.
 	var/list/upgrades_bought = list()
+	var/text_upgrades = ""
 
 	var/current_aura = null //"claw", "armor", "regen", "speed"
 	var/frenzy_aura = 0 //Strength of aura we are affected by. NOT THE ONE WE ARE EMITTING
