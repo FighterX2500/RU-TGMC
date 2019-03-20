@@ -248,4 +248,6 @@
 	qdel(src)
 	spawn(0)
 		new_xeno.do_jitter_animation(1000)
-	upgrades_bought = ""
+	upgrades_bought = list()
+	delta_armor = 0
+	delta_hp = 1
