@@ -21,6 +21,7 @@
 		log_world("Your server's byond version does not meet the recommended requirements for this server. Please update BYOND")
 
 	initialize_marine_armor()
+	initialize_upgrades()
 
 	if(config && config.server_name != null && config.server_suffix && world.port > 0)
 		// dumb and hardcoded but I don't care~
