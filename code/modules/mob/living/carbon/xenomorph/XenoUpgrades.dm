@@ -150,7 +150,8 @@ proc/initialize_upgrades()
 
 /mob/living/carbon/Xenomorph/proc/upgrade_hive()
 	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
-		X.maxHealth = round(maxHealth * 8 / 7)
+		if(hivenumber && hivenumber <= hive_datum.len)
+			X.maxHealth = round(maxHealth * 8 / 7)
 	hive_datum[hivenumber].baff_hp = hive_datum[hivenumber].baff_hp * 8/7
 
 /datum/upgrade/hive2
@@ -165,7 +166,8 @@ proc/initialize_upgrades()
 
 /mob/living/carbon/Xenomorph/proc/upgrade_hive2()
 	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
-		X.xeno_caste.armor_deflection += 15
+		if(hivenumber && hivenumber <= hive_datum.len)
+			X.xeno_caste.armor_deflection += 15
 	hive_datum[hivenumber].baff_armor += 15
 
 //Changes a xeno's evolution points.

@@ -85,9 +85,12 @@
 			if(hive.hive_orders && hive.hive_orders != "")
 				stat(null,"Hive Orders: [fix_rus_stats(hive.hive_orders)]")
 			stat(null, "Cost: [evo_points]")
-			for(var/mob/living/carbon/Xenomorph/U in upgrades_bought)
-				text_upgrades = text_upgrades + U + " "
-			stat(null, "Mutators: [text_upgrades]")
+			text_upgrades = ""
+			for(var/X in upgrades_bought)
+				var/var/datum/upgrade/U = get_upgrade_by_u_tag(X)
+				text_upgrades += U.name + " "
+			if(text_upgrades != "")
+				stat(null, "Mutators: [text_upgrades]")
 		else
 			stat(null,"Hive Orders: Follow the instructions of your masters")
 
@@ -208,7 +211,7 @@
 				if(upgrade_stored >= xeno_caste.upgrade_threshold)
 					if(health == maxHealth && !is_mob_incapacitated() && !handcuffed && !legcuffed)
 						upgrade_xeno(upgrade+1)
-						src.maxHealth = round(maxHealth*delta_hp*baff_hp)
+						src.maxHealth = round(maxHealth*delta_hp*hive_datum[hivenumber].baff_hp)
 						src.xeno_caste.armor_deflection = xeno_caste.armor_deflection + delta_armor + hive_datum[hivenumber].baff_armor
 				else
 					upgrade_stored = min(upgrade_stored + 1, xeno_caste.upgrade_threshold)
