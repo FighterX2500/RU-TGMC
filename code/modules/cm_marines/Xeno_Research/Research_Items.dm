@@ -279,7 +279,7 @@
 	//name = "ESW MKIV \"Paralyzer\""		//
 	desc = "The actual firearm in 2-piece HEW(Heavy Electrical Weapon) system MKII. Being civilian-grade gun system, primary used by scientific divisions, that gun can still be useful for USCM in limited numbers."
 	icon = 'icons/Marine/Research/Research_Items.dmi'
-	icon_state = "stun"
+	icon_state = "teslagun"
 	item_state = "m56"
 	ammo = /datum/ammo/energy/tesla
 	fire_sound = 'sound/weapons/Tesla.ogg'
@@ -290,13 +290,7 @@
 	flags_gun_features = GUN_INTERNAL_MAG|GUN_WIELDED_FIRING_ONLY
 
 /obj/item/weapon/gun/energy/tesla/update_icon()
-	if(charge)
-		icon_state = "stun"
-		return
-	else
-		icon_state = "stun1"
-		return
-	icon_state = "stun"
+	icon_state = "teslagun"
 
 /obj/item/weapon/gun/energy/tesla/set_gun_config_values()
 	fire_delay = config.max_fire_delay * 2
