@@ -114,6 +114,8 @@
 	var/amount_grown = 0
 	var/max_grown = 200
 	var/time_of_birth
+	var/delta_hp = 1
+	var/delta_armor = 0
 
 	var/devour_timer = 0
 
@@ -144,6 +146,7 @@
 
 	var/evo_points = 0 //Current # of evolution points. Max is 1000.
 	var/list/upgrades_bought = list()
+	var/text_upgrades = ""
 
 	var/current_aura = null //"claw", "armor", "regen", "speed"
 	var/frenzy_aura = 0 //Strength of aura we are affected by. NOT THE ONE WE ARE EMITTING
@@ -258,6 +261,8 @@
 	var/hive_orders = "" //What orders should the hive have
 	var/color = null
 	var/prefix = ""
+	var/baff_hp = 1
+	var/baff_armor = 0
 	var/list/xeno_leader_list = list()
 
 /datum/hive_status/corrupted

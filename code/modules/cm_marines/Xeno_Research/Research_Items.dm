@@ -248,9 +248,15 @@
 				continue					// They don't give a fuck
 			if(isXeno(target))
 				var/mob/living/carbon/Xenomorph/xeno = target
-				xeno.adjust_stagger(5)
-				xeno.adjust_slowdown(2)
-				to_chat(xeno, "<span class='danger'>Your entire body shaken!</span>")
+				if(isXenoQueen(xeno) || isXenoRavager(xeno))
+					to_chat(xeno, "<span class='xenodanger'>Your muscles slow to respond!</span>")
+					xeno.adjust_stagger(5)
+					xeno.adjust_slowdown(2)
+					continue
+				xeno.apply_effects(2,2)																//Must be for a moment only
+				xeno.adjust_stagger(8)
+				xeno.adjust_slowdown(4)
+				to_chat(xeno, "<span class='xenodanger'>You feel your muscles stop responding!</span>")
 				continue
 			to_chat(target, "<span class='danger'>You feel like electricity goes through your muscles!</span>")
 			target.apply_effects(4,4)
@@ -279,7 +285,7 @@
 	//name = "ESW MKIV \"Paralyzer\""		//
 	desc = "The actual firearm in 2-piece HEW(Heavy Electrical Weapon) system MKII. Being civilian-grade gun system, primary used by scientific divisions, that gun can still be useful for USCM in limited numbers."
 	icon = 'icons/Marine/Research/Research_Items.dmi'
-	icon_state = "stun"
+	icon_state = "teslagun"
 	item_state = "m56"
 	ammo = /datum/ammo/energy/tesla
 	fire_sound = 'sound/weapons/Tesla.ogg'
@@ -290,13 +296,7 @@
 	flags_gun_features = GUN_INTERNAL_MAG|GUN_WIELDED_FIRING_ONLY
 
 /obj/item/weapon/gun/energy/tesla/update_icon()
-	if(charge)
-		icon_state = "stun"
-		return
-	else
-		icon_state = "stun1"
-		return
-	icon_state = "stun"
+	icon_state = "teslagun"
 
 /obj/item/weapon/gun/energy/tesla/set_gun_config_values()
 	fire_delay = config.max_fire_delay * 2

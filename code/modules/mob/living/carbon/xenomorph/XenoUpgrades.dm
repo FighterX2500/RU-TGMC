@@ -17,12 +17,13 @@ proc/initialize_upgrades()
 	var/is_verb = 0 //Is this a bonus verb that they get?
 	var/procpath = null //Path to a proc, these will actually do all of the things.
 	var/prev_required = null //Does this upgrade need a previous one bought to buy it?
+	var/disable_prev_required = null
 	var/u_tag = null //A u_tag string so we can grab it easily off a xeno. Must be unique.
 	var/helptext = ""
 
-/datum/upgrade/claws1
-	name = "Enhanced Claws"
-	cost = 20
+/datum/upgrade/armor
+	name = "Hardened Carapace"
+	cost = 6
 	which_castes = list(
 						/mob/living/carbon/Xenomorph/Carrier,
 						/mob/living/carbon/Xenomorph/Drone,
@@ -32,177 +33,28 @@ proc/initialize_upgrades()
 						/mob/living/carbon/Xenomorph/Ravager,
 						/mob/living/carbon/Xenomorph/Runner,
 						/mob/living/carbon/Xenomorph/Sentinel,
-						/mob/living/carbon/Xenomorph/Spitter
-					)
-	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_claws
-	u_tag = "eclaws"
-	helptext = "Your claws become sharper and lighter, making your slash attacks deal more damage."
-
-//More useful on weaker xenos since it's a flat bonus
-/mob/living/carbon/Xenomorph/proc/upgrade_claws()
-	melee_damage_lower += 10
-	melee_damage_upper += 10
-	to_chat(src, "<span class='xenonotice'>Your claws feel sharper.</span>")
-	update_icons()
-
-/datum/upgrade/claws2
-	name = "Razor Claws"
-	cost = 30
-	which_castes = list(
-						/mob/living/carbon/Xenomorph/Hunter,
-						/mob/living/carbon/Xenomorph/Praetorian,
-						/mob/living/carbon/Xenomorph/Ravager,
-						/mob/living/carbon/Xenomorph/Runner
-					)
-	prev_required = "Enhanced Claws"
-	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_claws2
-	u_tag = "zclaws"
-	helptext = "Your claws become razor-sharp, allowing you to cut through a foe's armor."
-
-/mob/living/carbon/Xenomorph/proc/upgrade_claws2()
-	melee_damage_lower += 10
-	melee_damage_upper += 10
-	to_chat(src, "<span class='xenonotice'>Your claws feel razor sharp.</span>")
-
-/datum/upgrade/claws3
-	name = "Corrosive Claws"
-	cost = 40
-	which_castes = list(
-						/mob/living/carbon/Xenomorph/Praetorian,
-						/mob/living/carbon/Xenomorph/Sentinel,
-						/mob/living/carbon/Xenomorph/Spitter
-					)
-	prev_required = "Enhanced Claws"
-	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_claws3
-	u_tag = "tclaws"
-	helptext = "Your claws are cut and dripping with acid blood, dealing damage over time to slashed enemies."
-
-/mob/living/carbon/Xenomorph/proc/upgrade_claws3()
-	melee_damage_lower += 5
-	to_chat(src, "<span class='xenonotice'>Your claws drip with corrosive acid.</span>")
-
-/datum/upgrade/claws4
-	name = "Resin Claws"
-	cost = 40
-	which_castes = list(
-						/mob/living/carbon/Xenomorph/Carrier,
-						/mob/living/carbon/Xenomorph/Drone,
-						/mob/living/carbon/Xenomorph/Hivelord
-					)
-	prev_required = "Enhanced Claws"
-	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_claws4
-	u_tag = "rclaws"
-	helptext = "Your claws are coated with fibrous resin, dealing less damage but allowing easy knockdowns."
-
-/mob/living/carbon/Xenomorph/proc/upgrade_claws4()
-	to_chat(src, "<span class='xenonotice'>Your claws drip with sticky resin.</span>")
-
-/datum/upgrade/armor
-	name = "Hardened Carapace"
-	cost = 20
-	which_castes = list(
-						/mob/living/carbon/Xenomorph/Carrier,
-						/mob/living/carbon/Xenomorph/Drone,
-						/mob/living/carbon/Xenomorph/Hivelord,
-						/mob/living/carbon/Xenomorph/Hunter,
-						/mob/living/carbon/Xenomorph/Praetorian,
-						/mob/living/carbon/Xenomorph/Ravager,
-						/mob/living/carbon/Xenomorph/Sentinel,
-						/mob/living/carbon/Xenomorph/Spitter
+						/mob/living/carbon/Xenomorph/Spitter,
+						/mob/living/carbon/Xenomorph/Warrior,
+						/mob/living/carbon/Xenomorph/Queen,
+						/mob/living/carbon/Xenomorph/Boiler,
+						/mob/living/carbon/Xenomorph/Crusher,
+						/mob/living/carbon/Xenomorph/Drone
 					)
 	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_armor
 	u_tag = "cara"
 	helptext = "Your exoskeleton becomes thicker, protecting you from projectiles."
 
 /mob/living/carbon/Xenomorph/proc/upgrade_armor()
-	if(src.armor_deflection > 0)
-		armor_deflection += 15
+	if(src.xeno_caste.armor_deflection > 0)
+		xeno_caste.armor_deflection += 15
+		delta_armor += 15
 	else
-		armor_deflection = 60
+		xeno_caste.armor_deflection = 60
 	to_chat(src, "<span class='xenonotice'>Your exoskeleton feels thicker.</span>")
 
 /datum/upgrade/armor2
-	name = "Increased Musclemass"
-	cost = 30
-	which_castes = list(
-						/mob/living/carbon/Xenomorph/Hivelord,
-						/mob/living/carbon/Xenomorph/Hunter,
-						/mob/living/carbon/Xenomorph/Praetorian,
-						/mob/living/carbon/Xenomorph/Ravager
-					)
-	prev_required = "Hardened Carapace"
-	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_health
-	u_tag = "health"
-	helptext = "You become bulkier, granting you increased maximum health."
-
-/mob/living/carbon/Xenomorph/proc/upgrade_health()
-	src.maxHealth = round(maxHealth * 5 / 4) + 10 //20% + 10
-	to_chat(src, "<span class='xenonotice'>You feel bulkier.</span>")
-
-/datum/upgrade/armor3
 	name = "Blast Resistance"
-	cost = 60
-	which_castes = list(
-						/mob/living/carbon/Xenomorph/Carrier,
-						/mob/living/carbon/Xenomorph/Drone,
-						/mob/living/carbon/Xenomorph/Hivelord,
-						/mob/living/carbon/Xenomorph/Hunter,
-						/mob/living/carbon/Xenomorph/Praetorian,
-						/mob/living/carbon/Xenomorph/Ravager,
-						/mob/living/carbon/Xenomorph/Sentinel,
-						/mob/living/carbon/Xenomorph/Spitter
-					)
-	prev_required = "Hardened Carapace"
-	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_bombs
-	u_tag = "antibomb"
-	helptext = "You grow a layer of insulation under your exoskeleton, protecting you from explosions."
-
-/mob/living/carbon/Xenomorph/proc/upgrade_bombs()
-	src.maxHealth = round(maxHealth * 8 / 7)
-	to_chat(src, "<span class='xenonotice'>You grow a new layer on your exoskeleton.</span>")
-
-/datum/upgrade/armor4
-	name = "Reinforced Exoskeleton"
-	cost = 70
-	which_castes = list(
-						/mob/living/carbon/Xenomorph/Hivelord,
-						/mob/living/carbon/Xenomorph/Hunter,
-						/mob/living/carbon/Xenomorph/Praetorian,
-						/mob/living/carbon/Xenomorph/Ravager
-					)
-	prev_required = "Increasd Musclemass"
-	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_armor2
-	u_tag = "cara2"
-	helptext = "Your exoskeleton is further hardened, protecting you from projectiles and melee attacks."
-
-/mob/living/carbon/Xenomorph/proc/upgrade_armor2()
-	src.maxHealth = round(maxHealth * 6 / 5) + 20
-	to_chat(src, "<span class='xenonotice'>Your exoskeleton grows thick as stone.</span>")
-
-/datum/upgrade/armor5
-	name = "Razors"
-	cost = 70
-	which_castes = list(
-						/mob/living/carbon/Xenomorph/Carrier,
-						/mob/living/carbon/Xenomorph/Drone,
-						/mob/living/carbon/Xenomorph/Hivelord,
-						/mob/living/carbon/Xenomorph/Hunter,
-						/mob/living/carbon/Xenomorph/Praetorian,
-						/mob/living/carbon/Xenomorph/Ravager,
-						/mob/living/carbon/Xenomorph/Sentinel,
-						/mob/living/carbon/Xenomorph/Spitter
-					)
-	prev_required = "Hardened Carapace"
-	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_armor3
-	u_tag = "cara3"
-	helptext = "You have sharp spines on your exoskeleton, damaging enemies you bump into."
-
-/mob/living/carbon/Xenomorph/proc/upgrade_armor3()
-	to_chat(src, "<span class='xenonotice'>Razor sharp spikes spring from your exoskeleton.</span>")
-
-/datum/upgrade/jelly
-	name = "Quickened Evolution"
-	cost = 50
+	cost = 6
 	which_castes = list(
 						/mob/living/carbon/Xenomorph/Carrier,
 						/mob/living/carbon/Xenomorph/Drone,
@@ -212,20 +64,111 @@ proc/initialize_upgrades()
 						/mob/living/carbon/Xenomorph/Ravager,
 						/mob/living/carbon/Xenomorph/Runner,
 						/mob/living/carbon/Xenomorph/Sentinel,
-						/mob/living/carbon/Xenomorph/Spitter
+						/mob/living/carbon/Xenomorph/Spitter,
+						/mob/living/carbon/Xenomorph/Warrior,
+						/mob/living/carbon/Xenomorph/Queen,
+						/mob/living/carbon/Xenomorph/Boiler,
+						/mob/living/carbon/Xenomorph/Crusher,
+						/mob/living/carbon/Xenomorph/Drone
+					)
+	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_bombs
+	u_tag = "antibomb"
+	helptext = "You grow a layer of insulation under your exoskeleton, protecting you from explosions."
+
+/mob/living/carbon/Xenomorph/proc/upgrade_bombs()
+	src.maxHealth = round(maxHealth * 8 / 7)
+	delta_hp = delta_hp * 8/7
+	to_chat(src, "<span class='xenonotice'>You grow a new layer on your exoskeleton.</span>")
+
+
+/datum/upgrade/jelly
+	name = "Quickened Evolution"
+	cost = 6
+	which_castes = list(
+						/mob/living/carbon/Xenomorph/Carrier,
+						/mob/living/carbon/Xenomorph/Drone,
+						/mob/living/carbon/Xenomorph/Hivelord,
+						/mob/living/carbon/Xenomorph/Hunter,
+						/mob/living/carbon/Xenomorph/Praetorian,
+						/mob/living/carbon/Xenomorph/Ravager,
+						/mob/living/carbon/Xenomorph/Runner,
+						/mob/living/carbon/Xenomorph/Sentinel,
+						/mob/living/carbon/Xenomorph/Spitter,
+						/mob/living/carbon/Xenomorph/Warrior,
+						/mob/living/carbon/Xenomorph/Queen,
+						/mob/living/carbon/Xenomorph/Boiler,
+						/mob/living/carbon/Xenomorph/Crusher,
+						/mob/living/carbon/Xenomorph/Drone
 					)
 	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_jelly
 	u_tag = "jelly"
 	helptext = "Quicken the speed at which royal jelly metabolizes, granting you new forms faster."
 
 /mob/living/carbon/Xenomorph/proc/upgrade_jelly()
-	if(evolution_allowed)
-		evolution_stored += 50
+	if(hive_datum[hivenumber].living_xeno_queen.ovipositor)
+		evolution_stored += 80
 	else
-		evolution_allowed = 1
-		evolution_stored += 10
-
+		evolution_stored += 20
 	to_chat(src, "<span class='xenonotice'>You feel royal jelly ripple through your haemolymph.</span>")
+
+/datum/upgrade/jelly2
+	name = "Quickened Upgrades"
+	cost = 6
+	which_castes = list(
+						/mob/living/carbon/Xenomorph/Carrier,
+						/mob/living/carbon/Xenomorph/Drone,
+						/mob/living/carbon/Xenomorph/Hivelord,
+						/mob/living/carbon/Xenomorph/Hunter,
+						/mob/living/carbon/Xenomorph/Praetorian,
+						/mob/living/carbon/Xenomorph/Ravager,
+						/mob/living/carbon/Xenomorph/Runner,
+						/mob/living/carbon/Xenomorph/Sentinel,
+						/mob/living/carbon/Xenomorph/Spitter,
+						/mob/living/carbon/Xenomorph/Warrior,
+						/mob/living/carbon/Xenomorph/Queen,
+						/mob/living/carbon/Xenomorph/Boiler,
+						/mob/living/carbon/Xenomorph/Crusher,
+						/mob/living/carbon/Xenomorph/Drone,
+					)
+	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_jelly2
+	u_tag = "jelly2"
+	helptext = "Quicken the speed at which royal jelly metabolizes, granting you new upgrades faster."
+
+/mob/living/carbon/Xenomorph/proc/upgrade_jelly2()
+	upgrade_stored += 100
+	to_chat(src, "<span class='xenonotice'>You feel royal jelly ripple through your haemolymph.</span>")
+
+/datum/upgrade/hive
+	name = "Hive Upgrades HP"
+	cost = 6
+	which_castes = list(
+						/mob/living/carbon/Xenomorph/Queen,
+					)
+	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_hive
+	u_tag = "hive_hp"
+	helptext = "Upgrades stats HP of Hive."
+
+/mob/living/carbon/Xenomorph/proc/upgrade_hive()
+	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
+		if(hivenumber && hivenumber <= hive_datum.len)
+			X.maxHealth = round(maxHealth * 8 / 7)
+	hive_datum[hivenumber].baff_hp = hive_datum[hivenumber].baff_hp * 8/7
+
+/datum/upgrade/hive2
+	name = "Hive Upgrades HP"
+	cost = 6
+	which_castes = list(
+						/mob/living/carbon/Xenomorph/Queen,
+					)
+	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_hive2
+	u_tag = "hive_armor"
+	helptext = "Upgrades stats Armor of Hive."
+
+/mob/living/carbon/Xenomorph/proc/upgrade_hive2()
+	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
+		if(hivenumber && hivenumber <= hive_datum.len)
+			X.xeno_caste.armor_deflection += 15
+	hive_datum[hivenumber].baff_armor += 15
 
 //Changes a xeno's evolution points.
 /mob/living/carbon/Xenomorph/proc/change_ep(var/amount)
@@ -248,8 +191,6 @@ proc/initialize_upgrades()
 	if(evo_points - amount < 0)
 		to_chat(src, "<span class='warning'>You lack the required amount of evolution points - you need <B>[amount]</b> but have only <B>[evo_points]</b>.</span>")
 		return 0
-
-	change_ep(amount)
 	return 1
 
 /mob/living/carbon/Xenomorph/proc/has_upgrade(var/u_tag)
@@ -278,6 +219,34 @@ proc/get_upgrade_by_u_tag(var/u_tag)
 	if(has_upgrade(U.u_tag))
 		return 0 //They already have it.
 
+	if(!check_ep(U.cost))
+		return 0
+	change_ep(U.cost * -1)
 	upgrades_bought += U.u_tag
-	change_ep(U.cost * -1) //Negative value of cost
 	call(src, U.procpath)()
+
+/mob/living/carbon/Xenomorph/verb/Upgrades()
+	set name = "Upgrades"
+	set desc = "Time upgrades."
+	set category = "Alien"
+	var/upgrade_to_pick = list()
+	var/text_helps = ""
+	for(var/datum/upgrade/U in upgrade_list)
+		if(xeno_caste.caste_type_path in U.which_castes)
+			if(((U.prev_required in upgrades_bought) || !U.prev_required) && (!(U.disable_prev_required in upgrades_bought) || !U.disable_prev_required))
+				if(!has_upgrade(U.u_tag))
+					upgrade_to_pick += U.name
+					text_helps += "[U.name]:<br>  [U.helptext]<br>"
+	if(!upgrade_to_pick)
+		return
+	upgrade_to_pick += "Help"
+	var/upgradepick = input("You are growing into beautiful alien! Mommy will be proud!") as null|anything in upgrade_to_pick
+	if(!upgradepick)
+		return
+	if(upgradepick == "Help")
+		to_chat(src, "<span class='xenonotice'>[text_helps]</span>")
+		return
+	for(var/datum/upgrade/U in upgrade_list)
+		if(U.name == upgradepick)
+			add_upgrade(U)
+			return

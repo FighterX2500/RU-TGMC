@@ -10,14 +10,17 @@
 	switch(upgrade)
 		//FIRST UPGRADE
 		if(1)
+			change_ep(6)
 			to_chat(src, "<span class='xenodanger'>You feel a bit stronger.</span>")
 
 		//SECOND UPGRADE
 		if(2)
+			change_ep(12)
 			to_chat(src, "<span class='xenodanger'>You feel a whole lot stronger.</span>")
 
 		//Final UPGRADE
 		if(3)
+			change_ep(12)
 			to_chat(src, "<span class='xenoannounce'>[xeno_caste.ancient_message]</span>")
 
 	generate_name() //Give them a new name now
@@ -143,8 +146,6 @@
 
 /mob/living/carbon/Xenomorph/Boiler/ancient
 	upgrade = 3
-
-
 
 /mob/living/carbon/Xenomorph/Defender/mature
 	upgrade = 1
