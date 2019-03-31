@@ -165,6 +165,8 @@
 	name = " Vehicle ASRS"
 	icon_state = "req"
 	fake_zlevel = 3 // lowerdeck
+	luminosity = 1
+	lighting_use_dynamic = 0
 
 /area/almayer/hallways/exoarmor
 	name = " Vehicle Armor Storage"
