@@ -248,9 +248,15 @@
 				continue					// They don't give a fuck
 			if(isXeno(target))
 				var/mob/living/carbon/Xenomorph/xeno = target
-				xeno.adjust_stagger(5)
-				xeno.adjust_slowdown(2)
-				to_chat(xeno, "<span class='danger'>Your entire body shaken!</span>")
+				if(isXenoQueen(xeno) || isXenoRavager(xeno))
+					to_chat(xeno, "<span class='xenodanger'>Your muscles slow to respond!</span>")
+					xeno.adjust_stagger(5)
+					xeno.adjust_slowdown(2)
+					continue
+				xeno.apply_effects(2,2)																//Must be for a moment only
+				xeno.adjust_stagger(8)
+				xeno.adjust_slowdown(4)
+				to_chat(xeno, "<span class='xenodanger'>You feel your muscles stop responding!</span>")
 				continue
 			to_chat(target, "<span class='danger'>You feel like electricity goes through your muscles!</span>")
 			target.apply_effects(4,4)
