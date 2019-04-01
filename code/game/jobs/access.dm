@@ -267,7 +267,7 @@ proc/get_all_job_icons()
 		if("E1") . = size ? "PVT " : "Private"
 		if("E2") . = size ? "PFC " : "Private First Class"
 		if("E3") . = size ? "LCPL " : "Lance Corporal"
-		if("E3E") . = size ? "CR " : "Crewman"
+		if("E3E") . = size ? "CRM " : "Crewman"
 		if("E4") . = size ? "CPL " : "Corporal"
 		if("E5") . = size ? "SGT " : "Sergeant"
 		if("E6") . = size ? "SSGT " : "Staff Sergeant"
