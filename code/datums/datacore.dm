@@ -82,9 +82,20 @@
 			even = !even
 	if(mar.len > 0)
 		dat += "<tr><th colspan=3>Marines</th></tr>"
+
+		//Enlisted vehicle crew
+		dat += "<tr><th colspan=3>Vehicles</th></tr>"
+		for(name in mar)
+			if(mar[name] == "Tank Crewman" || mar[name] == "Walker Pilot")
+				dat += "<tr[even ? " class='alt'" : ""]><td>[name]</td><td>[mar[name]]</td><td>[isactive[name]]</td></tr>"
+				even = !even
+
+		//Enlisted marines
 		for(var/j in list("Alpha","Delta"))
 			dat += "<tr><th colspan=3>[j]</th></tr>"
 			for(name in mar)
+				if(!squads[name])				//Just to make sure no wierd things go through
+					continue
 				if(squads[name] == j)
 					dat += "<tr[even ? " class='alt'" : ""]><td>[name]</td><td>[mar[name]]</td><td>[isactive[name]]</td></tr>"
 					even = !even
