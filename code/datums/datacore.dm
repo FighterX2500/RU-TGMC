@@ -86,7 +86,7 @@
 		//Enlisted vehicle crew
 		dat += "<tr><th colspan=3>Vehicles</th></tr>"
 		for(name in mar)
-			if(mar[name] == "Tank Crewman" || mar[name] == "Walker Pilot")
+			if(mar[name] == "Armor Crewman" || mar[name] == "Walker Pilot")
 				dat += "<tr[even ? " class='alt'" : ""]><td>[name]</td><td>[mar[name]]</td><td>[isactive[name]]</td></tr>"
 				even = !even
 
