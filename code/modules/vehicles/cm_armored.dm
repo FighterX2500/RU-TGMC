@@ -64,7 +64,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 	move_delay = 70 //treads-less tank barely moves. Fix those damn treads, marine!
 	var/speed
 	unacidable = 1
-	var/active_hp
+	var/active_hp = null
 	var/vehicle_weight = 0		//tank mass = summarized mass of all installed hardpoints, very important for new weight system
 	var/vehicle_class = WEIGHT_LIGHT			//tank class. Depends on vehicle_weight. Xenos behaviour after tank bumps into them depends on tank class
 
@@ -364,13 +364,13 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 	var/obj/item/projectile/P = new
 	P.generate_bullet(new A.default_ammo)
 	P.fire_at(F, src, SML, 6, P.ammo.shell_speed)
-	//playsound(get_turf(src), 'sound/weapons/tank_smokelauncher_fire2.ogg', 60, 1)
+	playsound(get_turf(src), 'sound/weapons/tank_smokelauncher_fire2.ogg', 60, 1)
 	smoke_ammo_current--
 	sleep (10)
 	var/obj/item/projectile/G = new
 	G.generate_bullet(new A.default_ammo)
 	G.fire_at(S, src, SML, 6, G.ammo.shell_speed)
-	//playsound(get_turf(src), 'sound/weapons/tank_smokelauncher_fire2.ogg', 60, 1)
+	playsound(get_turf(src), 'sound/weapons/tank_smokelauncher_fire2.ogg', 60, 1)
 	smoke_ammo_current--
 
 	if(smoke_ammo_current <= 0)
@@ -393,9 +393,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 	var/obj/item/hardpoint/tank/HP5 = hardpoints[HDPT_PRIMARY]
 	var divider = 0
 	var tank_health = 0
-	//if(HP1 != null && HP2 != null && HP3 != null && HP4 != null && HP5 != null))
-	//	tank_health = round((HP1.health + HP2.health + HP3.health + HP4.health + HP5.health) * 100 / (HP1.maxhealth + HP2.maxhealth + HP3.maxhealth + HP4.maxhealth + HP5.maxhealth))
-	//First version of formula. Doesn't work if any of modules is absent or took too much damage (admin magic)
+
 	if (HP1)
 		if(HP1.health > 0)
 			tank_health += HP1.health
@@ -1062,6 +1060,15 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 		var/obj/machinery/door/window/WD = A
 		WD.visible_message("<span class='danger'>[root] smashes through[WD]!</span>")
 		WD.take_damage(350)
+	else if (istype(A, /obj/vehicle/walker))
+		var/obj/vehicle/walker/WL = A
+		WL.visible_message("<span class='danger'>[root] smashes into [WL]!</span>")
+		WL.take_damage(30)
+		playsound(WL, 'sound/effects/metal_crash.ogg', 35)
+		playsound(WL, pick('sound/mecha/powerloader_step.ogg', 'sound/mecha/powerloader_step2.ogg'), 25)
+		step_away(WL,root,0)
+		log_admin("[src] bumped into [WL], dealing 30 damage")
+		message_admins("[src] bumped into [WL], dealing 30 damage")
 
 	healthcheck()
 
@@ -1435,7 +1442,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 	//No skill checks for reloading
 	//Maybe I should delineate levels of skill for reloading, installation, and repairs?
 	//That would make it easier to differentiate between the two for skills
-	//Instead of using MT skills for these procs and TC skills for operation
+	//Instead of using MT skills for these procs and AC skills for operation
 	//Oh but wait then the MTs would be able to drive fuck that
 	var/slot = input("Select a slot to try and refill") in hardpoints
 	var/obj/item/hardpoint/tank/HP = hardpoints[slot]
