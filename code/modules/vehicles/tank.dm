@@ -516,9 +516,9 @@
 			M.Move(src)
 			deactivate_binos(gunner)
 			if(loc_check == entrance.loc)
-				to_chat(M, "<span class='notice'>You enter the driver's seat.</span>")
+				to_chat(M, "<span class='notice'>You enter the gunner's seat.</span>")
 			else
-				to_chat(M, "<span class='notice'>You climb onto the tank and enter the driver's seat through an auxiliary top hatchet.</span>")
+				to_chat(M, "<span class='notice'>You climb onto the tank and enter the gunner's seat through an auxiliary top hatchet.</span>")
 			M.set_interaction(src)
 			if(M.client)
 				M.client.mouse_pointer_icon = file("icons/mecha/mecha_mouse.dmi")
