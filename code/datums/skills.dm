@@ -22,6 +22,7 @@
 	var/police = SKILL_POLICE_DEFAULT
 	var/powerloader = SKILL_POWERLOADER_DEFAULT
 	var/large_vehicle = SKILL_LARGE_VEHICLE_DEFAULT
+	var/walker_mech = SKILL_WALKER_DEFAULT
 
 
 /datum/skills/pfc
@@ -419,10 +420,17 @@
 	surgery = SKILL_SURGERY_AMATEUR
 	melee_weapons = SKILL_MELEE_SUPER
 
-/datum/skills/tank_crew
-	name = "Tank Crew"
+/datum/skills/armor_crew
+	name = "Armor Crewman"
 	large_vehicle = SKILL_LARGE_VEHICLE_TRAINED
 	powerloader = SKILL_POWERLOADER_DABBLING
+	leadership = SKILL_LEAD_TRAINED
+	engineer = SKILL_ENGINEER_MT
+
+/datum/skills/walker_pilot
+	name = "Walker Pilot"
+	walker_mech = SKILL_WALKER_TRAINED
+	powerloader = SKILL_POWERLOADER_TRAINED
 	leadership = SKILL_LEAD_TRAINED
 	engineer = SKILL_ENGINEER_MT
 
@@ -447,3 +455,4 @@
 	police = SKILL_POLICE_MP
 	powerloader = SKILL_POWERLOADER_MASTER
 	large_vehicle = SKILL_LARGE_VEHICLE_TRAINED
+	walker_mech = SKILL_WALKER_TRAINED
