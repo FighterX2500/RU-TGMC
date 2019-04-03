@@ -427,8 +427,8 @@
 	leadership = SKILL_LEAD_TRAINED
 	engineer = SKILL_ENGINEER_MT
 
-/datum/skills/walker_pilot
-	name = "Walker Pilot"
+/datum/skills/walker_operator
+	name = "Walker Operator"
 	walker_mech = SKILL_WALKER_TRAINED
 	powerloader = SKILL_POWERLOADER_TRAINED
 	leadership = SKILL_LEAD_TRAINED

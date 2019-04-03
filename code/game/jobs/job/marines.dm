@@ -175,8 +175,8 @@ You are also in charge of communicating with command and letting them know about
 Your authority is limited to your own vehicle, where you have authority over the enlisted personnel. However, you can be put in charge in marine squads by command's orders."}
 
 /datum/job/marine/mech_pilot
-	title = "Walker Pilot"
-	comm_title = "WP"
+	title = "Walker Operator"
+	comm_title = "WO"
 	paygrade = "E8"
 	flag = ROLE_MECH_OFFICER
 	total_positions = 1
@@ -184,7 +184,7 @@ Your authority is limited to your own vehicle, where you have authority over the
 	access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_WALKER)
 	minimal_access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_WALKER)
 	flags_startup_parameters = ROLE_ADD_TO_DEFAULT|ROLE_ADD_TO_MODE
-	skills_type = /datum/skills/walker_pilot
+	skills_type = /datum/skills/walker_operator
 	idtype = /obj/item/card/id/dogtag
 	equipment = TRUE
 
