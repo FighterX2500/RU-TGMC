@@ -1337,6 +1337,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 				smoke_ammo_current = smoke_ammo_max
 				user.temp_drop_inv_item(O, 0)
 				to_chat(user, "<span class='notice'>You load smoke system magazine into [src].</span>")
+				playsound(src, 'sound/machines/hydraulics_1.ogg', 40, 1)
 				return
 			else
 				to_chat(user, "<span class='notice'>You can't load new magazine until smoke launcher system automatically unload emptied one.</span>")
