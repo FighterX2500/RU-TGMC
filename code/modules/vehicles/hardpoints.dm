@@ -83,7 +83,7 @@ All of the hardpoints, for the tank and APC
 
 	to_chat(user, "<span class='notice'>Installing \the [A] in \the [owner].</span>")
 
-	if(!do_after(user, 10))
+	if(!do_after(user, 10, TRUE, 2, show_busy_icon = TRUE))
 		to_chat(user, "<span class='warning'>Something interrupted you while reloading [owner].</span>")
 		return 0
 
@@ -93,6 +93,8 @@ All of the hardpoints, for the tank and APC
 	if (clips.len == 0)
 		user.visible_message("<span class='notice'>You hear clanking as \the [A] is getting automatically loaded into \the weapon.</span>")
 		playsound(src, 'sound/weapons/gun_mortar_unpack.ogg', 40, 1)
+	else
+		playsound(src, 'sound/machines/hydraulics_1.ogg', 40, 1)
 	clips += A
 	return 1
 
@@ -1399,7 +1401,7 @@ All of the hardpoints, for the tank and APC
 
 	to_chat(user, "<span class='notice'>Installing \the [A] in \the [owner].</span>")
 
-	if(!do_after(user, 10))
+	if(!do_after(user, 10, TRUE, 2, show_busy_icon = TRUE))
 		to_chat(user, "<span class='warning'>Something interrupted you while reloading [owner].</span>")
 		return 0
 
@@ -1409,6 +1411,8 @@ All of the hardpoints, for the tank and APC
 	if (clips.len == 0)
 		user.visible_message("<span class='notice'>You hear clanking as \the [A] is getting automatically loaded into \the weapon.</span>")
 		playsound(src, 'sound/weapons/gun_mortar_unpack.ogg', 40, 1)
+	else
+		playsound(src, 'sound/machines/hydraulics_1.ogg', 40, 1)
 	clips += A
 	return 1
 
