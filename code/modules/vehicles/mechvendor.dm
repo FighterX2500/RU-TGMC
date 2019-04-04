@@ -4,7 +4,7 @@ obj/machinery/vehicle_vendor/mech_vendor_ui
 	icon = 'icons/obj/machines/vending.dmi'
 	icon_state = "engi"
 
-	vendor_role = list("Walker Pilot") //everyone else, mind your business
+	vendor_role = list("Walker Operator") //everyone else, mind your business
 
 
 	var/list/aval_tank_mod = list("weapon" = 2, "ammo" = 7, "misc" = 0)

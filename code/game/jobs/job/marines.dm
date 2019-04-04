@@ -144,18 +144,20 @@ You are also in charge of communicating with command and letting them know about
 	H.equip_to_slot_or_del(new /obj/item/storage/backpack/marine/satchel(H), WEAR_BACK)
 
 
-//Tank Crewmen
+//Armor Crewmen
 /datum/job/marine/tank_crew
-	title = "Tank Crewman"
-	comm_title = "TC"
+	title = "Armor Crewman"
+	comm_title = "AC"
 	paygrade = "E8"
 	flag = ROLE_TANK_OFFICER
+	supervisors = "the acting commander"
+	selection_color = "#ddddff"
 	total_positions = 2
 	spawn_positions = 2
 	access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_TANK)
 	minimal_access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_TANK)
 	flags_startup_parameters = ROLE_ADD_TO_DEFAULT|ROLE_ADD_TO_MODE
-	skills_type = /datum/skills/tank_crew
+	skills_type = /datum/skills/armor_crew
 	idtype = /obj/item/card/id/dogtag
 	equipment = TRUE
 
@@ -171,20 +173,22 @@ You are also in charge of communicating with command and letting them know about
 	H.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/marine/tanker(H), WEAR_R_HAND)
 
 /datum/job/marine/tank_crew/generate_entry_message(mob/living/carbon/human/H)
-	return {"Your job is to operate and maintain thee ship's armored vehicles.
-While you are an officer, your authority is limited to your own vehicle, where you have authority over the enlisted personnel. You will need MTs to repair and replace hardpoints."}
+	return {"Your job is to operate and maintain ship's armored vehicles.
+Your authority is limited to your own vehicle, where you have authority over the enlisted personnel. However, you can be put in charge in marine squads by command's orders."}
 
 /datum/job/marine/mech_pilot
-	title = "Walker Pilot"
-	comm_title = "WP"
+	title = "Walker Operator"
+	comm_title = "WO"
 	paygrade = "E8"
 	flag = ROLE_MECH_OFFICER
+	supervisors = "the acting commander"
+	selection_color = "#ddddff"
 	total_positions = 1
 	spawn_positions = 1
-	access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_TANK)
-	minimal_access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_TANK)
+	access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_WALKER)
+	minimal_access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_WALKER)
 	flags_startup_parameters = ROLE_ADD_TO_DEFAULT|ROLE_ADD_TO_MODE
-	skills_type = /datum/skills/tank_crew
+	skills_type = /datum/skills/walker_operator
 	idtype = /obj/item/card/id/dogtag
 	equipment = TRUE
 
@@ -201,4 +205,4 @@ While you are an officer, your authority is limited to your own vehicle, where y
 
 /datum/job/marine/mech_pilot/generate_entry_message(mob/living/carbon/human/H)
 	return {"Your job is to operate and maintain combat walkers.
-While you are an officer, your authority is limited to your own vehicle, where you have authority over the enlisted personnel."}
+Walkers cannot survive for long without marines supporting them, but your heavy arsenal can provide fire support in places, where tanks can't fit. Cooperation with marines and watching your flanks are the keys to survival."}

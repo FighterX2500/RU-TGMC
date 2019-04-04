@@ -192,7 +192,7 @@
 	to_chat(user, "Access denied.")
 
 /obj/vehicle/walker/proc/operation_allowed(obj/item/card/id/I)
-	if(istype(I) && I.access && ACCESS_MARINE_TANK in I.access)
+	if(istype(I) && I.access && ACCESS_MARINE_WALKER in I.access)
 		return TRUE
 	return FALSE
 

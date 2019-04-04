@@ -833,6 +833,15 @@ var/list/apc_dmg_distributions = list(
 		var/obj/machinery/door/window/WD = A
 		WD.visible_message("<span class='danger'>[root] smashes through[WD]!</span>")
 		WD.take_damage(350)
+	else if (istype(A, /obj/vehicle/walker))
+		var/obj/vehicle/walker/WL = A
+		WL.visible_message("<span class='danger'>[root] smashes into [WL]!</span>")
+		WL.take_damage(20)
+		playsound(WL, 'sound/effects/metal_crash.ogg', 35)
+		playsound(WL, pick('sound/mecha/powerloader_step.ogg', 'sound/mecha/powerloader_step2.ogg'), 25)
+		step_away(WL,root,0)
+		log_admin("[src] bumped into [WL], dealing 30 damage")
+		message_admins("[src] bumped into [WL], dealing 30 damage")
 
 	healthcheck()
 
@@ -1185,7 +1194,7 @@ var/list/apc_dmg_distributions = list(
 	//No skill checks for reloading
 	//Maybe I should delineate levels of skill for reloading, installation, and repairs?
 	//That would make it easier to differentiate between the two for skills
-	//Instead of using MT skills for these procs and TC skills for operation
+	//Instead of using MT skills for these procs and AC skills for operation
 	//Oh but wait then the MTs would be able to drive fuck that
 	var/slot = input("Select a slot to try and refill") in hardpoints
 	var/obj/item/hardpoint/apc/HP = hardpoints[slot]

@@ -143,7 +143,7 @@ var/list/be_special_flags = list(
 #define ROLES_ENGINEERING 	list("Chief Engineer","Maintenance Tech")
 #define ROLES_REQUISITION 	list("Requisitions Officer","Cargo Technician")
 #define ROLES_MEDICAL 		list("Chief Medical Officer","Doctor","Researcher")
-#define ROLES_MARINES		list("Tank Crewman","Walker Pilot","Squad Leader","Squad Specialist","Squad Smartgunner","Squad Medic","Squad Engineer","Squad Marine")
+#define ROLES_MARINES		list("Armor Crewman","Walker Operator","Squad Leader","Squad Specialist","Squad Smartgunner","Squad Medic","Squad Engineer","Squad Marine")
 #define ROLES_SQUAD_ALL		list("Alpha","Delta")
 #define ROLES_REGULAR_ALL	ROLES_OFFICERS + ROLES_ENGINEERING + ROLES_REQUISITION + ROLES_MEDICAL + ROLES_MARINES
 #define ROLES_UNASSIGNED	list("Squad Marine")
