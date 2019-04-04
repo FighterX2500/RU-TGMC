@@ -150,6 +150,8 @@ You are also in charge of communicating with command and letting them know about
 	comm_title = "AC"
 	paygrade = "E8"
 	flag = ROLE_TANK_OFFICER
+	supervisors = "the acting commander"
+	selection_color = "#ddddff"
 	total_positions = 2
 	spawn_positions = 2
 	access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_TANK)
@@ -179,6 +181,8 @@ Your authority is limited to your own vehicle, where you have authority over the
 	comm_title = "WO"
 	paygrade = "E8"
 	flag = ROLE_MECH_OFFICER
+	supervisors = "the acting commander"
+	selection_color = "#ddddff"
 	total_positions = 1
 	spawn_positions = 1
 	access = list(ACCESS_IFF_MARINE, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_DROPSHIP, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_WALKER)
