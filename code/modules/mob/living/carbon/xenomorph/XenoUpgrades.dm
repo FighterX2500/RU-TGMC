@@ -145,7 +145,7 @@ proc/initialize_upgrades()
 /mob/living/carbon/Xenomorph/proc/upgrade_hive()
 	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
 		if(hivenumber && hivenumber <= hive_datum.len)
-			X.maxHealth = round(maxHealth * 8 / 7)
+			X.maxHealth = round(X.maxHealth * 8 / 7)
 	hive_datum[hivenumber].baff_hp = hive_datum[hivenumber].baff_hp * 8/7
 
 /datum/upgrade/hive2
