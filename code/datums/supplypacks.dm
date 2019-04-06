@@ -840,7 +840,7 @@ APC Hardpoint Modules (and their ammo)
 	group = "APC Hardpoint Modules"
 
 /datum/supply_packs/dual_cannon_ammo
-	name = "M78 Dual Ñannon Magazines (x6)"
+	name = "M78 Dual Cannon Magazines (x6)"
 	contains = list(
 					/obj/item/ammo_magazine/apc/dual_cannon,
 					/obj/item/ammo_magazine/apc/dual_cannon,
