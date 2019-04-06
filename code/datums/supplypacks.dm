@@ -758,9 +758,8 @@ HARDPOINT MODULES (and their ammo)
 	group = "Tank Hardpoint Modules"
 
 /datum/supply_packs/tank_slauncher_ammo
-	name = "M75 Smoke Deploy System Magazines (x3)"
+	name = "M75 Smoke Deploy System Magazines (x2)"
 	contains = list(
-					/obj/item/ammo_magazine/tank/tank_slauncher,
 					/obj/item/ammo_magazine/tank/tank_slauncher,
 					/obj/item/ammo_magazine/tank/tank_slauncher
 					)
