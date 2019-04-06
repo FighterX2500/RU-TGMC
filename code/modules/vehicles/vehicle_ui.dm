@@ -143,8 +143,6 @@
 		ui.set_auto_update(1)
 
 
-
-
 /obj/vehicle/multitile/root/cm_armored/tank/Topic(href, href_list)
 
 	if(usr.is_mob_incapacitated())
@@ -166,7 +164,6 @@
 		if (href_list["crew"])
 			var/selected = text2num(href_list["crew"])
 			crew_interaction(selected)
-
 
 		ui_interact(usr) //updates the nanoUI window
 
@@ -209,8 +206,6 @@
 
 	if(isliving(M))
 		M.set_interaction(src)
-
-
 
 /obj/vehicle/multitile/root/cm_armored/proc/reload_wep(var/selected)
 
