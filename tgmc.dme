@@ -1465,6 +1465,7 @@
 #include "code\modules\vehicles\train.dm"
 #include "code\modules\vehicles\vehicle.dm"
 #include "code\modules\vehicles\vehicle_interior.dm"
+#include "code\modules\vehicles\vehicle_ui.dm"
 #include "code\modules\vehicles\walker.dm"
 #include "interface\interface.dm"
 #include "interface\skin.dmf"

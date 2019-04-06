@@ -1284,10 +1284,10 @@
 
 /obj/item/book/manual/tank_manual
 
-	name = "USCM Armored vehicles Guide For Dummies"
+	name = "USCM Armored vehicles Guide For Dummies. Updated"
 	icon_state = "bookTank"
 	author = "USCM Tech Division"
-	title = "USCM Armored Vehicles Manual"
+	title = "USCM Armored Vehicles Manual. Revision 2"
 
 	dat = {"<html>
 				<head>
@@ -1312,6 +1312,7 @@
 					<li><a href="#Support">Support Modules</a></li>
 					<li><a href="#Armor">Tank Armor</a></li>
 					<li><a href="#Treads">Treads</a></li>
+					<li><a href="#Updates">New Features</a></li>
 					<li><a href="#Tips_1">Tips For Rookies</a></li>
 					<li><a href="#Part_2">Part 2: The APC</a></li>
 					<li><a href="#Part_1_ru">Часть ПерваЯ: Танк</a></li>
@@ -1321,6 +1322,7 @@
 					<li><a href="#Support_ru">Вспомогательные Модули</a></li>
 					<li><a href="#Armor_ru">ТанковаЯ БронЯ</a></li>
 					<li><a href="#Treads_ru">Траки</a></li>
+					<li><a href="#Updates_ru">Новые Особенности</a></li>
 					<li><a href="#Tips_1_ru">Советы ДлЯ Новичков</a></li>
 					<li><a href="#Part_2_ru">Часть 2: БТР</a></li>
 				</ol><br>
@@ -1395,6 +1397,10 @@
 				<h1><a name="Treads"><B>Treads</B></a></h1>
 				<li><I>M2 Tank Treads.</I> 1RW. Standard tank treads. Suprisingly, greatly improves vehicle moving speed.</li>
 				<li><I>M2-R Tank Treads.</I> 3RW. Heavily reinforced tank treads. Three times heavier but can endure more damage. Has special protective layer akin to M70 armor.</li><BR><BR>
+
+				<h1><a name="Updates"><B>New Features</B></a></h1>
+				<li>Engineers updated operating systems of the M46 with more sophisticated software. Introducing: User Interface. By hitting new "Activate UI" button, UI window will startup.</li>
+				<li>Attention! System is yet to be fully tested, please, report any problems during operation to USCM Tech Division.</li>
 
 				<h1><a name="Tips_1"><B>Tips For Rookies</B></a></h1>
 				<h3><B>Tips for both:</B></a></h3>
@@ -1481,6 +1487,10 @@
 				<h1><a name="Treads_ru"><B>Траки</B></a></h1>
 				<li><I>M2 Tank Treads.</I> 1RW. Стандартные траки. Удивительным образом благоприЯтно сказываютсЯ на скорости танкаю.</li>
 				<li><I>M2-R Tank Treads.</I> 3RW. Укрепленные траки. В три раза тЯжеле стандартных, однако значительно крепче. Присутствует слой схожего с покрытием брони М70.</li><BR><BR>
+
+				<h1><a name="Updates_ru"><B>Новые Особенности</B></a></h1>
+				<li>Инженеры обновили системы М46 и установили улучшенное программное обеспечение. ПредставлЯем: Пользовательский Интерфейс. Теперь при нажатии новой кнопки "ACtivate UI" откроется окно пользовательского интерфейса.</li>
+				<li>Внимание! Функционал системы не был протестирован полностью, сообщайте об ошибках в Технический Отдел ОШКМП.</li>
 
 				<h1><a name="Tips_1_ru"><B>Советы ДлЯ новичков</B></a></h1>
 				<h3><B>Советы обоим танкистам:</B></a></h3>

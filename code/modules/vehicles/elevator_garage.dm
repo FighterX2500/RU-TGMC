@@ -131,8 +131,6 @@
 				M.icon_state = "gear"
 
 
-
-
 // ------------ terminal for ordering vehicles -----------------//
 
 
