@@ -1939,6 +1939,7 @@ All of the hardpoints, for the tank and APC
 /obj/item/ammo_magazine/apc/flare_launcher
 	name = "M9 Flare Launcher System Magazine"
 	desc = "A flare launcher system magazine"
+	color = "#E9967A"
 	caliber = "flare"
 	icon_state = "slauncher_1"
 	w_class = 12
@@ -1950,6 +1951,7 @@ All of the hardpoints, for the tank and APC
 
 	update_icon()
 		icon_state = "slauncher_[current_rounds <= 0 ? "0" : "1"]"
+
 ////////////////
 // USCM // END
 ////////////////
