@@ -14,10 +14,6 @@
 
 /obj/vehicle/multitile/root/cm_armored/tank/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 0)
 
-	if(usr != gunner && usr != driver)
-		ui.close()
-		return
-
 	var/obj/item/hardpoint/tank/HP1 = hardpoints[HDPT_ARMOR]
 	var/obj/item/hardpoint/tank/HP2 = hardpoints[HDPT_TREADS]
 	var/obj/item/hardpoint/tank/HP3 = hardpoints[HDPT_SUPPORT]
