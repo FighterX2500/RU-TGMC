@@ -52,7 +52,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 	var/next_move = 0
 
 	//smoke deploy system
-	var/smoke_ammo_max = 10		//one use consumes 2 smoke nades, so always put even number
+	var/smoke_ammo_max = 12		//one use consumes 2 smoke nades, so always put even number
 	var/smoke_ammo_current = 0
 	var/smoke_next_use
 	var/obj/item/hardpoint/tank/support/smoke_launcher/SML	//literally inbuilt smoke launcher.

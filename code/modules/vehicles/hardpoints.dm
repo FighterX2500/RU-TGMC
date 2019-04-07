@@ -1290,8 +1290,8 @@ All of the hardpoints, for the tank and APC
 	icon_state = "slauncher_1"
 	w_class = 12
 	default_ammo = /datum/ammo/grenade_container/smoke
-	current_rounds = 10
-	max_rounds = 10
+	current_rounds = 12
+	max_rounds = 12
 	point_cost = 0
 	gun_type = /obj/item/hardpoint/tank/support/smoke_launcher
 
@@ -1340,6 +1340,11 @@ All of the hardpoints, for the tank and APC
 	gun_type = /obj/item/hardpoint/tank/secondary/grenade_launcher/upp
 	point_cost = 0
 	color = "#c2b678"
+
+/obj/item/ammo_magazine/tank/tank_slauncher/upp
+	point_cost = 0
+	color = "#c2b678"
+
 ///////////////
 // AMMO MAGS // END
 ///////////////
@@ -1934,6 +1939,7 @@ All of the hardpoints, for the tank and APC
 /obj/item/ammo_magazine/apc/flare_launcher
 	name = "M9 Flare Launcher System Magazine"
 	desc = "A flare launcher system magazine"
+	color = "#E9967A"
 	caliber = "flare"
 	icon_state = "slauncher_1"
 	w_class = 12
@@ -1945,6 +1951,7 @@ All of the hardpoints, for the tank and APC
 
 	update_icon()
 		icon_state = "slauncher_[current_rounds <= 0 ? "0" : "1"]"
+
 ////////////////
 // USCM // END
 ////////////////

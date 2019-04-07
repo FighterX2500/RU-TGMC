@@ -85,19 +85,13 @@ proc/initialize_upgrades()
 	name = "Quickened Evolution"
 	cost = 6
 	which_castes = list(
-						/mob/living/carbon/Xenomorph/Carrier,
 						/mob/living/carbon/Xenomorph/Drone,
-						/mob/living/carbon/Xenomorph/Hivelord,
 						/mob/living/carbon/Xenomorph/Hunter,
 						/mob/living/carbon/Xenomorph/Praetorian,
-						/mob/living/carbon/Xenomorph/Ravager,
 						/mob/living/carbon/Xenomorph/Runner,
 						/mob/living/carbon/Xenomorph/Sentinel,
 						/mob/living/carbon/Xenomorph/Spitter,
 						/mob/living/carbon/Xenomorph/Warrior,
-						/mob/living/carbon/Xenomorph/Queen,
-						/mob/living/carbon/Xenomorph/Boiler,
-						/mob/living/carbon/Xenomorph/Crusher,
 						/mob/living/carbon/Xenomorph/Drone
 					)
 	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_jelly
@@ -151,11 +145,11 @@ proc/initialize_upgrades()
 /mob/living/carbon/Xenomorph/proc/upgrade_hive()
 	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
 		if(hivenumber && hivenumber <= hive_datum.len)
-			X.maxHealth = round(maxHealth * 8 / 7)
+			X.maxHealth = round(X.maxHealth * 8 / 7)
 	hive_datum[hivenumber].baff_hp = hive_datum[hivenumber].baff_hp * 8/7
 
 /datum/upgrade/hive2
-	name = "Hive Upgrades HP"
+	name = "Hive Upgrades Armor"
 	cost = 6
 	which_castes = list(
 						/mob/living/carbon/Xenomorph/Queen,
@@ -237,7 +231,7 @@ proc/get_upgrade_by_u_tag(var/u_tag)
 				if(!has_upgrade(U.u_tag))
 					upgrade_to_pick += U.name
 					text_helps += "[U.name]:<br>  [U.helptext]<br>"
-	if(!upgrade_to_pick)
+	if(!text_helps)
 		return
 	upgrade_to_pick += "Help"
 	var/upgradepick = input("You are growing into beautiful alien! Mommy will be proud!") as null|anything in upgrade_to_pick
