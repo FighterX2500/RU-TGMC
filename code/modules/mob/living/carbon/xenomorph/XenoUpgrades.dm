@@ -26,6 +26,7 @@ proc/initialize_upgrades()
 	cost = 6
 	which_castes = list(
 						/mob/living/carbon/Xenomorph/Carrier,
+						/mob/living/carbon/Xenomorph/Defiler,
 						/mob/living/carbon/Xenomorph/Drone,
 						/mob/living/carbon/Xenomorph/Hivelord,
 						/mob/living/carbon/Xenomorph/Hunter,
@@ -57,6 +58,7 @@ proc/initialize_upgrades()
 	cost = 6
 	which_castes = list(
 						/mob/living/carbon/Xenomorph/Carrier,
+						/mob/living/carbon/Xenomorph/Defiler,
 						/mob/living/carbon/Xenomorph/Drone,
 						/mob/living/carbon/Xenomorph/Hivelord,
 						/mob/living/carbon/Xenomorph/Hunter,
@@ -110,6 +112,7 @@ proc/initialize_upgrades()
 	cost = 6
 	which_castes = list(
 						/mob/living/carbon/Xenomorph/Carrier,
+						/mob/living/carbon/Xenomorph/Defiler,
 						/mob/living/carbon/Xenomorph/Drone,
 						/mob/living/carbon/Xenomorph/Hivelord,
 						/mob/living/carbon/Xenomorph/Hunter,
