@@ -848,6 +848,12 @@ var/list/apc_dmg_distributions = list(
 		CA.take_damage_type(5, "blunt", wR)
 		step_away(wR,root,0)
 		playsound(wR, 'sound/effects/metal_crash.ogg', 35)
+	else if (istype(A, /obj/structure/walker_wreckage))
+		var/obj/structure/walker_wreckage/wR = A
+		wR.visible_message("<span class='danger'>[root] smashes into [wR]!</span>")
+		CA.take_damage_type(5, "blunt", wR)
+		step_away(wR,root,0)
+		playsound(wR, 'sound/effects/metal_crash.ogg', 35)
 
 	healthcheck()
 

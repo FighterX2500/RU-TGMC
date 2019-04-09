@@ -1074,6 +1074,12 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 		wR.visible_message("<span class='danger'>[root] crushes [wR]!</span>")
 		playsound(wR, 'sound/effects/metal_crash.ogg', 35)
 		qdel(wR)
+	else if (istype(A, /obj/structure/walker_wreckage))
+		var/obj/structure/walker_wreckage/wR = A
+		wR.visible_message("<span class='danger'>[root] crushes [wR]!</span>")
+		playsound(wR, 'sound/effects/metal_crash.ogg', 35)
+		qdel(wR)
+
 
 	healthcheck()
 
