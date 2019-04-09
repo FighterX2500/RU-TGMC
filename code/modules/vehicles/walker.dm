@@ -28,12 +28,12 @@
 	var/acid_process_cooldown = null
 	var/list/dmg_multipliers = list(
 		"all" = 1.0, //for when you want to make it invincible
-		"acid" = 1.5,
-		"slash" = 0.9,
-		"bullet" = 0.4,
+		"acid" = 0.9,
+		"slash" = 0.6,
+		"bullet" = 0.2,
 		"explosive" = 5.0,
 		"blunt" = 0.1,
-		"energy" = 1.4,
+		"energy" = 1.0,
 		"abstract" = 1.0) //abstract for when you just want to hurt it
 
 	var/max_angle = 45
@@ -106,6 +106,10 @@
 			door.open()
 		else
 			flick("door_deny", door)
+
+	else if(ishuman(obstacle))
+		step_away(obstacle, src, 0)
+		return
 
 //Breaking stuff
 	else if(istype(obstacle, /obj/structure/fence))
@@ -188,7 +192,7 @@
 	to_chat(user, "Access denied.")
 
 /obj/vehicle/walker/proc/operation_allowed(obj/item/card/id/I)
-	if(istype(I) && I.access && ACCESS_MARINE_TANK in I.access)
+	if(istype(I) && I.access && ACCESS_MARINE_WALKER in I.access)
 		return TRUE
 	return FALSE
 
@@ -595,7 +599,7 @@
 	equip_state = "mech-flam"
 	fire_sound = 'sound/weapons/gun_flamethrower2.ogg'
 	magazine_type = /obj/item/ammo_magazine/walker/flamer
-	var/burnlevel = 24
+	var/burnlevel = 40
 	var/burntime = 17
 	var/max_range = 4
 	fire_delay = 30
@@ -616,6 +620,7 @@
 		addtimer(CALLBACK(src, .proc/handle_delay), fire_delay)
 	var/list/turf/turfs = getline2(owner,target)
 	playsound(owner, fire_sound, 50, 1)
+	ammo.current_rounds--
 	var/distance = 1
 	var/turf/prev_T
 
@@ -631,7 +636,6 @@
 			break
 		if(prev_T && LinkPreBlocksFire(prev_T, T))
 			break
-		ammo.current_rounds--
 		flame_turf(T,owner.pilot, burntime, burnlevel)
 		if(PostBlocksFire(T))
 			break

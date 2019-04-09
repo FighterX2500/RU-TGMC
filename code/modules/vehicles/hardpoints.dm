@@ -83,7 +83,7 @@ All of the hardpoints, for the tank and APC
 
 	to_chat(user, "<span class='notice'>Installing \the [A] in \the [owner].</span>")
 
-	if(!do_after(user, 10))
+	if(!do_after(user, 10, TRUE, 2, show_busy_icon = TRUE))
 		to_chat(user, "<span class='warning'>Something interrupted you while reloading [owner].</span>")
 		return 0
 
@@ -93,6 +93,8 @@ All of the hardpoints, for the tank and APC
 	if (clips.len == 0)
 		user.visible_message("<span class='notice'>You hear clanking as \the [A] is getting automatically loaded into \the weapon.</span>")
 		playsound(src, 'sound/weapons/gun_mortar_unpack.ogg', 40, 1)
+	else
+		playsound(src, 'sound/machines/hydraulics_1.ogg', 40, 1)
 	clips += A
 	return 1
 
@@ -1288,8 +1290,8 @@ All of the hardpoints, for the tank and APC
 	icon_state = "slauncher_1"
 	w_class = 12
 	default_ammo = /datum/ammo/grenade_container/smoke
-	current_rounds = 10
-	max_rounds = 10
+	current_rounds = 12
+	max_rounds = 12
 	point_cost = 0
 	gun_type = /obj/item/hardpoint/tank/support/smoke_launcher
 
@@ -1338,6 +1340,11 @@ All of the hardpoints, for the tank and APC
 	gun_type = /obj/item/hardpoint/tank/secondary/grenade_launcher/upp
 	point_cost = 0
 	color = "#c2b678"
+
+/obj/item/ammo_magazine/tank/tank_slauncher/upp
+	point_cost = 0
+	color = "#c2b678"
+
 ///////////////
 // AMMO MAGS // END
 ///////////////
@@ -1399,7 +1406,7 @@ All of the hardpoints, for the tank and APC
 
 	to_chat(user, "<span class='notice'>Installing \the [A] in \the [owner].</span>")
 
-	if(!do_after(user, 10))
+	if(!do_after(user, 10, TRUE, 2, show_busy_icon = TRUE))
 		to_chat(user, "<span class='warning'>Something interrupted you while reloading [owner].</span>")
 		return 0
 
@@ -1409,6 +1416,8 @@ All of the hardpoints, for the tank and APC
 	if (clips.len == 0)
 		user.visible_message("<span class='notice'>You hear clanking as \the [A] is getting automatically loaded into \the weapon.</span>")
 		playsound(src, 'sound/weapons/gun_mortar_unpack.ogg', 40, 1)
+	else
+		playsound(src, 'sound/machines/hydraulics_1.ogg', 40, 1)
 	clips += A
 	return 1
 
@@ -1529,10 +1538,37 @@ All of the hardpoints, for the tank and APC
 		var/obj/item/projectile/P = new
 		P.generate_bullet(new A.default_ammo)
 		P.fire_at(T, owner, src, P.ammo.max_range, P.ammo.shell_speed)
-		//playsound(get_turf(src), 'sound/weapons/tank_autocannon_fire1.ogg', 60, 1)
+		playsound(get_turf(src), 'sound/weapons/tank_autocannon_fire1.ogg', 60, 1)
 		A.current_rounds--
 
+////////////////////
+// USCM // END
+////////////////////
+// UPP // START
+////////////////////
+/obj/item/hardpoint/apc/primary/dual_cannon/upp
+	name = "Type 60 \"Dvustvolka\""
+	desc = "A primary 45mm dual cannon for BTR."
+	color = "#c2b678"
 
+	point_cost = 0
+
+	ammo_type = new /obj/item/ammo_magazine/apc/dual_cannon/upp
+
+	active_effect(var/turf/T)
+		var /obj/item/ammo_magazine/apc/dual_cannon/upp/A = clips[1]
+		if(A == null || A.current_rounds <= 0)
+			to_chat(usr, "<span class='warning'>No ammo. Reloading is required.</span>")
+			return
+
+		next_use = world.time + owner.cooldowns["primary"] * owner.misc_ratios["prim_cool"]
+		if(!prob(owner.accuracies["primary"] * 100 * owner.misc_ratios["prim_acc"]))
+			T = get_step(T, pick(cardinal))
+		var/obj/item/projectile/P = new
+		P.generate_bullet(new A.default_ammo)
+		P.fire_at(T, owner, src, P.ammo.max_range, P.ammo.shell_speed)
+		playsound(get_turf(src), 'sound/weapons/tank_autocannon_fire1.ogg', 60, 1)
+		A.current_rounds--
 ////////////////////
 // PRIMARY SLOTS // END
 ////////////////////
@@ -1575,6 +1611,36 @@ All of the hardpoints, for the tank and APC
 	active_effect(var/turf/T)
 
 		var /obj/item/ammo_magazine/apc/front_cannon/A = clips[1]
+		if(A == null || A.current_rounds <= 0)
+			to_chat(usr, "<span class='warning'>No ammo. Reloading is required.</span>")
+			return
+
+		next_use = world.time + owner.cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
+		if(!prob(owner.accuracies["secondary"] * 100 * owner.misc_ratios["secd_acc"]))
+			T = get_step(T, pick(cardinal))
+		var/obj/item/projectile/P = new
+		P.generate_bullet(new A.default_ammo)
+		P.fire_at(T, owner, src, P.ammo.max_range, P.ammo.shell_speed)
+		playsound(get_turf(src), pick(list('sound/weapons/gun_smartgun1.ogg', 'sound/weapons/gun_smartgun2.ogg', 'sound/weapons/gun_smartgun3.ogg')), 60, 1)
+		A.current_rounds--
+/////////////////////
+// USCM // END
+/////////////////////
+// UPP // START
+/////////////////////
+
+/obj/item/hardpoint/apc/secondary/front_cannon/upp
+	name = "Type 08 \"Minipushka\""
+	desc = "A secondary frontal cannon for BTR."
+	color = "#c2b678"
+
+	point_cost = 0
+
+	ammo_type = new /obj/item/ammo_magazine/apc/front_cannon/upp
+
+	active_effect(var/turf/T)
+
+		var /obj/item/ammo_magazine/apc/front_cannon/upp/A = clips[1]
 		if(A == null || A.current_rounds <= 0)
 			to_chat(usr, "<span class='warning'>No ammo. Reloading is required.</span>")
 			return
@@ -1685,6 +1751,77 @@ All of the hardpoints, for the tank and APC
 		else if(clips[1] == null || A.current_rounds <= 0) icon_state_suffix = "2"
 
 		return image(icon = "[disp_icon]_[icon_suffix]", icon_state = "[disp_icon_state]_[icon_state_suffix]", pixel_x = x_offset, pixel_y = y_offset)
+////////////////////
+// USCM // END
+////////////////////
+// UPP // START
+////////////////////
+
+/obj/item/hardpoint/apc/support/flare_launcher/upp
+	name = "Type 67 \"Bengalskiy Ogon\""
+	desc = "Launches flares forward light up the area."
+	color = "#c2b678"
+
+	point_cost = 0
+
+	ammo_type = new /obj/item/ammo_magazine/apc/flare_launcher/upp
+
+	active_effect(var/turf/T)
+
+		var/obj/item/ammo_magazine/apc/flare_launcher/upp/A = clips[1]
+		if(A == null || A.current_rounds <= 0)
+			to_chat(usr, "<span class='warning'>No ammo. Reloading is required.</span>")
+			return
+
+		var/turf/F
+		var/turf/S
+		var/right_dir
+		var/left_dir
+		F = get_step(owner.loc, owner.dir)
+		F = get_step(F, owner.dir)
+		F = get_step(F, owner.dir)
+		F = get_step(F, owner.dir)
+		F = get_step(F, owner.dir)
+		F = get_step(F, owner.dir)
+		F = get_step(F, owner.dir)
+		left_dir = turn(owner.dir, -90)
+		S = get_step(F, left_dir)
+		S = get_step(S, left_dir)
+		S = get_step(S, left_dir)
+		right_dir = turn(owner.dir, 90)
+		F = get_step(F, right_dir)
+		F = get_step(F, right_dir)
+		F = get_step(F, right_dir)
+
+
+		next_use = world.time + owner.cooldowns["support"] * owner.misc_ratios["support"]
+		var/obj/item/projectile/P = new
+		P.generate_bullet(new A.default_ammo)
+		P.fire_at(F, owner, src, 8, P.ammo.shell_speed)
+		playsound(get_turf(src), 'sound/weapons/gun_flare.ogg', 60, 1)
+		A.current_rounds--
+		sleep (10)
+		var/obj/item/projectile/G = new
+		G.generate_bullet(new A.default_ammo)
+		G.fire_at(S, owner, src, 8, G.ammo.shell_speed)
+		playsound(get_turf(src), 'sound/weapons/gun_flare.ogg', 60, 1)
+		A.current_rounds--
+
+	get_icon_image(var/x_offset, var/y_offset, var/new_dir)
+
+		var/icon_suffix = "NS"
+		var/icon_state_suffix = "0"
+
+		if(new_dir in list(NORTH, SOUTH))
+			icon_suffix = "NS"
+		else if(new_dir in list(EAST, WEST))
+			icon_suffix = "EW"
+
+		var /obj/item/ammo_magazine/apc/flare_launcher/upp/A = clips[1]
+		if(health <= 0) icon_state_suffix = "1"
+		else if(clips[1] == null || A.current_rounds <= 0) icon_state_suffix = "2"
+
+		return image(icon = "[disp_icon]_[icon_suffix]", icon_state = "[disp_icon_state]_[icon_state_suffix]", pixel_x = x_offset, pixel_y = y_offset)
 
 ///////////////////
 // SUPPORT SLOTS // END
@@ -1742,6 +1879,18 @@ All of the hardpoints, for the tank and APC
 	src.health = q_health //We repaired it to 25%, good job
 
 	. = ..()
+//////////////////
+// USCM // END
+//////////////////
+// UPP // START
+//////////////////
+
+/obj/item/hardpoint/apc/wheels/upp
+	name = "Type 06 Nabor Kolyos BTR"
+	desc = "Standard armored BTR wheels. Suprisingly, greatly improves vehicle moving speed."
+	color = "#c2b678"
+
+	point_cost = 0
 
 /////////////////
 // WHEELS SLOTS // END
@@ -1790,6 +1939,7 @@ All of the hardpoints, for the tank and APC
 /obj/item/ammo_magazine/apc/flare_launcher
 	name = "M9 Flare Launcher System Magazine"
 	desc = "A flare launcher system magazine"
+	color = "#E9967A"
 	caliber = "flare"
 	icon_state = "slauncher_1"
 	w_class = 12
@@ -1801,6 +1951,39 @@ All of the hardpoints, for the tank and APC
 
 	update_icon()
 		icon_state = "slauncher_[current_rounds <= 0 ? "0" : "1"]"
+
+////////////////
+// USCM // END
+////////////////
+// UPP // START
+////////////////
+
+/obj/item/ammo_magazine/apc/dual_cannon/upp
+	name = "Type 60 \"Dvustvolka\" Magazine"
+	desc = "A primary armament dualcannon magazine"
+	color = "#c2b678"
+
+	point_cost = 0
+	default_ammo = /datum/ammo/rocket/autocannon/upp
+	gun_type = /obj/item/hardpoint/apc/primary/dual_cannon/upp
+
+/obj/item/ammo_magazine/apc/front_cannon/upp
+	name = "Type 08 \"Minipushka\" Magazine"
+	desc = "A secondary armament cannon magazine"
+	color = "#c2b678"
+
+	point_cost = 0
+	default_ammo = /datum/ammo/bullet/front_cannon
+	gun_type = /obj/item/hardpoint/apc/secondary/front_cannon/upp
+
+
+/obj/item/ammo_magazine/apc/flare_launcher/upp
+	name = "Type 67 \"Bengalskiy Ogon\" Magazine"
+	desc = "A flare launcher system magazine"
+	color = "#c2b678"
+
+	point_cost = 0
+	gun_type = /obj/item/hardpoint/apc/support/flare_launcher/upp
 
 ///////////////
 // AMMO MAGS // END

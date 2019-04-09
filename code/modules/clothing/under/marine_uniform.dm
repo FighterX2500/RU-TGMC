@@ -105,7 +105,7 @@
 	..()
 
 /obj/item/clothing/under/marine/officer/tanker
-	name = "tank crewman officer uniform"
+	name = "armor crewman uniform"
 	desc = "A standard-issue, kevlar-weaved, hazmat-tested, EMF-augmented fatigues worth of a tankman. Do the corps proud."
 	icon_state = "marine_tanker"
 

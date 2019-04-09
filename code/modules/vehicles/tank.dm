@@ -32,7 +32,7 @@
 /obj/effect/multitile_spawner/cm_armored/tank/New()
 
 	var/obj/vehicle/multitile/root/cm_armored/tank/R = new(src.loc)
-	R.dir = EAST
+	R.dir = WEST
 
 	var/datum/coords/dimensions = new
 	dimensions.x_pos = width
@@ -43,7 +43,7 @@
 
 	//Entrance relative to the root object. The tank spawns with the root centered on the marker
 	var/datum/coords/entr_mark = new
-	entr_mark.x_pos = -2
+	entr_mark.x_pos = 2
 	entr_mark.y_pos = 0
 
 	R.load_hitboxes(dimensions, root_pos)
@@ -163,6 +163,27 @@
 	R.healthcheck()
 
 	del(src)
+
+/obj/vehicle/multitile/root/cm_armored/tank/Destroy()
+	if(gunner)
+		var/mob/living/carbon/M = gunner
+		gunner.forceMove(src.loc)
+		gunner.unset_interaction()
+		gunner = null
+		log_admin("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+		message_admins("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+		M.gib()
+	if(driver)
+		var/mob/living/carbon/M = driver
+		driver.forceMove(src.loc)
+		driver.unset_interaction()
+		driver = null
+		log_admin("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+		message_admins("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+		M.gib()
+
+	. = ..()
+
 
 //For the tank, start forcing people out if everything is broken
 /obj/vehicle/multitile/root/cm_armored/tank/handle_all_modules_broken()
@@ -286,10 +307,10 @@
 	if(!named)
 		src.name += " \"[nickname]\""
 	else
-		to_chat(usr, "<span class='warning'>Other TC was quicker! Tank already was named!</span>")
+		to_chat(usr, "<span class='warning'>Other AC was quicker! Tank already was named!</span>")
 	named = TRUE
 
-//Let's you switch into the other seat, doesn't work if it's occupied
+//Let's you switch into the other seat, if someone is another seat they will be asked if they are agree to switch
 /obj/vehicle/multitile/root/cm_armored/tank/verb/switch_seats()
 	set name = "Swap Seats"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
@@ -303,7 +324,7 @@
 	//Using a list of mobs for driver and gunner might make this code look better
 	//But all of the other code about those two would look like shit
 
-	//Added mechanic for switching seats when both TCs are in the tank, that will take twice more time and will work only if another TC agrees.
+	//Added mechanic for switching seats when both TCs are in the tank, that will take twice more time and will work only if another AC agrees.
 	if(usr == gunner)
 		if(driver)
 			answer = alert(driver, "Your gunner offers you to swap seats.", , "Yes", "No")
@@ -425,6 +446,8 @@
 	targ.forceMove(entrance.loc)
 	targ.unset_interaction()
 	targ.KnockDown(7, 1)
+	log_admin("[M]([M.client ? M.client.ckey : "disconnected"]) dragged [targ]([targ.client ? targ.client.ckey : "disconnected"]) from the [name].")
+	message_admins("[M]([M.client ? M.client.ckey : "disconnected"]) dragged [targ]([targ.client ? targ.client.ckey : "disconnected"]) from the [name].")
 
 
 //Two seats, gunner and driver
@@ -493,9 +516,9 @@
 			M.Move(src)
 			deactivate_binos(gunner)
 			if(loc_check == entrance.loc)
-				to_chat(M, "<span class='notice'>You enter the driver's seat.</span>")
+				to_chat(M, "<span class='notice'>You enter the gunner's seat.</span>")
 			else
-				to_chat(M, "<span class='notice'>You climb onto the tank and enter the driver's seat through an auxiliary top hatchet.</span>")
+				to_chat(M, "<span class='notice'>You climb onto the tank and enter the gunner's seat through an auxiliary top hatchet.</span>")
 			M.set_interaction(src)
 			if(M.client)
 				M.client.mouse_pointer_icon = file("icons/mecha/mecha_mouse.dmi")
@@ -515,6 +538,10 @@
 		return
 
 	to_chat(M, "<span class='notice'>You start climbing out of [src].</span>")
+
+	if(tile_blocked_check(entrance.loc))
+		to_chat(M, "<span class='notice'>Something is blocking you from exiting.</span>")
+		return
 
 	occupant_exiting = 1
 	sleep(50)
@@ -608,4 +635,4 @@
 	if(isliving(A))
 		var/mob/living/M = A
 		var/obj/vehicle/multitile/root/cm_armored/tank/T
-		log_attack("[T ? T.driver : "Someone"] drove over [M] with [root]")
+		log_attack("[T ? T.driver : "Someone"] drove over [M]([M.client ? M.client.ckey : "disconnected"]) with [root]")

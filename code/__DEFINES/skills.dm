@@ -163,6 +163,10 @@
 #define SKILL_LARGE_VEHICLE_DEFAULT 0
 #define SKILL_LARGE_VEHICLE_TRAINED 1
 
+//walker mech skills
+#define SKILL_WALKER_DEFAULT 0
+#define SKILL_WALKER_TRAINED 1
+
 ////////////////////////////////////////////////
 
 //skill-related fumble and delay times

@@ -1284,10 +1284,10 @@
 
 /obj/item/book/manual/tank_manual
 
-	name = "USCM Tank Guide For Dummies: How To Tank"
+	name = "USCM Armored vehicles Guide For Dummies. Updated"
 	icon_state = "bookTank"
 	author = "USCM Tech Division"
-	title = "USCM M46 \"Stingray\" Modular Multipurpose Tank Manual"
+	title = "USCM Armored Vehicles Manual. Revision 2"
 
 	dat = {"<html>
 				<head>
@@ -1305,40 +1305,48 @@
 				<h1><a name="Contents">Contents</a></h1>
 				<ol>
 					<li><a href="#Foreword">Author's Foreword/Предисловие</a></li>
+					<li><a href="#Part_1">Part 1: The Tank</a></li>
 					<li><a href="#General">General Information</a></li>
 					<li><a href="#Primary">Primary Weaponry</a></li>
 					<li><a href="#Secondary">Secondary Weaponry</a></li>
 					<li><a href="#Support">Support Modules</a></li>
 					<li><a href="#Armor">Tank Armor</a></li>
 					<li><a href="#Treads">Treads</a></li>
-					<li><a href="#Tips">Tips For Rookies</a></li>
+					<li><a href="#Updates">New Features</a></li>
+					<li><a href="#Tips_1">Tips For Rookies</a></li>
+					<li><a href="#Part_2">Part 2: The APC</a></li>
+					<li><a href="#Part_1_ru">Часть ПерваЯ: Танк</a></li>
 					<li><a href="#General_ru">ОбщаЯ ИнформациЯ</a></li>
 					<li><a href="#Primary_ru">Основные Оружейные Модули</a></li>
 					<li><a href="#Secondary_ru">Дополнительные Оружейные Модули</a></li>
 					<li><a href="#Support_ru">Вспомогательные Модули</a></li>
 					<li><a href="#Armor_ru">ТанковаЯ БронЯ</a></li>
 					<li><a href="#Treads_ru">Траки</a></li>
-					<li><a href="#Tips_ru">Советы ДлЯ Новичков</a></li>
+					<li><a href="#Updates_ru">Новые Особенности</a></li>
+					<li><a href="#Tips_1_ru">Советы ДлЯ Новичков</a></li>
+					<li><a href="#Part_2_ru">Часть 2: БТР</a></li>
 				</ol><br>
 
-				<h1><a name="Foreword"><U><B>HOW TO BE A GOOD TANK CREW</B></U></a></h1><BR>
+				<h1><a name="Foreword"><U><B>HOW TO BE A GOOD ARMOR CREW</B></U></a></h1><BR>
 				<I>Or: What All These "M"'s mean?</I><BR><BR>
 
-				This Technical Manual supposed to help rookie Tank Crew members (TC from here) to get the basics of M46
-				"Stingray" Modular Multipurpose Tank. In USCM Armor School you were trained on training M29 "Junior"
+				This Technical Manual supposed to help rookie Armor Crew members (AC from here) to get the basics of M46
+				"Stingray" Modular Multipurpose Tank and M580 Armored Personnel Carrier. In USCM Armor School you were trained on training M29 "Junior"
 				with standard equipment loadouts that instructors chose for you. That's not how it works during actual sector patrolling
-				and combat operations. You must decide what will you install on your combat vehicle before each operation, considering
+				and combat operations. You must decide what vehicle you will choose, what will you install on your it before each operation, considering
 				mission type, intel on possible hostiles and environment conditions in AO. This manual will help you to make a choice
 				of equipment for your first mission (hopefully, not last, we believe in you).<BR><BR>
 
-				Это Техническое Руководство послужит помощником новеньким танкистам (далее - ТС) в постигании азов работы на
-				М46 "Скат" Модульном Многоцелевом Танке. Во времЯ учебы в Бронетанковом Училище USCM вы тренировались на
+				Это Техническое Руководство послужит помощником новеньким танкистам (далее - AС) в постигании азов работы на
+				М46 "Скат" Модульном Многоцелевом Танке и М580 Бронетранспортере. Во времЯ учебы в Бронетанковом Училище USCM вы тренировались на
 				учебном М29 "Junior" со стандартными наборами оборудованиЯ, которые определЯлись вашими инструкторами. В реальных
-				условиЯх ведениЯ патрульной службы в секторе и боевых операциЯх все обстоит несколко иначе. Именно вы должны выбирать
-				оборудование длЯ установки на боевую технику перед каждой операцией, учитываЯ тип операции, данные о возможном противнике
+				условиЯх ведениЯ патрульной службы в секторе и боевых операциЯх все обстоит несколько иначе. Именно вы должны выбирать
+				какую технику вы будете использовать, оборудование длЯ установки на выбранную технику перед каждой операцией, учитываЯ тип операции, данные о возможном противнике
 				и условиЯх окружающей среды в зоне операции. Это техническое руководство поможет вам с выбором оборудованиЯ длЯ вашей
 				первой миссии (надеемсЯ, не последней).<BR><BR>
 
+				<h1><a name="Part_1"><U><B>Part 1: The Tank</B></U></a></h1><BR>
+				<I>Metal beast.</I><BR><BR>
 
 				<h1><a name="General"><B>General Information</B></a></h1>
 				<I>Important things you need to know.</I><BR><BR>
@@ -1390,12 +1398,16 @@
 				<li><I>M2 Tank Treads.</I> 1RW. Standard tank treads. Suprisingly, greatly improves vehicle moving speed.</li>
 				<li><I>M2-R Tank Treads.</I> 3RW. Heavily reinforced tank treads. Three times heavier but can endure more damage. Has special protective layer akin to M70 armor.</li><BR><BR>
 
-				<h1><a name="Tips"><B>Tips For Rookies</B></a></h1>
+				<h1><a name="Updates"><B>New Features</B></a></h1>
+				<li>Engineers updated operating systems of the M46 with more sophisticated software. Introducing: User Interface. By hitting new "Activate UI" button, UI window will startup.</li>
+				<li>Attention! System is yet to be fully tested, please, report any problems during operation to USCM Tech Division.</li>
+
+				<h1><a name="Tips_1"><B>Tips For Rookies</B></a></h1>
 				<h3><B>Tips for both:</B></a></h3>
-				<li><B>1. Anger management.</B> There will always be at least one marine yelling at you for no reason. Your other TC will sooner or later make serious mistake. Take it easy, tank needs cold head to be effective and not harmful for allies.</li>
-				<li><B>2. Team work is essential.</B> Both between you and your other TC and between tank and marine squads. Tank and infantry are supposed to cover each other's weaknesses. Keep that in mind when you will drive somewhere alone.</li>
+				<li><B>1. Anger management.</B> There will always be at least one marine yelling at you for no reason. Your other AC will sooner or later make serious mistake. Take it easy, tank needs cold head to be effective and not harmful for allies.</li>
+				<li><B>2. Team work is essential.</B> Both between you and your other AC and between tank and marine squads. Tank and infantry are supposed to cover each other's weaknesses. Keep that in mind when you will drive somewhere alone.</li>
 				<li><B>3. Panic is deadly.</B> You panic - you are done. Simple as that.</li>
-				<li><B>4. At high cost.</B> If it's clear to you that you are not getting out of this alive, take as many with you as you can. Tank Crewmans are usually killed on sight.</li>
+				<li><B>4. At high cost.</B> If it's clear to you that you are not getting out of this alive, take as many with you as you can. Armor Crewmans are usually killed on sight.</li>
 				<li><B>5. Haul ammo.</B> Magazines, fuel tanks can be attached to armor or worn instead of belt. You better do that.</li><BR><BR>
 
 				<h3><B>Gunner:</B></a></h3>
@@ -1412,11 +1424,16 @@
 				<li><B>3. Target priority.</B> Turning towards enemy with marines in the way is very bad idea, unless you have M21 Autocannon and M56 "Cupola" installed. Better keep an eye on other directions.</li>
 				<li><B>4. Crush them. Or don't.</B> Sometimes there are situations when you can and should drive over enemy. Driving over fallen marines to cover them from enemy with your armor often considered a good move, despite inflicted injures. Sometimes.</li>
 				<li><B>5. Front toward enemy.</B> Always keep tank facing enemy or direction potential enemies will come from. No exceptions.</li>
-				<li><B>6. Use binoculars.</B> They will help you to assess situation around tank better and you will be able to help gunner, by adjusting position allowing other TC to hit contacts.</li>
+				<li><B>6. Use binoculars.</B> They will help you to assess situation around tank better and you will be able to help gunner, by adjusting position allowing other AC to hit contacts.</li>
 				<li><B>7. Angles matter.</B> Remember, that tank's Primary Weaponry has only 45 degrees arc of fire. Keep that in mind, when getting into firing position.</li><BR><BR>
 				We hope this Technial Manual helped you to understand strong and weak points of M46 "Stingray" and you will serve on it for a long time.<BR>
 				Good luck, marine. Hoorah!<BR><BR>
 
+				<h1><a name="Part_2"><U><B>Part 2: The APC</B></U></a></h1><BR>
+				<I>Mobile field infirmary, ammo depot or HQ.</I><BR><BR>
+
+				<h1><a name="Part_1_ru"><U><B>Часть 1: Танк</B></U></a></h1><BR>
+				<I>Стальной зверь.</I><BR><BR>
 
 				<h1><a name="General_ru"><B>ОбщаЯ ИнформациЯ</B></a></h1>
 				<I>Важные вещи, которые необходимо знать и помнить.</I><BR><BR>
@@ -1471,7 +1488,11 @@
 				<li><I>M2 Tank Treads.</I> 1RW. Стандартные траки. Удивительным образом благоприЯтно сказываютсЯ на скорости танкаю.</li>
 				<li><I>M2-R Tank Treads.</I> 3RW. Укрепленные траки. В три раза тЯжеле стандартных, однако значительно крепче. Присутствует слой схожего с покрытием брони М70.</li><BR><BR>
 
-				<h1><a name="Tips_ru"><B>Советы ДлЯ новичков</B></a></h1>
+				<h1><a name="Updates_ru"><B>Новые Особенности</B></a></h1>
+				<li>Инженеры обновили системы М46 и установили улучшенное программное обеспечение. ПредставлЯем: Пользовательский Интерфейс. Теперь при нажатии новой кнопки "ACtivate UI" откроется окно пользовательского интерфейса.</li>
+				<li>Внимание! Функционал системы не был протестирован полностью, сообщайте об ошибках в Технический Отдел ОШКМП.</li>
+
+				<h1><a name="Tips_1_ru"><B>Советы ДлЯ новичков</B></a></h1>
 				<h3><B>Советы обоим танкистам:</B></a></h3>
 				<li><B>1. Контроль темперамента.</B> Всегда найдетсЯ морпех, который будет материтсЯ на танк без причины. Ваш напарник рано или поздно совершит серьезную ошибку. Дышите глубже, длЯ танка требуетсЯ спокойствие и сосредоточенность, иначе от него будет только вред.</li>
 				<li><B>2. Важность командной работы.</B> Как между вами, так и между танком и морпехами. Танк и пехота должны усиливать друг друга. Учитывайте это, уезжаЯ в одиночку куда-либо.</li>
@@ -1495,6 +1516,9 @@
 				<li><B>5. НаправлЯть на врага.</B> Всегда держитесь передом к противнику или направлению, откуда противник должен поЯвитсЯ.. Без исключений.</li>
 				<li><B>6. Используйте бинокль.</B> Он поможет лучше понимать ситуацию вокруг вас, а также позволит вам помогать стрелку с наводкой на противника, корректируЯ позицию танка.</li>
 				<li><B>7. Углы прицеливаниЯ.</B> Помните, что у основного орудиЯ танка сектор прицеливаниЯ равен 45 градусам. Учитывайте это при выходе на огневой рубеж.</li><BR><BR>
+
+				<h1><a name="Part_2_ru"><U><B>Часть 2: БТР</B></U></a></h1><BR>
+				<I>Мобильный полевой лазарет, склад боеприпасов или штаб.</I><BR><BR>
 
 				Мы надеемсЯ, что данной Техническое Руководство помогло вам понЯть как именно снарЯдить свой танк с учетом вашего опыта и данных по операции.<BR>
 				Удачи, морпехи. Ура и к черту!

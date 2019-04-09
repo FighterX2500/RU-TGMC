@@ -22,6 +22,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 	var/passengers_max
 	var/mob/gunner
 	var/mob/driver
+	var/mob/swap_seat
 	var/cabin_door_busy = FALSE
 	var/special_module_working = FALSE
 	var/special_module_type = null
@@ -50,7 +51,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 /obj/effect/multitile_spawner/cm_transport/apc/New()
 
 	var/obj/vehicle/multitile/root/cm_transport/apc/R = new(src.loc)
-	R.dir = EAST
+	R.dir = WEST
 
 	var/datum/coords/dimensions = new
 	dimensions.x_pos = width
@@ -62,7 +63,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 	//Entrance relative to the root object. The apc spawns with the root centered on the marker
 	var/datum/coords/entr_mark = new
 	entr_mark.x_pos = 0
-	entr_mark.y_pos = -2
+	entr_mark.y_pos = 2
 
 	R.load_hitboxes(dimensions, root_pos)
 	R.load_entrance_marker(entr_mark)
@@ -147,9 +148,71 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 
 	del(src)
 
+//Currently non-usable, pending for an answer whether I should actually implement it
+/obj/effect/multitile_spawner/cm_transport/apc/upp/New()
+
+	var/obj/vehicle/multitile/root/cm_transport/apc/R = new(src.loc)
+	R.dir = EAST
+
+	R.name = "Type 103 BTR"
+	R.desc = "Watch out! It's UPP Bronetransporter! Combat transport for delivering and supporting infantry. Entrance on the right side."
+
+	var/datum/coords/dimensions = new
+	dimensions.x_pos = width
+	dimensions.y_pos = height
+	var/datum/coords/root_pos = new
+	root_pos.x_pos = 1
+	root_pos.y_pos = 1
+
+	//Entrance relative to the root object. The apc spawns with the root centered on the marker
+	var/datum/coords/entr_mark = new
+	entr_mark.x_pos = 0
+	entr_mark.y_pos = -2
+
+	R.load_hitboxes(dimensions, root_pos)
+	R.load_entrance_marker(entr_mark)
+	R.update_icon()
+
+	//Manually adding those hardpoints
+	R.add_hardpoint(new /obj/item/hardpoint/apc/primary/dual_cannon/upp)
+	R.add_hardpoint(new /obj/item/hardpoint/apc/secondary/front_cannon/upp)
+	R.add_hardpoint(new /obj/item/hardpoint/apc/support/flare_launcher/upp)
+	R.add_hardpoint(new /obj/item/hardpoint/apc/wheels/upp)
+	R.update_damage_distribs()
+
+	R.color = "#c2b678"
+	R.healthcheck()
+
+	del(src)
+
 /obj/vehicle/multitile/root/cm_transport/apc/Destroy()
 	if(special_module_type)
 		free_modules.Add(special_module_type)
+
+	if(passengers)
+		for(var/mob/living/carbon/M in interior_area)
+			if(!M.stat)
+				M.forceMove(src.loc)
+				log_admin("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+				message_admins("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+				M.gib()
+	if(gunner)
+		var/mob/living/carbon/M = gunner
+		gunner.forceMove(src.loc)
+		gunner.unset_interaction()
+		gunner = null
+		log_admin("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+		message_admins("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+		M.gib()
+	if(driver)
+		var/mob/living/carbon/M = driver
+		driver.forceMove(src.loc)
+		driver.unset_interaction()
+		driver = null
+		log_admin("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+		message_admins("[M]([M.client ? M.client.ckey : "disconnected"]) got gibbed upon deleting [name].")
+
+		M.gib()
 
 	. = ..()
 
@@ -287,21 +350,101 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 		to_chat(M, "<span class='notice'>You move away from interior camera monitor.</span>")
 		return
 
-/*
-//Built in smoke launcher system verb.
-/obj/vehicle/multitile/root/cm_transport/apc/verb/smoke_cover()
-	set name = "Activate Smoke Deploy System"
+//Let's you switch into the other seat, doesn't work if it's occupied or gunner is not an AC
+/obj/vehicle/multitile/root/cm_transport/apc/verb/switch_seats()
+	set name = "Swap Seats"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
-	if(smoke_ammo_current)
-		to_chat(usr, "<span class='warning'>You activate Smoke Deploy System!</span>")
-		visible_message("<span class='danger'>You notice two grenades flying in front of the apc!</span>")
-		smoke_shot()
-	else
-		to_chat(usr, "<span class='warning'>Out of ammo! Reload smoke grenades magazine!</span>")
+	var/answer = alert(usr, "Are you sure you want to swap seats?", , "Yes", "No") //added confirmation window
+	if(answer == "No")
 		return
-*/
+
+	//Added mechanic for switching seats when both TCs are in the tank, that will take twice more time and will work only if another AC agrees.
+	if(usr == gunner)
+		if(!usr.mind || !(!usr.mind.cm_skills || usr.mind.cm_skills.large_vehicle >= SKILL_LARGE_VEHICLE_TRAINED))
+			to_chat(usr, "<span class='warning'>You have no idea how to drive.</span>")
+			return
+		if(driver)
+			answer = alert(driver, "Your gunner offers you to swap seats.", , "Yes", "No")
+			if(answer == "No")
+				to_chat(usr, "<span class='notice'>Driver has refused to swap seats with you.</span>")
+			else
+				to_chat(usr, "<span class='notice'>You start getting into the other seat.</span>")
+				to_chat(driver, "<span class='notice'>You start getting into the other seat.</span>")
+				sleep(60)
+				to_chat(usr, "<span class='notice'>You switch seats.</span>")
+				to_chat(driver, "<span class='notice'>You switch seats.</span>")
+				deactivate_all_hardpoints()
+
+				swap_seat = gunner
+				gunner = driver
+				if(gunner.client)
+					gunner.client.mouse_pointer_icon = file("icons/mecha/mecha_mouse.dmi")
+				driver = swap_seat
+				if(driver.client)
+					driver.client.mouse_pointer_icon = initial(driver.client.mouse_pointer_icon)
+				swap_seat = null
+				return
+
+		to_chat(usr, "<span class='notice'>You start getting into the other seat.</span>")
+
+		sleep(30)
+
+		if(driver)
+			to_chat(usr, "<span class='notice'>Someone beat you to the other seat!</span>")
+			return
+
+		to_chat(usr, "<span class='notice'>You switch seats.</span>")
+
+		deactivate_all_hardpoints()
+
+		driver = gunner
+		gunner = null
+
+		if(driver.client)
+			driver.client.mouse_pointer_icon = initial(driver.client.mouse_pointer_icon)
+	else if(usr == driver)
+		if(gunner)
+			if(!gunner.mind || !(!gunner.mind.cm_skills || gunner.mind.cm_skills.large_vehicle >= SKILL_LARGE_VEHICLE_TRAINED))
+				to_chat(usr, "<span class='warning'>Your gunner has no idea how to drive, so you stop swapping seats.</span>")
+				return
+			answer = alert(gunner, "Your driver offers you to swap seats.", , "Yes", "No")
+			if(answer == "No")
+				to_chat(usr, "<span class='notice'>Driver has refused to swap seats with you.</span>")
+			else
+				to_chat(usr, "<span class='notice'>You start getting into the other seat.</span>")
+				to_chat(gunner, "<span class='notice'>You start getting into the other seat.</span>")
+				sleep(60)
+				to_chat(usr, "<span class='notice'>You switch seats.</span>")
+				to_chat(gunner, "<span class='notice'>You switch seats.</span>")
+				deactivate_all_hardpoints()
+
+				swap_seat = gunner
+				gunner = driver
+				deactivate_binos(gunner)
+				if(gunner.client)
+					gunner.client.mouse_pointer_icon = file("icons/mecha/mecha_mouse.dmi")
+				driver = swap_seat
+				if(driver.client)
+					driver.client.mouse_pointer_icon = initial(driver.client.mouse_pointer_icon)
+				swap_seat = null
+				return
+		to_chat(usr, "<span class='notice'>You start getting into the other seat.</span>")
+
+		sleep(30)
+
+		if(gunner)
+			to_chat(usr, "<span class='notice'>Someone beat you to the other seat!</span>")
+			return
+
+		to_chat(usr, "<span class='notice'>You switch seats.</span>")
+
+		gunner = driver
+		driver = null
+		deactivate_binos(gunner)
+		if(gunner.client)
+			gunner.client.mouse_pointer_icon = file("icons/mecha/mecha_mouse.dmi")
 
 //Naming done right
 /obj/vehicle/multitile/root/cm_transport/apc/verb/name_apc()
@@ -372,6 +515,9 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 	targ.forceMove(multitile_interior_cabin_exit.loc)
 	targ.unset_interaction()
 	targ.KnockDown(3, 1)
+	log_admin("[M]([M.client ? M.client.ckey : "disconnected"]) dragged [targ]([targ.client ? targ.client.ckey : "disconnected"]) from the [name]'s cabin.")
+	message_admins("[M]([M.client ? M.client.ckey : "disconnected"]) dragged [targ]([targ.client ? targ.client.ckey : "disconnected"]) from the [name]'s cabin.")
+
 
 //12 passengers allowed by default + TC + module role
 /obj/vehicle/multitile/root/cm_transport/apc/handle_interior_entrance(var/mob/living/carbon/M)
@@ -392,7 +538,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		var/obj/item/card/id/I = H.wear_id
-		if(I && I.rank == "Tank Crewman" && !tank_crewman_entered)
+		if(I && I.rank == "Armor Crewman" && !tank_crewman_entered)
 			new_tank_crewman_entered = TRUE
 		else
 			if(I && I.rank == module_role && !module_role_entered)
@@ -403,7 +549,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 					return
 				else
 					new_passengers++
-					to_chat(M, "<span class='debuginfo'>new passengers = [new_passengers].</span>")
+					//to_chat(M, "<span class='debuginfo'>new passengers = [new_passengers].</span>")
 	else
 		if(passengers >= passengers_max)
 			to_chat(M, "<span class='warning'>[src] is full.</span>")
@@ -416,7 +562,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 	if(M.pulling && get_dist(entrance, M.pulling) <= 1)
 		move_pulling = TRUE
 		if(isliving(M.pulling))
-			to_chat(M, "<span class='debuginfo'>M.pulling is alive.</span>")
+			//to_chat(M, "<span class='debuginfo'>M.pulling is alive.</span>")
 			var/mob/living/B = M.pulling
 			if(B.buckled)
 				to_chat(M, "<span class='warning'>You can't fit [M.pulling] on the [B.buckled] through a doorway! Try unbuckling [M.pulling] first.</span>")
@@ -425,18 +571,18 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 				to_chat(M, "<span class='warning'>Taking that leaking acid [M.pulling] inside would be a very bad idea.</span>")
 				return
 			if(ishuman(M.pulling))
-				to_chat(M, "<span class='debuginfo'>M.pulling is human</span>")
+				//to_chat(M, "<span class='debuginfo'>M.pulling is human</span>")
 				var/mob/living/carbon/human/H = M.pulling
 				var/obj/item/card/id/I = H.wear_id
-				if(I && I.rank == "Tank Crewman" && !tank_crewman_entered)
+				if(I && I.rank == "Armor Crewman" && !tank_crewman_entered)
 					new_tank_crewman_entered = TRUE
-					to_chat(M, "<span class='debuginfo'>pulling tank crewman.</span>")
+					//to_chat(M, "<span class='debuginfo'>pulling armor crewman.</span>")
 				else
 					if(I && I.rank == module_role && !module_role_entered)
 						new_module_role_entered = TRUE
-						to_chat(M, "<span class='debuginfo'>pulling [module_role].</span>")
+						//to_chat(M, "<span class='debuginfo'>pulling [module_role].</span>")
 					else
-						to_chat(M, "<span class='debuginfo'>pulling general human.</span>")
+						//to_chat(M, "<span class='debuginfo'>pulling general human.</span>")
 						if((passengers + new_passengers + 1) > passengers_max)
 							if((passengers + new_passengers) == passengers_max)
 								to_chat(M, "<span class='warning'>There is a room only for one of you.</span>")
@@ -445,7 +591,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 							return
 						else
 							new_passengers++
-							to_chat(M, "<span class='debuginfo'>new passengers = [new_passengers].</span>")
+							//to_chat(M, "<span class='debuginfo'>new passengers = [new_passengers].</span>")
 			else
 				if((passengers + new_passengers + 1) > passengers_max)
 					if((passengers + new_passengers) == passengers_max)
@@ -459,16 +605,16 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 			if((istype(M.pulling, /obj/structure) && !istype(M.pulling, /obj/structure/mortar) && !istype(M.pulling, /obj/structure/closet/bodybag) && !istype(M.pulling, /obj/structure/closet/crate)) || (istype(M.pulling, /obj/machinery) && !istype(M.pulling, /obj/machinery/m56d_post) && !istype(M.pulling, /obj/machinery/m56d_hmg)))
 				to_chat(M, "<span class='warning'>You can't fit the [M.pulling] through a doorway!</span>")
 				return
-			to_chat(M, "<span class='debuginfo'>M.pulling is object.</span>")
+			//to_chat(M, "<span class='debuginfo'>M.pulling is object.</span>")
 			var/obj/O = M.pulling
 			if(istype(O, /obj/structure/closet/bodybag))
-				to_chat(M, "<span class='debuginfo'>pulling bodybag.</span>")
+				//to_chat(M, "<span class='debuginfo'>pulling bodybag.</span>")
 				for(var/mob/living/B in O.contents)
 					if(ishuman(B))
-						to_chat(M, "<span class='debuginfo'>contains human.</span>")
+						//to_chat(M, "<span class='debuginfo'>contains human.</span>")
 						var/mob/living/carbon/human/H = B
 						var/obj/item/card/id/I = H.wear_id
-						if(I && I.rank == "Tank Crewman" && !tank_crewman_entered)
+						if(I && I.rank == "Armor Crewman" && !tank_crewman_entered)
 							new_tank_crewman_entered = TRUE
 						else
 							if(I && I.rank == module_role && !module_role_entered)
@@ -545,8 +691,8 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/obj/item/card/id/I = H.wear_id
-		if(!istype(I) || I.registered_name != H.real_name || I.rank != "Tank Crewman")
-			to_chat(H, "<span class='warning'>[src] door is locked. You need a Tank Crewman to unlock it.</span>")
+		if(!istype(I) || I.registered_name != H.real_name || I.rank != "Armor Crewman")
+			to_chat(H, "<span class='warning'>[src] door is locked. You need a Armor Crewman to unlock it.</span>")
 			special_module_type = null
 			return
 		else
@@ -630,16 +776,16 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 								var/turf/T = get_turf(locate(16,202,1))
 								interior_tcomms.tcomms_tower = locate(/obj/machinery/telecomms/relay/preset/ice_colony) in T.contents
 								if(interior_tcomms.tcomms_tower)
-									to_chat(H, "<span class='debuginfo'>relay linked.</span>")
+									//to_chat(H, "<span class='debuginfo'>relay linked.</span>")
 								else
-									to_chat(H, "<span class='debuginfo'>error: relay not found.</span>")
+									//to_chat(H, "<span class='debuginfo'>error: relay not found.</span>")
 							if(MAP_ICE_COLONY)
 								var/turf/T = get_turf(locate(18,180,1))
 								interior_tcomms.tcomms_tower = locate(/obj/machinery/telecomms/relay/preset/ice_colony) in T.contents
 								if(interior_tcomms.tcomms_tower)
-									to_chat(H, "<span class='debuginfo'>relay linked.</span>")
+									//to_chat(H, "<span class='debuginfo'>relay linked.</span>")
 								else
-									to_chat(H, "<span class='debuginfo'>error: relay not found.</span>")
+									//to_chat(H, "<span class='debuginfo'>error: relay not found.</span>")
 							if(MAP_LV_624 || MAP_PRISON_STATION)
 								to_chat(user, "<span class='notice'>Area of Operations is covered by Almayer. [src] Telecommunication equipment is disabled for this operation.</span>")
 						passengers_max = 12
@@ -647,6 +793,8 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 
 						free_modules.Remove("Command Modification")
 				fix_special_module()
+				log_admin("[user]([user.client ? user.client.ckey : "disconnected"]) selected [special_module_type] for [name].")
+				message_admins("[user]([user.client ? user.client.ckey : "disconnected"]) selected [special_module_type] for [name].")
 			else
 				to_chat(user, "<span class='danger'>APC is blocked permanently, because 3 APCs were already spawned and activated. Contact admin to delete this APC.</span>")
 				special_module_type = null
@@ -788,8 +936,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 	cabin_door_busy = TRUE
 	sleep(30)
 	cabin_door_busy = FALSE
-	var/turf/T = get_turf(interior_cabin_door)
-	T = get_step(T, WEST)
+	var/turf/T = get_turf(multitile_interior_cabin_exit)
 
 	if(M == gunner)
 		deactivate_all_hardpoints()
@@ -909,4 +1056,4 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 	if(isliving(A))
 		var/mob/living/M = A
 		var/obj/vehicle/multitile/root/cm_transport/apc/T
-		log_attack("[T ? T.driver : "Someone"] drove over [M] with [root]")
+		log_attack("[T ? key_name(T.driver) : "Someone"] drove over [key_name(M)] with [root]")
