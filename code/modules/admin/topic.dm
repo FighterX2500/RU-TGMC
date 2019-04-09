@@ -2490,15 +2490,16 @@
 	if(href_list["mark"])
 		var/mob/ref_person = locate(href_list["mark"])
 		if(!istype(ref_person))
-			to_chat(usr, "<span class='notice'>Looks like that person stopped existing!</span>")
+			to_chat(usr, "<span class='notice'>Ётот игрок куда-то пропал!</span>")
 			return
 		if(ref_person && ref_person.adminhelp_marked)
-			to_chat(usr, "<b>This Pray/Mentorhelp/Adminhelp is already being handled.</b>")
+			to_chat(usr, "<b>Ётим ахелпом уже занимаются.</b>")
 			usr << sound('sound/effects/adminhelp-error.ogg')
 			return
 
-		message_staff("[usr.key] has used 'Mark' on the Pray/Mentorhelp/Adminhelp from [key_name_admin(ref_person)] and is preparing to respond...", 1)
-		var/msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> has marked your request and is preparing to respond...</span>"
+		message_staff("[usr.key] пометил јхелп от [key_name_admin(ref_person)] и готовится ответить...", 1)
+		var/msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> пометил ваш јдминхелп и готовится ответить | Your request was marked, please wait...</span>"
+
 
 		to_chat(ref_person, msgplayer)
 
@@ -2514,15 +2515,16 @@
 	if(href_list["noresponse"])
 		var/mob/ref_person = locate(href_list["noresponse"])
 		if(!istype(ref_person))
-			to_chat(usr, "<span class='notice'>Looks like that person stopped existing!</span>")
+			to_chat(usr, "<span class='notice'>Ётот игрок куда-то пропал!</span>")
 			return
 		if(ref_person && ref_person.adminhelp_marked)
-			to_chat(usr, "<b>This Pray/Mentorhelp/Adminhelp is already being handled.</b>")
+			to_chat(usr, "<b>Ётим ахелпом уже занимаются.</b>")
 			usr << sound('sound/effects/adminhelp-error.ogg')
 			return
 
-		message_staff("[usr.key] has used 'No Response' on the Mentorhelp/Adminhelp from [key_name_admin(ref_person)]. The player has been notified that their issue 'is being handled, it's fixed, or it's nonsensical'.", 1)
-		var/msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> has received your Mentorhelp/Adminhelp and marked it as 'No response necessary'. Either your Mentorhelp/Adminhelp is being handled, it's fixed, or it's nonsensical.</font></span>"
+		message_staff("[usr.key] ѕометил ахелп игрока [key_name_admin(ref_person)] '¬мешательство не требуется'. »гроку было сказано, что его јхелп 'уже расследуют, уже решили, либо в нем нет смысла'.", 1)
+		var/msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> пометил ваш ахелп и '¬мешательство не требуется'. Ћибо его уже расследуют, решили или в нем нет смысла. | <font color=red>[usr.key]</font> marked your Adminhelp as 'No response necessary'. Either your Adminhelp is being handled, it's fixed, or it's nonsensical.</font></span>"
+
 
 		to_chat(ref_person, msgplayer)
 		ref_person << sound('sound/effects/adminhelp-error.ogg')
@@ -2539,15 +2541,15 @@
 	if(href_list["warning"])
 		var/mob/ref_person = locate(href_list["warning"])
 		if(!istype(ref_person))
-			to_chat(usr, "<span class='notice'>Looks like that person stopped existing!</span>")
+			to_chat(usr, "<span class='notice'>Ётот игрок куда-то пропал!</span>")
 			return
 		if(ref_person && ref_person.adminhelp_marked)
-			to_chat(usr, "<b>This Pray/Mentorhelp/Adminhelp is already being handled.</b>")
+			to_chat(usr, "<b>Ётим ахелпом уже занимаются.</b>")
 			usr << sound('sound/effects/adminhelp-error.ogg')
 			return
 
-		message_staff("[usr.key] has used 'Warn' on the Mentorhelp/Adminhelp from [key_name_admin(ref_person)]. The player has been warned for abusing the Adminhelp system.", 1)
-		var/msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> has given you a <font color=red>warning</font>. Mentorhelps/Adminhelps are for serious inquiries only. Please do not abuse this system.</span>"
+		message_staff("[usr.key] выдал 'ѕредупреждние' игроку [key_name_admin(ref_person)]. »грок был предупрежден о злоупотреблении системой јхелпа.", 1)
+		var/msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> выдал вам <font color=red>предупреждение</font>. за неправильное использование системы јдминхелпа. | <font color=red>[usr.key]</font> has given you a <font color=red>warning</font> for abusing Adminhelp system.</span>"
 
 		to_chat(ref_person, msgplayer)
 		ref_person << sound('sound/effects/adminhelp-error.ogg')
@@ -2565,51 +2567,89 @@
 	if(href_list["autoresponse"]) // new verb on the Ahelp.  Will tell the person their message was received, and they probably won't get a response
 		var/mob/ref_person = locate(href_list["autoresponse"])
 		if(!istype(ref_person))
-			to_chat(usr, "<span class='notice'>Looks like that person stopped existing!</span>")
+			to_chat(usr, "<span class='notice'>Ётот игрок куда-то пропал!</span>")
 			return
 		if(ref_person && ref_person.adminhelp_marked)
-			to_chat(usr, "<b>This Mentorhelp/Adminhelp is already being handled, but continue if you wish.</b>")
+			to_chat(usr, "<b>Ётим ахелпом уже занимаются, но вы можете продолжить, если считаете нужным.</b>")
 			usr << sound('sound/effects/adminhelp-error.ogg')
-			if(alert(usr, "Are you sure you want to autoreply to this marked Mentorhelp/Adminhelp?", "Confirmation", "Yes", "No") != "Yes")
+			if(alert(usr, "¬ы уверены, что хотите ответить на уже помеченный јхелп?", "ѕодтверждение", "Yes", "No") != "Yes")
 				return
 
-		var/choice = input("Which autoresponse option do you want to send to the player?\n\n L - A webpage link.\n A - An answer to a common question.", "Autoresponse", "--CANCEL--") in list ("--CANCEL--", "IC Issue", "Being Handled", "Fixed", "Thanks", "Guilty", "Find out IC-ly", "L: Xeno Quickstart Guide", "L: Marine quickstart guide", "L: Current Map", "A: No plasma regen", "A: Devour as Xeno", "J: Job bans", "E: Event in progress", "R: Radios", "M: Macros")
+		var/choice = input(" акой јвто-ответ вы хотите отправить игроку?\n\n L - —сылка.\n A - ќтвет на распространенный вопрос", "Autoresponse", "--ќ“ћ≈Ќј--") in list ("--ќ“ћ≈Ќј--", "¬нутри-»гровая —итуация", "”же ѕроверяется", "ћеры Ѕыли ѕриняты", "—пасибо", "¬иновен", "L: ѕервичное –уководство  сеноморфа", "L: ѕервичное –уководство ћорпеха", "L: Ёкипировка ћорпехов", "L: “екущая  арта", "A: Ќет –егенерации ѕлазмы", "A: ѕроглатывание «а  сеноморфа", "A: »спользование ћедэвака", "J: ƒжоб Ѕаны", "E: »дет »вент", "R: –ации", "S: ѕредохранитель", "D: ѕрисоединение ќтключено", "M: ћакросы", "IC Issue", "Being Handled", "Fixed", "Thanks", "Guilty", "L: Xeno Quickstart Guide", "L: Marine quickstart guide", "L: Current Map", "A: No plasma regen", "A: Devour as Xeno", "J: Job bans", "E: Event in progress", "R: Radios", "S: Safety", "D: Joining disabled", "M: Macros")
 
 		var/msgplayer
 		switch(choice)
+			if("¬нутри-»гровая —итуация")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. Ёто является внутри-игровой ситуацией и вмешательства со стороны администрации не требуется. ≈сли это важно, вы можете сообщить старшему по званию, если уверены, что был нарушен закон.</span>"
+			if("”же ѕроверяется")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ѕроблемой уже занимаются.</span>"
+			if("ћеры Ѕыли ѕриняты")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ћеры уже были приняты.</span>"
+			if("—пасибо")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>! ѕриятной игры!</span>"
+			if("¬иновен")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ¬ы нарушили закон.</span>"
+			if("L: ѕервичное –уководство  сеноморфа")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ќтвет на ваш вопрос может быть найден в ѕервичном –уководстве  сеноморфа. <font color='#009900'><a href='http://wiki.ss13marines.ru/index.php?title=Xeno_Quickstart_Guide'>—сылка на руководство</a></font>.</span>"
+			if("L: ѕервичное –уководство ћорпеха")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ќтвет на ваш вопрос может быть найден в ѕервичном –уководстве ћорпеха. <font color='#009900'><a href='wiki.ss13marines.ru/index.php?title=Marine_Quickstart_Guide'>—сылка на руководство</a></font>.</span>"
+			if("L: Ёкипировка ћорпехов")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ќтвет на ваш вопрос может быть найден на странице вики \"Ёкипировка ћорпехов\". <font color='#009900'><a href='http://wiki.ss13marines.ru/index.php?title=%D0%AD%D0%BA%D0%B8%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D0%BC%D0%BE%D1%80%D0%BF%D0%B5%D1%85%D0%BE%D0%B2'>—сылка на страницу</a></font>.</span>"
+			if("L: “екущая  арта")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. —сылки на карты находятся <font color='#009900'><a href='http://cm.ss13.ru/index.php'>здесь</a></font>.</span>"
+			if("A: Ќет –егенерации ѕлазмы")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ≈сли у вас не восстанавливается плазма, это значит, что вы либо находитесь вне травы ксеноморфов, либо используете переключаемые умения, расходующие плазму или препятствующие ее восстановлению, такие как Hide (—крытность) у Runner или Emit Pheromones (–аспространение ‘еромонов).</span>"
+			if("A: ѕроглатывание «а  сеноморфа")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ѕроглатывание живых существ способствует их быстрой транспортировке к яйцам. ƒля того, чтобы проглотить жертву, схватите ее (CTRL+Click) и затем нажмите на себя. ƒля того, чтобы срыгнуть жертву, нажмите кнопку 'Regurgitate' на интерфейсе слева вверху. ƒержать людей в себе можно в течении минуты, после которой вы их срыгнете, а жертве расплавит случайную конечность.</span>"
+			if("A: »спользование ћедэвака")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ћедэвак позволяет эвакуировать раненных бойцов с поля боя при условии, что над ними нет крыши или она стеклянная. ƒля проверки осмотрите тайл (SHIFT+Click). ѕоложив пациента в Medevac Stretcher таким же способом, как и на Roller Bed, нажмите правой кнопкой и нажмите Activate Medevac. „тобы забрать пациента с помощью установленного на шаттле системе медэвака, необходимо дождаться сигнала от медика, взлететь в FlyBy режиме, в консоли управления оружием шаттла выбрать систему медэвака и затем выбрать имя морпеха. «атем, необходимо пройти в салон непосредственно к самой системе медэвака и активировать ее кликом.</span>"
+			if("J: ƒжоб Ѕаны")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ¬се джоб баны, в том числе на ксеноморфов, перманентны.</span>"
+			if("E: »дет »вент")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ¬ данном раунде идет специальный ивент и некоторые вещи могут работать по-другому, однако обычные правила в силе, за исключением случаев, указанных администраторами.</span>"
+			if("R: –ации")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. –ации были изменены: теперь ; позволит говорить в канал отряда, в то время как :z дает доступ в General (ќбщий) канал. ѕолевым медикам доступен медицинский канал через :m (:ь), полевым инженерам доступен Engineering (»нденерный) через :e (:у), а Squad Leader и Acting Squad Leader ( омандир ќтряда и »сполняющий –оль  омандира ќтряда) имеют доступ к командному каналу через :v (:м). (¬ скобках указаны кириллические буквы для каналов, они также работают). ќсмотр своего наушника показывает доступные вам каналы.</span>"
+			if("S: ѕредохранитель")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <fond color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ƒля того, чтобы переключить предохранитель, используйте (ALT+Click) на оружие в вашей руке, либо Toggle Gun Safety во вкладке Weapons. ќсматривание оружия через (SHIFT+Click) покажет информацию о текущем состоянии предохранителя.</span>"
+			if("D: ѕрисоединение ќтключено")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. јдминистрация отключила присоединение, так как раунд близится к концу. ¬ы можете зайти в Observe (Ќаблюдать), чтобы посмотреть конец раунда и дождаться начала нового.</span>"
+			if("M: ћакросы")
+				msgplayer = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> воспользовался авто-ответом <font color='#009900'>'[choice]'</font>. ƒля настройки макроса, нажмите правой кнопкой на самую верхнюю часть клиента игры, выберите Clien -> Macros. —оздание макроса для unique-action позволит нормально пользоваться стандартным дробовиком морпехов; макрос на resist поможет быстрей начать сопротивляться в некоторых ситуациях. ƒля более подробной информации посетите эту <font color='#009900'><a href='http://cm.ss13.ru/index.php?title=Macros'>ссылку</a></font>.</span>"
 			if("IC Issue")
-				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. This issue has been deemed an IC (In-Character) issue, and will not be handled by staff.</span>"
+				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. This issue has been deemed an IC (In-Character) issue, and will not be handled by staff. In case it's relevant, you may wish to ask your <a href='http://wiki.ss13marines.ru/index.php?title=Rank'>Chain Of Command</a> about your issue if you believe <a href='http://wiki.ss13marines.ru/index.php?title=Marine_Law'>Marine Law</a> has been broken.</span>"
 			if("Being Handled")
 				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. The issue is already being dealt with.</span>"
 			if("Fixed")
 				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. The issue is already fixed.</span>"
 			if("Thanks")
-				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>! Have a USCM day!</b>"
+				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>! Have a DMCA day!</span>"
 			if("Guilty")
 				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. You broke Space Law.</span>"
-			if("Find out IC-ly")
-				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. Whatever your question is, you will have to find out using in-character means. The staff won't reveal anything relevant.</span>"
 			if("L: Xeno Quickstart Guide")
-				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. Your answer can be found on the Xeno Quickstart Guide. <a href='https://tgstation13.org/wiki/USCM:Xeno_Quickstart_Guide'>Check it out here.</a></b>"
+				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. Your answer can be found on the Xeno Quickstart Guide. <a href='http://cm-ss13.com/wiki/Xeno_Quickstart_Guide'>Check it out here.</a></span>"
 			if("L: Marine quickstart guide")
-				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. Your answer can be found on the Marine Quickstart Guide. <a href='https://tgstation13.org/wiki/USCM:Marine_Quickstart_Guide'>Check it out here.</a></b>"
+				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. Your answer can be found on the Marine Quickstart Guide. <a href='http://cm-ss13.com/wiki/Marine_Quickstart_Guide'>Check it out here.</a></span>"
 			if("L: Current Map")
 				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. If you need a map for the current game, you can find it <a href='http://cm-ss13.com/wiki/Main_Page'>here.</a></span>"
 			if("A: No plasma regen")
 				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. If you have low/no plasma regen, it's most likely because you are off weeds or are currently using a passive ability, such as the Runner's 'Hide' or emitting a pheromone.</span>"
 			if("A: Devour as Xeno")
-				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. Devouring is useful to quickly transport incapacitated hosts from one place to another. In order to devour a host as a Xeno, grab the mob (CTRL+Click) and then click on yourself to begin devouring. The host cannot resist breaking out of your belly, but the devoured host will eventually be spat out (~2 minutes), so make sure to hurry up. To release your target, click 'Regurgitate' on the HUD to throw them back up.</span>"
+				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. Devouring is useful to quickly transport incapacitated hosts from one place to another. In order to devour a host as a Xeno, grab the mob (CTRL+Click) and then click on yourself to begin devouring. The host can resist by breaking out of your belly, so make sure your target is incapacitated or only have them devoured for a short time. Also, the devoured host will eventually be digested (~5 minutes), which results in you killing a viable host to grow the hive. To release your target, click 'Regurgitate' on the HUD to throw them back up.</span>"
 			if("J: Job bans")
 				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. All job bans, including xeno bans, are permanent.</span>"
 			if("E: Event in progress")
 				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. There is currently a special event running and many things may be changed or different, however normal rules still apply unless you have been specifically instructed otherwise by a staff member.</span>"
 			if("R: Radios")
-				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. The prefix for all squad marines is now ; to access your squad radio that is global, :z for the general radio channel that is location-specific. Examine your radio headset to get a listing of the channels you have access to.</span>"
+				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. Radios have been changed, the prefix for all squad marines is now ; to access your squad radio. Squad Medics have access to the medical channel using :m, Engineers have :e and the (acting) Squad Leader has :v for command.  Examine your radio headset to get a listing of the channels you have access to.</span>"
+			if("S: Safety")
+				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. To toggle gun safety, use (Alt+Click) on the gun in your hands or Toggle Gun Safety in Weapons tab. Examining gun with (SHIFT+Click) will show you current state of gun safety.</span>"
+			if("D: Joining disabled")
+				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. A staff member has disabled joining for new players as the current round is coming to an end, you can observe while it ends and wait for a new round to start.</span>"
 			if("M: Macros")
-				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. To set a macro right click the title bar, select Client->Macros. Binding load-from-attachment will activate any attachments; Binding resist and give to seperate keys is also handy. More information on macros can be found <a href='https://tgstation13.org/wiki/USCM:Macros'>here.</a></b>"
+				msgplayer = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is autoresponding with <font color='#009900'>'[choice]'</font>. To set a macro right click the title bar, select Client->Macros. Binding unique-action to a key is useful for pumping shotguns etc; Binding load-from-attachment will activate any scopes etc; Binding resist and give to seperate keys is also handy. For more information on macros can be found <a href='http://cm-ss13.com/wiki/Macros'>here.</a></span>"
 			else return
 
-		message_staff("[usr.key] is autoresponding to [ref_person] with <font color='#009900'>'[choice]'</font>. They have been shown the following:\n[msgplayer]", 1)
+		message_staff("[usr.key] ответил игроку [ref_person] авто-ответом <font color='#009900'>'[choice]'</font>. »гроку было показано:\n[msgplayer]", 1)
 
 		to_chat(ref_person, msgplayer)
 		ref_person << sound('sound/effects/adminhelp-reply.ogg')
@@ -2624,7 +2664,7 @@
 
 	if(href_list["ccmark"]) // CentComm-mark. We want to let all Admins know that something is "Marked", but not let the player know because it's not very RP-friendly.
 		var/mob/ref_person = locate(href_list["ccmark"])
-		var/msg = "<span class='boldnotice'>NOTICE: <font color=red>[usr.key]</font> is responding to <font color=red>[ref_person.ckey]/([ref_person])</font>.</span>"
+		var/msg = "<span class='boldnotice'>«јћ≈“ ј: <font color=red>[usr.key]</font> отвечает игроку <font color=red>[ref_person.ckey]/([ref_person])</font>.</span>"
 
 		//send this msg to all admins
 		for(var/client/X in admins)
@@ -2635,9 +2675,9 @@
 	if(href_list["ccdeny"]) // CentComm-deny. The distress call is denied, without any further conditions
 		var/mob/ref_person = locate(href_list["ccdeny"])
 		distress_cancel = TRUE
-		command_announcement.Announce("The distress signal has been blocked, the launch tubes are now recalibrating.", "Distress Beacon")
+		command_announcement.Announce("Ќа аварийный маяк никто не откликнулся, рекалибровка системы запуска аварийного маяка...", "Distress Beacon")
 		log_game("[key_name_admin(usr)] has denied a distress beacon, requested by [key_name_admin(ref_person)]")
-		message_admins("[key_name_admin(usr)] has denied a distress beacon, requested by [key_name_admin(ref_person)]", 1)
+		message_admins("[key_name_admin(usr)] отказал в аварийном маяке игроку [key_name_admin(ref_person)]", 1)
 
 
 	if(href_list["distress"]) //Distress Beacon, sends a random distress beacon when pressed
@@ -2648,4 +2688,4 @@
 
 		ticker.mode.activate_distress()
 		log_game("[key_name_admin(usr)] has sent a randomized distress beacon early, requested by [key_name_admin(ref_person)]")
-		message_admins("[key_name_admin(usr)] has sent a randomized distress beacon early, requested by [key_name_admin(ref_person)]", 1)
+		message_admins("[key_name_admin(usr)] подтвердил отправку случайного аварийного маяка, запрошенного игроком [key_name_admin(ref_person)]", 1)
