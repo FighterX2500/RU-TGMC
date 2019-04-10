@@ -20,31 +20,13 @@ var/list/adminhelp_ignored_words = list("unknown","the","a","an","of","monkey","
 	adminhelped = 1 //Determines if they get the message to reply by clicking the name.
 
 	var/msg
-	var/list/type = list ("Mentorhelp", "Adminhelp", "Suggestion / Bug Report")
-	var/selected_type = input("Pick a category.", "Admin Help", null, null) as null|anything in type
+	var/list/type = list ("Mentorhelp", "Adminhelp")
+	var/selected_type = input("Ўаблон ахелпа, если вы сообщаете о нарушении: \n1. ѕолное имя игрока(ов) (—копируйте из описания или логов в чате). \n2. „етко опишите что именно не так сделал игрок, чем больше полезных деталей - тем быстрее разберут ахелп. \n3. јхелпать надо сразу, как появится вохможность. —итуацию, которая случилась больше 30 минут назад никто не станет разбирать. \n4. –епорты игроков не по шаблону имеют высокий шанс не рассматриваться. \n\nIf you report player, copy his full name and then describe what did he do and don't ahelp things that happened more than 30 mins ago. \nѕо поводу багов писать сюда | Bug reports go to #bugreports at our discord server", "Admin Help", null, null) as null|anything in type
 	switch(selected_type)
 		if("Mentorhelp")
 			msg = input("Please enter your message:", "Admin Help", null, null) as message|null
 		if("Adminhelp")
 			msg = input("Please enter your message:", "Admin Help", null, null) as message|null
-		if("Suggestion / Bug Report")
-			switch(alert("Adminhelps are not for suggestions or bug reports - issues should be posted on our GitHub or on our Discord in #coding, and suggestions on our Discord in #suggestions. If you want something done, feel free to code it yourself.",,"Go to GitHub","Go to Discord","Go to Forums","Cancel"))
-				if("Go to Discord")
-					if(config.chaturl)
-						src << link(config.chaturl)
-					else
-						to_chat(src, "<span class='warning'>The chat URL is not set in the server configuration.</span>")
-				if("Go to GitHub")
-					if(config.bugtrackerurl)
-						src << link(config.bugtrackerurl)
-					else
-						to_chat(src, "<span class='warning'>The bug tracker URL is not set in the server configuration.</span>")
-				if("Go to Forums")
-					if(config.forumurl)
-						src << link(config.forumurl)
-					else
-						to_chat(src, "<span class='warning'>The forum URL is not set in the server configuration.</span>")
-
 
 	var/selected_upper = uppertext(selected_type)
 
