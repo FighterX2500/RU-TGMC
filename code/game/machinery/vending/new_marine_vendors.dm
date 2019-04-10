@@ -927,7 +927,6 @@ var/list/available_specialist_sets = list("Scout Set", "Sniper Set", "Demolition
 							list("Extended M41A magazine", 15, /obj/item/ammo_magazine/rifle/extended, null, "black"),
 							list("AP M39 magazine", 13, /obj/item/ammo_magazine/smg/m39/ap, null, "black"),
 							list("Extended M39 magazine", 13, /obj/item/ammo_magazine/smg/m39/extended, null, "black"),
-							list("VP70 magazine", 10, /obj/item/ammo_magazine/pistol/vp70, null, "black"),
 
 							list("GUN ATTACHMENTS (Choose 2)", 0, null, null, null),
 							list("MUZZLE ATTACHMENTS", 0, null, null, null),
@@ -974,8 +973,8 @@ var/list/available_specialist_sets = list("Scout Set", "Sniper Set", "Demolition
 							list("M40 HIDP incendiary grenade", 4, /obj/item/explosive/grenade/incendiary, null, "black"),
 							list("M40 HEDP grenade", 4, /obj/item/explosive/grenade/frag, null, "black"),
 							list("M52 LAW", 20, /obj/item/weapon/gun/launcher/rocket/m52, null, "black"),
-							list("M41AE2 heavy pulse rifle", 12, /obj/item/weapon/gun/rifle/lmg, null, "orange"),
-							list("M41AE2 ammo box (10x24mm)", 4, /obj/item/ammo_magazine/rifle/lmg, null, "black"),
+							list("M41AE2 heavy pulse rifle", 20, /obj/item/weapon/gun/rifle/lmg, null, "orange"),
+							list("M41AE2 ammo box (10x24mm)", 8, /obj/item/ammo_magazine/rifle/lmg, null, "black"),
 							list("Flamethrower", 12, /obj/item/weapon/gun/flamer, null, "orange"),
 							list("Flamethrower tank", 4, /obj/item/ammo_magazine/flamer_tank, null, "black"),
 							list("Whistle", 5, /obj/item/device/whistle, null, "black"),
