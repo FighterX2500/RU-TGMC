@@ -110,7 +110,7 @@
 		"USCM Squad Specialist",
 		"USCM Squad Leader",
 		"UPP Soldier (Engineer)",
-		"UPP Soldier (Heavy with RPG)")
+		"UPP Soldier (Heavy with LAW)")
 
 		var/dresscode = input("Select equipment for [M].\nChanging equipment of not manually spawned humans is not recommended, since squad and role systems don't adapt to changes of this command. Except for that part, changing equipment will work and, if human was assigned with a squad, they will receive the equipment of corresponding squad. To make marine without a squad, first, select non-\"USCM Squad...\" and then the desired marine kit.", "Robust quick dress shop") as null|anything in dresspacks
 		feedback_add_details("admin_verb","SEQ")
@@ -969,7 +969,7 @@
 			else
 				M.equip_to_slot_or_del(new /obj/item/clothing/mask/rebreather(M), WEAR_FACE)
 
-		if("UPP Soldier (Heavy with RPG)")
+		if("UPP Soldier (Heavy with LAW)")
 			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/distress/bears(M), WEAR_EAR)
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/marine/veteran/UPP(M), WEAR_BODY)
 			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/UPP/heavy(M), WEAR_HEAD)
