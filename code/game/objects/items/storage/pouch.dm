@@ -273,6 +273,42 @@
 	new /obj/item/explosive/plastique(src)
 	new /obj/item/explosive/plastique(src)
 
+/obj/item/storage/pouch/rpg
+	name = "rockets pouch"
+	desc = "This pouch can contain up to 3 rockets for M5 RPG launcher."
+	icon_state = "rpg"
+	storage_slots = 3
+	max_w_class = 3
+	can_hold = list(
+					"/obj/item/ammo_magazine/rocket",
+					"/obj/item/ammo_magazine/rocket/ap",
+					"/obj/item/ammo_magazine/rocket/wp"
+					)
+
+/obj/item/storage/pouch/rpg/full/New()
+	..()
+	new /obj/item/ammo_magazine/rocket(src)
+	new /obj/item/ammo_magazine/rocket/ap(src)
+	new /obj/item/ammo_magazine/rocket/wp(src)
+
+/obj/item/storage/pouch/rpg/full_ap/New()
+	..()
+	new /obj/item/ammo_magazine/rocket/ap(src)
+	new /obj/item/ammo_magazine/rocket/ap(src)
+	new /obj/item/ammo_magazine/rocket/ap(src)
+
+/obj/item/storage/pouch/rpg/full_wp/New()
+	..()
+	new /obj/item/ammo_magazine/rocket/wp(src)
+	new /obj/item/ammo_magazine/rocket/wp(src)
+	new /obj/item/ammo_magazine/rocket/wp(src)
+
+/obj/item/storage/pouch/rpg/full_he/New()
+	..()
+	new /obj/item/ammo_magazine/rocket(src)
+	new /obj/item/ammo_magazine/rocket(src)
+	new /obj/item/ammo_magazine/rocket(src)
+
 /obj/item/storage/pouch/medical
 	name = "medical pouch"
 	desc = "It can contain small medical supplies."
@@ -431,8 +467,8 @@
 
 /obj/item/storage/pouch/electronics/full/New()
 	..()
-	new /obj/item/circuitboard/airlock (src)
-	new /obj/item/circuitboard/apc (src)
+	new /obj/item/circuitboard/general (src)
+	new /obj/item/circuitboard/general (src)
 	new /obj/item/cell/high (src)
 
 
@@ -456,6 +492,12 @@
 	new /obj/item/stack/sandbags_empty/half (src)
 	new /obj/item/stack/barbed_wire/small_stack (src)
 	new /obj/item/tool/shovel/etool (src)
+
+/obj/item/storage/pouch/construction/full_2/New()
+	..()
+	new /obj/item/stack/sandbags_empty/half (src)
+	new /obj/item/stack/sheet/metal/large_stack (src)
+	new /obj/item/stack/sheet/plasteel/medium_stack (src)
 
 /obj/item/storage/pouch/tools
 	name = "tools pouch"
