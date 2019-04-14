@@ -346,15 +346,15 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 	var/turf/S
 	var/right_dir
 	var/left_dir
-	F = get_step(src.loc, src.dir)
-	F = get_step(F, src.dir)
-	F = get_step(F, src.dir)
-	F = get_step(F, src.dir)
-	F = get_step(F, src.dir)
-	left_dir = turn(src.dir, -90)
+	F = get_step(loc, dir)
+	F = get_step(F, dir)
+	F = get_step(F, dir)
+	F = get_step(F, dir)
+	F = get_step(F, dir)
+	left_dir = turn(dir, -90)
 	S = get_step(F, left_dir)
 	S = get_step(S, left_dir)
-	right_dir = turn(src.dir, 90)
+	right_dir = turn(dir, 90)
 	F = get_step(F, right_dir)
 	F = get_step(F, right_dir)
 
