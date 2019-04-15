@@ -59,7 +59,7 @@
 		return 0
 	else
 		return 1
-/*
+
 /obj/structure/platform/can_climb(var/mob/living/user)
 	..()
 
@@ -90,7 +90,7 @@
 					return FALSE
 	
 	return TRUE
-*/
+
 /obj/structure/platform/do_climb(var/mob/living/user)
 	if(!can_climb(user))
 		return
@@ -170,26 +170,23 @@
 	if(user.loc == loc)
 		T = get_step(get_turf(src), dir)
 		if(get_turf(G.grabbed_thing) != T && get_turf(G.grabbed_thing) != get_step(T, turn(dir, -90)) && get_turf(G.grabbed_thing) != get_step(T, turn(dir, 90)))
-			G.grabbed_thing.forceMove(T)
 			visible_message("[user] moves [G.grabbed_thing] onto [src].", 3)
 			to_chat(user, "<span class='notice'>You succesfully moved [G.grabbed_thing] onto [src]!</span>")
+			G.grabbed_thing.forceMove(T)
 		else 
-			G.grabbed_thing.forceMove(src.loc)
 			visible_message("[user] moves [G.grabbed_thing] down from [src].", 3)
 			to_chat(user, "<span class='notice'>You succesfully moved [G.grabbed_thing] down from [src]!</span>")
+			G.grabbed_thing.forceMove(src.loc)
 	else
 		T = get_turf(src)
 		if(get_turf(G.grabbed_thing) != T && get_turf(G.grabbed_thing) != get_step(T, turn(dir, -90)) && get_turf(G.grabbed_thing) != get_step(T, turn(dir, 90)))
-			G.grabbed_thing.forceMove(T)
 			visible_message("[user] moves [G.grabbed_thing] down from [src].", 3)
 			to_chat(user, "<span class='notice'>You succesfully moved [G.grabbed_thing] down [src]!</span>")
-		else 
-			G.grabbed_thing.forceMove(get_turf(user))
+			G.grabbed_thing.forceMove(T)
+		else
 			visible_message("[user] moves [G.grabbed_thing] onto [src].", 3)
 			to_chat(user, "<span class='notice'>You succesfully moved [G.grabbed_thing] onto [src]!</span>")
-
-	user.stop_pulling()
-			
+			G.grabbed_thing.forceMove(get_turf(user))
 	return
 
 obj/structure/platform_decoration
