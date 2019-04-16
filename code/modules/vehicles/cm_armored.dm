@@ -346,15 +346,15 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 	var/turf/S
 	var/right_dir
 	var/left_dir
-	F = get_step(src.loc, src.dir)
-	F = get_step(F, src.dir)
-	F = get_step(F, src.dir)
-	F = get_step(F, src.dir)
-	F = get_step(F, src.dir)
-	left_dir = turn(src.dir, -90)
+	F = get_step(loc, dir)
+	F = get_step(F, dir)
+	F = get_step(F, dir)
+	F = get_step(F, dir)
+	F = get_step(F, dir)
+	left_dir = turn(dir, -90)
 	S = get_step(F, left_dir)
 	S = get_step(S, left_dir)
-	right_dir = turn(src.dir, 90)
+	right_dir = turn(dir, 90)
 	F = get_step(F, right_dir)
 	F = get_step(F, right_dir)
 
@@ -1069,6 +1069,17 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 		step_away(WL,root,0)
 		log_admin("[src] bumped into [WL], dealing 30 damage")
 		message_admins("[src] bumped into [WL], dealing 30 damage")
+	else if (istype(A, /obj/effect/decal/mecha_wreckage))
+		var/obj/effect/decal/mecha_wreckage/wR = A
+		wR.visible_message("<span class='danger'>[root] crushes [wR]!</span>")
+		playsound(wR, 'sound/effects/metal_crash.ogg', 35)
+		qdel(wR)
+	else if (istype(A, /obj/structure/walker_wreckage))
+		var/obj/structure/walker_wreckage/wR = A
+		wR.visible_message("<span class='danger'>[root] crushes [wR]!</span>")
+		playsound(wR, 'sound/effects/metal_crash.ogg', 35)
+		qdel(wR)
+
 
 	healthcheck()
 

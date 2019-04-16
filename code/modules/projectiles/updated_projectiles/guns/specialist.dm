@@ -906,11 +906,11 @@
 	recoil = config.med_recoil_value
 
 //---------------------------------------------------------
-//M52 LAW single use AP rocket launcher avaialbe for marines
+//M52 LAW single use AP rocket launcher available for marines
 
 /obj/item/weapon/gun/launcher/rocket/m52
 	name = "M52 LAW"
-	desc = "The M52 is the Light Anti-Armor Weapon (LAW) is a portable one-shot unguided anti-armor weapon of the USCM. Used to take out light-tanks and enemy structures. Every marine is trained to use it."
+	desc = "The M52 Light Anti-Armor Weapon (LAW) is a portable one-shot unguided anti-armor weapon of the USCM. Used to take out light-tanks and enemy structures. Every marine is trained to use it."
 	icon_state = "m52_0"
 	item_state = "m52_0"
 	origin_tech = "combat=6;materials=5"
@@ -1034,3 +1034,10 @@ obj/item/weapon/gun/launcher/rocket/m52/unload(mob/user)
 	if(user)
 		if(!current_mag.current_rounds) to_chat(user, "<span class='warning'>[src] is already empty!</span>")
 		else 							to_chat(user, "<span class='warning'>It is impossible to unload \the [src].</span>")
+
+//M52 LAW single use AP rocket launcher available for marines, but UPP version (just name, desc and color)
+
+/obj/item/weapon/gun/launcher/rocket/m52/upp
+	name = "Type 18 \"Bdzhola\""
+	desc = "The Type 18 Reactive Anti-Tank Rocket Launcher is a portable one-shot unguided anti-armor weapon of the UPP. Used to take out light-tanks and enemy structures. Every UPP soldier is trained to use it. Got nicknamed as \"Bdzhola\" for specific sound the rocket makes once fired."
+	color = "#c2b678"
