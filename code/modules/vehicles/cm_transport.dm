@@ -1,9 +1,5 @@
 
 //NOT bitflags, just global constant values
-#define WEIGHT_LIGHT "light"
-#define HDPT_PRIMARY "primary"
-#define HDPT_SECDGUN "secondary"
-#define HDPT_SUPPORT "support"
 #define HDPT_WHEELS "wheels"
 
 
