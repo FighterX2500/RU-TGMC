@@ -808,10 +808,10 @@ All of the hardpoints, for the tank and APC
 	disp_icon_state = "odrive_enhancer"
 
 	apply_buff()
-		owner.misc_ratios.["OD_buff"] = TRUE
+		owner.misc_ratios["OD_buff"] = TRUE
 
 	remove_buff()
-		owner.misc_ratios.["OD_buff"] = FALSE
+		owner.misc_ratios["OD_buff"] = FALSE
 
 /obj/item/hardpoint/tank/support/artillery_module
 	name = "M6 Artillery Module"

@@ -625,6 +625,12 @@
 	has_gamemode_skin = FALSE //same sprites for all gamemodes
 	max_storage_space = 15
 
+/obj/item/storage/backpack/marine/engineerpack/upp
+	name = " UPP engineer welderpack"
+	desc = "A specialized backpack worn by UPP combat engineers. It carries a fueltank for quick welder refueling and use,"
+	color = "#c2b678"
+	max_fuel = 210
+
 /obj/item/storage/backpack/marine/engineerpack/New()
 	var/datum/reagents/R = new/datum/reagents(max_fuel) //Lotsa refills
 	reagents = R

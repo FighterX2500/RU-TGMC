@@ -121,7 +121,7 @@
 	for(var/obj/O in U.contents)
 		if(istype(O, /obj/structure))
 			var/obj/structure/S = O
-			if(S.climbable)
+			if(S.climbable && !istype(S, /obj/structure/platform))
 				continue
 		//dense border obstacles on our tile
 		if(O.density && (O.flags_atom & ON_BORDER) && O.dir & get_dir(user, src))

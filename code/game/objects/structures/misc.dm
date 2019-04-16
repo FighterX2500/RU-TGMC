@@ -127,3 +127,4 @@ obj/item/alienjar
 	icon_state = "rampbottom"
 	density = 0
 	opacity = 0
+	layer = FIREDOOR_OPEN_LAYER

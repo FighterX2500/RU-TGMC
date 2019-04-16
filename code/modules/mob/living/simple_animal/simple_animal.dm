@@ -221,7 +221,7 @@
 
 /mob/living/simple_animal/death()
 	. = ..()
-		icon_state = icon_dead
+	icon_state = icon_dead
 
 
 /mob/living/simple_animal/gib()

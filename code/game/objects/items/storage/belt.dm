@@ -283,6 +283,47 @@
 			select_gamemode_skin(type)
 		..()
 
+/obj/item/storage/belt/marine/full_rifle/New()
+	..()
+	new /obj/item/ammo_magazine/rifle(src)
+	new /obj/item/ammo_magazine/rifle(src)
+	new /obj/item/ammo_magazine/rifle(src)
+	new /obj/item/ammo_magazine/rifle/ap(src)
+	new /obj/item/ammo_magazine/rifle/extended(src)
+
+/obj/item/storage/belt/marine/full_smg/New()
+	..()
+	new /obj/item/ammo_magazine/smg/m39(src)
+	new /obj/item/ammo_magazine/smg/m39(src)
+	new /obj/item/ammo_magazine/smg/m39(src)
+	new /obj/item/ammo_magazine/smg/m39/ap(src)
+	new /obj/item/ammo_magazine/smg/m39/extended(src)
+
+
+/obj/item/storage/belt/marine/full_rifle_mk1/New()
+	..()
+	new /obj/item/ammo_magazine/rifle/m41aMK1(src)
+	new /obj/item/ammo_magazine/rifle/m41aMK1(src)
+	new /obj/item/ammo_magazine/rifle/m41aMK1(src)
+	new /obj/item/ammo_magazine/rifle/m41aMK1(src)
+	new /obj/item/ammo_magazine/rifle/m41aMK1(src)
+
+/obj/item/storage/belt/marine/full_lmg/New()
+	..()
+	new /obj/item/ammo_magazine/rifle/lmg(src)
+	new /obj/item/ammo_magazine/rifle/lmg(src)
+	new /obj/item/ammo_magazine/rifle/lmg(src)
+	new /obj/item/ammo_magazine/rifle/lmg(src)
+	new /obj/item/ammo_magazine/rifle/lmg(src)
+
+/obj/item/storage/belt/marine/full_lasgun/New()
+	..()
+	new /obj/item/cell/lasgun/M43(src)
+	new /obj/item/cell/lasgun/M43(src)
+	new /obj/item/cell/lasgun/M43(src)
+	new /obj/item/cell/lasgun/M43(src)
+	new /obj/item/cell/lasgun/M43(src)
+
 /obj/item/storage/belt/marine/upp
 	name = " Type 41 pattern load rig"
 	desc = "The Type 41 load rig is the standard-issue LBE of the UPP military. The primary function of this belt is to provide easy access to mags for the Type 71 during operations. Despite being designed for the Type 71 weapon system, the pouches are modular enough to fit other types of ammo and equipment."

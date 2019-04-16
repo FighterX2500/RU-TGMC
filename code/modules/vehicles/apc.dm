@@ -1,11 +1,6 @@
 //APCS, HURRAY
 //Read the documentation in cm_transport.dm and multitile.dm before trying to decipher this stuff
 
-//NOT bitflags, just global constant values
-#define "Medical Modification" 1
-#define "Supply Modification" 2
-#define "Command Modification" 3
-
 var/list/free_modules = list("Medical Modification", "Supply Modification", "Command Modification")
 
 /obj/vehicle/multitile/root/cm_transport/apc
