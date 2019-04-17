@@ -1000,6 +1000,31 @@
 	smoke.set_up(1, get_turf(P))
 	smoke.start()
 
+/datum/ammo/rocket/tow
+    name = "TOW rocket"
+    damage_falloff = 0
+    flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET
+
+/datum/ammo/rocket/tow/New()
+    ..()
+    accuracy = config.high_hit_accuracy
+    accurate_range = config.short_shell_range
+    max_range = config.max_shell_range
+    damage = config.low_hit_damage
+    penetration= config.max_armor_penetration
+
+/datum/ammo/rocket/tow/on_hit_mob(mob/M, obj/item/projectile/P)
+    explosion(get_turf(M), 1, 1, 1, 3)
+
+/datum/ammo/rocket/tow/on_hit_obj(obj/O, obj/item/projectile/P)
+    explosion(get_turf(P), 1, 1, 1, 3)
+
+/datum/ammo/rocket/tow/on_hit_turf(turf/T, obj/item/projectile/P)
+    explosion(get_turf(P), 1, 1, 1, 3)
+
+/datum/ammo/rocket/tow/do_at_max_range(obj/item/projectile/P)
+    explosion(get_turf(P), 1, 1, 1, 3)
+
 /datum/ammo/rocket/tow/m8_1_tow
 	name = "TOW emplacement rocket"
 
