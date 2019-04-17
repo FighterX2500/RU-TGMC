@@ -150,6 +150,8 @@
 	desc = "A beefy, fast alien with sharp claws."
 	icon = 'icons/Xeno/1x1_Xenos.dmi'
 	icon_state = "Hunter Running"
+	pixel_x = -8
+	old_x = -8
 	health = 150
 	maxHealth = 150
 	plasma_stored = 50
