@@ -159,8 +159,8 @@
 	maxHealth = 180
 	plasma_stored = 150
 	speed = -0.5
-	pixel_x = 0
-	old_x = 0
+	pixel_x = -8
+	old_x = -8
 	tier = 2
 	upgrade = 0
 	acid_cooldown = 0
