@@ -423,14 +423,25 @@
 		if(health >= maxhealth)
 			to_chat(user, "Armor seems fully intact.")
 			return
+		var/repair_time = 1000
+		if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer > SKILL_ENGINEER_DEFAULT)		//NO DIVIDING BY ZERO
+			/*
+			Small explanation
+			If engineering skill is default or SKILL_ENGINEER_METAL - 100 seconds
+			SKILL_ENGINEER_PLASTEEL - 50 seconds
+			SKILL_ENGINEER_ENGI - 33
+			SKILL_ENGINEER_MT - 25
+			*/
+			repair_time = round(repair_time/user.mind.cm_skills.engineer)
+
 		to_chat(user, "You start repairing broken part of [src.name]'s armor...")
-		if(do_after(user, 1000, needhand = FALSE, show_busy_icon = TRUE))
+		if(do_after(user, repair_time, needhand = TRUE, show_busy_icon = TRUE))
 			if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer <= SKILL_ENGINEER_ENGI)
 				to_chat(user, "You haphazardly weld together chunks of broken armor.")
-				health += 10
+				health += 25
 				healthcheck()
 			else
-				health += 50
+				health += 100
 				healthcheck()
 				to_chat(user, "You repair broken part of the armor.")
 			playsound(src.loc, 'sound/items/weldingtool_weld.ogg', 25)
