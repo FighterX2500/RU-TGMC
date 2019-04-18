@@ -226,11 +226,11 @@
 	handle_lights()
 
 /obj/vehicle/walker/proc/handle_lights()
-	if(lights)
-		lights = FALSE
+	if(!lights)
+		lights = TRUE
 		SetLuminosity(lights_power)
 	else
-		lights = TRUE
+		lights = FALSE
 		SetLuminosity(initial(luminosity))
 	pilot << sound('sound/machines/click.ogg',volume=50)
 
