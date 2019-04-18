@@ -278,14 +278,10 @@
 		if(left == null)
 			return
 		selected = !selected
-	to_chat(usr, "Selected [selected ? "left" : "right"] hardpoint")
+	to_chat(usr, "Selected [selected ? "[left]" : "[right]"]")
 
 /obj/vehicle/walker/handle_click(var/mob/living/user, var/atom/A, var/list/mods)
 	if(!firing_arc(A))
-		return
-	if(left && right && istype(left, right))						//NEED MORE DAKKA
-		left.active_effect(A)
-		right.active_effect(A)
 		return
 	if(selected)
 		if(!left)
