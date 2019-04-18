@@ -312,6 +312,13 @@
 		angle += 180
 	return abs(angle) <= max_angle
 
+/obj/vehicle/walker/verb/zoom()
+	set name = "Zoom on/off"
+	set category = "Walker Interface"
+	set src = usr.loc
+
+	zoom_activate()
+
 /obj/vehicle/walker/proc/zoom_activate()
 	if(zoom)
 		pilot.client.change_view(world.view)//world.view - default mob view size
