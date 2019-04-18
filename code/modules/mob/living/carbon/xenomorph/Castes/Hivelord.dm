@@ -152,6 +152,7 @@
 	old_x = -16
 	speed = 0.4
 	mob_size = MOB_SIZE_BIG
+	wound_type = "hivelord"
 	drag_delay = 6 //pulling a big dead xeno is hard
 	var/speed_activated = 0
 	tier = 2
