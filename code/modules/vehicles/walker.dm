@@ -20,8 +20,8 @@
 
 	pixel_x = -18
 
-	health = 400
-	maxhealth = 400
+	health = 800
+	maxhealth = 800
 
 	var/mob/pilot = null
 
