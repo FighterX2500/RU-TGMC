@@ -902,3 +902,4 @@
 	density = TRUE
 	anchored = TRUE
 	opacity = FALSE
+	pixel_x = -18
