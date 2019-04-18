@@ -151,8 +151,8 @@
 	tier = 1
 	upgrade = 0
 	speed = -0.8
-	pixel_x = 0
-	old_x = 0
+	pixel_x = -8
+	old_x = -8
 	pull_speed = -2
 	wound_type = "alien" //used to match appropriate wound overlays
 	actions = list(
