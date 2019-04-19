@@ -266,7 +266,7 @@
 			hive.living_xeno_queen = null
 		hive.baff_armor = 0
 		hive.baff_evolve = 0
-		hive.baff_hp = 0
+		hive.baff_hp = 1
 		hive.upgrades_bought = list()
 
 /mob/living/carbon/Xenomorph/Queen/Life()
