@@ -50,7 +50,7 @@ proc/initialize_upgrades()
 		xeno_caste.armor_deflection += 10
 		delta_armor += 10
 	else
-		xeno_caste.armor_deflection = 60
+		xeno_caste.armor_deflection = 10
 	to_chat(src, "<span class='xenonotice'>Your exoskeleton feels thicker.</span>")
 
 /datum/upgrade/armor2
