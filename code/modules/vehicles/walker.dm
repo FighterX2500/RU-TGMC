@@ -615,7 +615,7 @@
 	magazine_type = /obj/item/ammo_magazine/walker/flamer
 	var/burnlevel = 50
 	var/burntime = 27
-	var/max_range = 7
+	var/max_range = 6
 	fire_delay = 30
 
 /obj/item/walker_gun/flamer/active_effect(var/atom/target)
