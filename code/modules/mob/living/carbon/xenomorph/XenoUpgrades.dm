@@ -21,6 +21,7 @@ proc/initialize_upgrades()
 	var/u_tag = null //A u_tag string so we can grab it easily off a xeno. Must be unique.
 	var/helptext = ""
 
+//Basic upgrades
 /datum/upgrade/armor
 	name = "Hardened Carapace"
 	cost = 6
@@ -46,8 +47,8 @@ proc/initialize_upgrades()
 
 /mob/living/carbon/Xenomorph/proc/upgrade_armor()
 	if(src.xeno_caste.armor_deflection > 0)
-		xeno_caste.armor_deflection += 15
-		delta_armor += 15
+		xeno_caste.armor_deflection += 10
+		delta_armor += 10
 	else
 		xeno_caste.armor_deflection = 60
 	to_chat(src, "<span class='xenonotice'>Your exoskeleton feels thicker.</span>")
@@ -100,9 +101,9 @@ proc/initialize_upgrades()
 
 /mob/living/carbon/Xenomorph/proc/upgrade_jelly()
 	if(hive_datum[hivenumber].living_xeno_queen.ovipositor)
-		evolution_stored += 80
+		evolution_stored =  min(evolution_stored + 80, xeno_caste.evolution_threshold)
 	else
-		evolution_stored += 20
+		evolution_stored = min(evolution_stored + 20, xeno_caste.evolution_threshold)
 	to_chat(src, "<span class='xenonotice'>You feel royal jelly ripple through your haemolymph.</span>")
 
 /datum/upgrade/jelly2
@@ -129,14 +130,16 @@ proc/initialize_upgrades()
 	helptext = "Quicken the speed at which royal jelly metabolizes, granting you new upgrades faster."
 
 /mob/living/carbon/Xenomorph/proc/upgrade_jelly2()
-	upgrade_stored += 100
+	upgrade_stored = min(upgrade_stored + 100, xeno_caste.upgrade_threshold)
 	to_chat(src, "<span class='xenonotice'>You feel royal jelly ripple through your haemolymph.</span>")
 
+//Hive upgrades
 /datum/upgrade/hive
 	name = "Hive Upgrades HP"
 	cost = 6
+	is_global = 1
 	which_castes = list(
-						/mob/living/carbon/Xenomorph/Queen,
+						/mob/living/carbon/Xenomorph/Queen
 					)
 	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_hive
 	u_tag = "hive_hp"
@@ -145,14 +148,15 @@ proc/initialize_upgrades()
 /mob/living/carbon/Xenomorph/proc/upgrade_hive()
 	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
 		if(hivenumber && hivenumber <= hive_datum.len)
-			X.maxHealth = round(X.maxHealth * 8 / 7)
-	hive_datum[hivenumber].baff_hp = hive_datum[hivenumber].baff_hp * 8/7
+			X.maxHealth = round(X.maxHealth * 10 / 9)
+	hive_datum[hivenumber].baff_hp = hive_datum[hivenumber].baff_hp * 10/9
 
 /datum/upgrade/hive2
-	name = "Hive Upgrades Armor"
+	name = "Hive Upgrades Armor."
 	cost = 6
+	is_global = 1
 	which_castes = list(
-						/mob/living/carbon/Xenomorph/Queen,
+						/mob/living/carbon/Xenomorph/Queen
 					)
 	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_hive2
 	u_tag = "hive_armor"
@@ -161,8 +165,36 @@ proc/initialize_upgrades()
 /mob/living/carbon/Xenomorph/proc/upgrade_hive2()
 	for(var/mob/living/carbon/Xenomorph/X in living_mob_list)
 		if(hivenumber && hivenumber <= hive_datum.len)
-			X.xeno_caste.armor_deflection += 15
-	hive_datum[hivenumber].baff_armor += 15
+			X.xeno_caste.armor_deflection += 5
+	hive_datum[hivenumber].baff_armor += 5
+
+/datum/upgrade/hive3
+	name = "Hive upgrades evolve."
+	cost = 12
+	is_global = 1
+	which_castes = list(
+						/mob/living/carbon/Xenomorph/Queen
+					)
+	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_hive3
+	u_tag = "hive_evolve"
+	helptext = "Upgrades stats speed evolve."
+
+/mob/living/carbon/Xenomorph/proc/upgrade_hive3()
+	hive_datum[hivenumber].baff_evolve = 1
+
+/datum/upgrade/hive4
+	name = "Hive upgrades upgrade."
+	cost = 12
+	is_global = 1
+	which_castes = list(
+						/mob/living/carbon/Xenomorph/Queen
+					)
+	procpath = /mob/living/carbon/Xenomorph/proc/upgrade_hive4
+	u_tag = "hive_upgrade"
+	helptext = "Upgrades stats speed upgrade."
+
+/mob/living/carbon/Xenomorph/proc/upgrade_hive4()
+	hive_datum[hivenumber].baff_upgrade = 1
 
 //Changes a xeno's evolution points.
 /mob/living/carbon/Xenomorph/proc/change_ep(var/amount)
@@ -194,6 +226,9 @@ proc/initialize_upgrades()
 	if(u_tag in upgrades_bought)
 		return 1
 
+	if(u_tag in hive_datum[hivenumber].upgrades_bought)
+		return 1
+
 	return 0
 
 proc/get_upgrade_by_u_tag(var/u_tag)
@@ -216,7 +251,10 @@ proc/get_upgrade_by_u_tag(var/u_tag)
 	if(!check_ep(U.cost))
 		return 0
 	change_ep(U.cost * -1)
-	upgrades_bought += U.u_tag
+	if(!U.is_global)
+		upgrades_bought += U.u_tag
+	else
+		hive_datum[hivenumber].upgrades_bought += U.u_tag
 	call(src, U.procpath)()
 
 /mob/living/carbon/Xenomorph/verb/Upgrades()
