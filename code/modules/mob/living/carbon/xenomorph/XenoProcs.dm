@@ -87,7 +87,10 @@
 			stat(null, "Cost: [evo_points]")
 			text_upgrades = ""
 			for(var/X in upgrades_bought)
-				var/var/datum/upgrade/U = get_upgrade_by_u_tag(X)
+				var/datum/upgrade/U = get_upgrade_by_u_tag(X)
+				text_upgrades += U.name + " "
+			for(var/X in hive_datum[hivenumber].upgrades_bought)
+				var/datum/upgrade/U = get_upgrade_by_u_tag(X)
 				text_upgrades += U.name + " "
 			if(text_upgrades != "")
 				stat(null, "Mutators: [text_upgrades]")
@@ -211,10 +214,11 @@
 				if(upgrade_stored >= xeno_caste.upgrade_threshold)
 					if(health == maxHealth && !is_mob_incapacitated() && !handcuffed && !legcuffed)
 						upgrade_xeno(upgrade+1)
-						src.maxHealth = round(maxHealth*delta_hp*hive_datum[hivenumber].baff_hp)
-						src.xeno_caste.armor_deflection = xeno_caste.armor_deflection + delta_armor + hive_datum[hivenumber].baff_armor
+						maxHealth = round(maxHealth*delta_hp*hive_datum[hivenumber].baff_hp)
+						xeno_caste.armor_deflection = xeno_caste.armor_deflection + delta_armor + hive_datum[hivenumber].baff_armor
+						speed += delta_speed
 				else
-					upgrade_stored = min(upgrade_stored + 1, xeno_caste.upgrade_threshold)
+					upgrade_stored = min(upgrade_stored + 1 + hive_datum[hivenumber].baff_upgrade, xeno_caste.upgrade_threshold)
 
 /mob/living/carbon/Xenomorph/proc/update_evolving()
 	if(!client || !ckey) // stop evolve progress for ssd/ghosted xenos
@@ -225,7 +229,7 @@
 		return
 	var/datum/hive_status/hive = hive_datum[hivenumber]
 	if(hive.living_xeno_queen)
-		evolution_stored++
+		evolution_stored = min(evolution_stored + 1 + hive_datum[hivenumber].baff_evolve, xeno_caste.evolution_threshold)
 		if(evolution_stored == xeno_caste.evolution_threshold - 1)
 			to_chat(src, "<span class='xenodanger'>Your carapace crackles and your tendons strengthen. You are ready to evolve!</span>")
 			src << sound('sound/effects/xeno_evolveready.ogg')
