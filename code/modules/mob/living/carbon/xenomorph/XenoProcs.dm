@@ -89,7 +89,7 @@
 			for(var/X in upgrades_bought)
 				var/datum/upgrade/U = get_upgrade_by_u_tag(X)
 				text_upgrades += U.name + " "
-			for(var/X in hive_datum[hivenumber])
+			for(var/X in hive_datum[hivenumber].upgrades_bought)
 				var/datum/upgrade/U = get_upgrade_by_u_tag(X)
 				text_upgrades += U.name + " "
 			if(text_upgrades != "")
