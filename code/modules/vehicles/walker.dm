@@ -20,8 +20,8 @@
 
 	pixel_x = -18
 
-	health = 400
-	maxhealth = 400
+	health = 800
+	maxhealth = 800
 
 	var/mob/pilot = null
 
@@ -226,11 +226,11 @@
 	handle_lights()
 
 /obj/vehicle/walker/proc/handle_lights()
-	if(lights)
-		lights = FALSE
+	if(!lights)
+		lights = TRUE
 		SetLuminosity(lights_power)
 	else
-		lights = TRUE
+		lights = FALSE
 		SetLuminosity(initial(luminosity))
 	pilot << sound('sound/machines/click.ogg',volume=50)
 
@@ -278,14 +278,10 @@
 		if(left == null)
 			return
 		selected = !selected
-	to_chat(usr, "Selected [selected ? "left" : "right"] hardpoint")
+	to_chat(usr, "Selected [selected ? "[left]" : "[right]"]")
 
 /obj/vehicle/walker/handle_click(var/mob/living/user, var/atom/A, var/list/mods)
 	if(!firing_arc(A))
-		return
-	if(left && right && istype(left, right))						//NEED MORE DAKKA
-		left.active_effect(A)
-		right.active_effect(A)
 		return
 	if(selected)
 		if(!left)
@@ -315,6 +311,13 @@
 	if(nx < 0)
 		angle += 180
 	return abs(angle) <= max_angle
+
+/obj/vehicle/walker/verb/zoom()
+	set name = "Zoom on/off"
+	set category = "Walker Interface"
+	set src = usr.loc
+
+	zoom_activate()
 
 /obj/vehicle/walker/proc/zoom_activate()
 	if(zoom)
@@ -420,14 +423,25 @@
 		if(health >= maxhealth)
 			to_chat(user, "Armor seems fully intact.")
 			return
+		var/repair_time = 1000
+		if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer > SKILL_ENGINEER_DEFAULT)		//NO DIVIDING BY ZERO
+			/*
+			Small explanation
+			If engineering skill is default or SKILL_ENGINEER_METAL - 100 seconds
+			SKILL_ENGINEER_PLASTEEL - 50 seconds
+			SKILL_ENGINEER_ENGI - 33
+			SKILL_ENGINEER_MT - 25
+			*/
+			repair_time = round(repair_time/user.mind.cm_skills.engineer)
+
 		to_chat(user, "You start repairing broken part of [src.name]'s armor...")
-		if(do_after(user, 1000, needhand = FALSE, show_busy_icon = TRUE))
+		if(do_after(user, repair_time, needhand = TRUE, show_busy_icon = TRUE))
 			if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer <= SKILL_ENGINEER_ENGI)
 				to_chat(user, "You haphazardly weld together chunks of broken armor.")
-				health += 10
+				health += 25
 				healthcheck()
 			else
-				health += 50
+				health += 100
 				healthcheck()
 				to_chat(user, "You repair broken part of the armor.")
 			playsound(src.loc, 'sound/items/weldingtool_weld.ogg', 25)
@@ -599,9 +613,9 @@
 	equip_state = "mech-flam"
 	fire_sound = 'sound/weapons/gun_flamethrower2.ogg'
 	magazine_type = /obj/item/ammo_magazine/walker/flamer
-	var/burnlevel = 40
-	var/burntime = 17
-	var/max_range = 4
+	var/burnlevel = 50
+	var/burntime = 27
+	var/max_range = 6
 	fire_delay = 30
 
 /obj/item/walker_gun/flamer/active_effect(var/atom/target)
@@ -888,3 +902,4 @@
 	density = TRUE
 	anchored = TRUE
 	opacity = FALSE
+	pixel_x = -18
