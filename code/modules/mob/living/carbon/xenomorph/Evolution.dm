@@ -251,3 +251,5 @@
 	upgrades_bought = list()
 	delta_armor = 0
 	delta_hp = 1
+	maxHealth = round(maxHealth*hive_datum[hivenumber].baff_hp)
+	xeno_caste.armor_deflection += hive_datum[hivenumber].baff_armor
