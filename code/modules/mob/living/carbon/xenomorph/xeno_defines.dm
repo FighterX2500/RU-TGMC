@@ -116,6 +116,7 @@
 	var/time_of_birth
 	var/delta_hp = 1
 	var/delta_armor = 0
+	var/delta_speed = 0
 
 	var/devour_timer = 0
 
@@ -263,6 +264,9 @@
 	var/prefix = ""
 	var/baff_hp = 1
 	var/baff_armor = 0
+	var/baff_evolve = 0
+	var/baff_upgrade = 0
+	var/upgrades_bought = list()
 	var/list/xeno_leader_list = list()
 
 /datum/hive_status/corrupted
