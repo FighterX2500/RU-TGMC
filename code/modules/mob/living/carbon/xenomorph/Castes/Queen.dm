@@ -264,6 +264,10 @@
 		var/datum/hive_status/hive = hive_datum[hivenumber]
 		if(hive.living_xeno_queen == src)
 			hive.living_xeno_queen = null
+		hive.baff_armor = 0
+		hive.baff_evolve = 0
+		hive.baff_hp = 0
+		hive.upgrades_bought = list()
 
 /mob/living/carbon/Xenomorph/Queen/Life()
 	..()
