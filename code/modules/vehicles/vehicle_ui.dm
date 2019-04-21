@@ -5,7 +5,7 @@
 
 //little QoL won't be bad, aight? Aiiiiight???
 /obj/vehicle/multitile/root/cm_armored/tank/verb/access_ui()
-	set name = "Activate UI"
+	set name = "G Activate UI"
 	set category = "Vehicle"
 	set src = usr.loc
 
@@ -14,11 +14,15 @@
 
 /obj/vehicle/multitile/root/cm_armored/tank/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 0)
 
-	var/obj/item/hardpoint/tank/HP1 = hardpoints[HDPT_ARMOR]
-	var/obj/item/hardpoint/tank/HP2 = hardpoints[HDPT_TREADS]
-	var/obj/item/hardpoint/tank/HP3 = hardpoints[HDPT_SUPPORT]
-	var/obj/item/hardpoint/tank/HP4 = hardpoints[HDPT_SECDGUN]
-	var/obj/item/hardpoint/tank/HP5 = hardpoints[HDPT_PRIMARY]
+	if(user != gunner && user != driver && user != swap_seat)
+		ui.close()
+		return
+
+	var/obj/item/hardpoint/tank/support/HP1 = hardpoints[HDPT_ARMOR]
+	var/obj/item/hardpoint/tank/treads/HP2 = hardpoints[HDPT_TREADS]
+	var/obj/item/hardpoint/tank/armor/HP3 = hardpoints[HDPT_SUPPORT]
+	var/obj/item/hardpoint/tank/secondary/HP4 = hardpoints[HDPT_SECDGUN]
+	var/obj/item/hardpoint/tank/primary/HP5 = hardpoints[HDPT_PRIMARY]
 	var divider = 0
 	var tank_health = 0
 
@@ -55,16 +59,20 @@
 							"smoke_ammo" = smoke
 						)
 
-	if(HP3 && HP3.name == "M6 Artillery Module")
-		data += list("arty" = HP3.health)
+	if(HP3 && HP3.is_activatable)
+		data += list("support_h" = HP3.health)
+		data += list("support_n" = HP3.name)
 	else
-		data += list("arty" = -150)
+		data += list("support_h" = null)
+		data += list("support_n" = null)
 
-//part with weapons
+	//secondary
 	if(HP4)
-		data += list("secd_gun_name" = HP4.name, "secd_gun_hp" = HP4.health, "secd_gun_max_mags" = (HP4.max_clips - 1))
+		data += list("secd_gun_name" = HP4.name, "secd_gun_hp" = HP4.health)
 		var/timer = (HP4.next_use - world.time)/10
 		var/reload_time = cooldowns["secondary"]/10
+		if(reload_time < 6)
+			reload_time = 6
 		data += list("cd_secd_left" = timer, "cd_secd_full" = reload_time)
 
 		if(active_hp)
@@ -76,17 +84,33 @@
 		else
 			data += list("secd_gun_sel" = FALSE)
 
-		if(HP4.clips.len > 0)
-			data += list("secd_gun_cur_ammo" = HP4.clips[1].current_rounds, "secd_gun_max_ammo" = HP4.clips[1].max_rounds, "secd_gun_cur_mags" = (HP4.clips.len - 1))
-		else
-			data += list("secd_gun_cur_ammo" = 0, "secd_gun_max_ammo" = 0, "secd_gun_cur_mags" = 0)
-	else
-		data += list("secd_gun_name" = null, "cd_secd_left" = null, "cd_secd_full" = null, "secd_gun_hp" = -1, "secd_gun_cur_ammo" = -1, "secd_gun_max_ammo" = -1, "secd_gun_cur_mags" = -1, "secd_gun_max_mags" = -1)
+		for(var/i = 1; i <= HP4.clips.len; i++)
+			if(HP4.clips[i].len > 1)
+				data += list("secd_gun_ammo_type_[i]" = HP4.clips[i][1])
+			var/ammo = 0
+			for(var/j = 2; j <= HP4.clips[i].len; j++)
+				var /obj/item/ammo_magazine/tank/A = HP4.clips[i][j]
+				ammo += A.current_rounds
+			data += list("secd_gun_ammo_[i]" = ammo)
+		
+		switch(HP4.cur_ammo_type)
+			if(1)
+				data += list("secd_gun_ammo_type_cur_1" = TRUE, "secd_gun_ammo_type_cur_2" = FALSE, "secd_gun_ammo_type_cur_3" = FALSE)
+			if(2)
+				data += list("secd_gun_ammo_type_cur_1" = FALSE, "secd_gun_ammo_type_cur_2" = TRUE, "secd_gun_ammo_type_cur_3" = FALSE)
+			if(3)
+				data += list("secd_gun_ammo_type_cur_1" = FALSE, "secd_gun_ammo_type_cur_2" = FALSE, "secd_gun_ammo_type_cur_3" = TRUE)
 
+	else
+		data += list("secd_gun_name" = null, "secd_gun_hp" = -100, "cd_secd_left" = null, "cd_secd_full" = null, "secd_gun_sel" = FALSE, "secd_gun_ammo_1" = -1, "secd_gun_ammo_2" = -1, "secd_gun_ammo_3" = -1, "secd_gun_ammo_type_1" = null, "secd_gun_ammo_type_2" = null, "secd_gun_ammo_type_3" = null, "secd_gun_ammo_type_cur_1" = FALSE, "secd_gun_ammo_type_cur_2" = FALSE, "secd_gun_ammo_type_cur_3" = FALSE)
+
+	//primary
 	if(HP5)
-		data += list("main_gun_name" = HP5.name, "main_gun_hp" = HP5.health, "main_gun_max_mags" = (HP5.max_clips - 1))
+		data += list("main_gun_name" = HP5.name, "main_gun_hp" = HP5.health)
 		var/timer = (HP5.next_use - world.time)/10
 		var/reload_time = cooldowns["primary"]/10
+		if(reload_time < 6)
+			reload_time = 6
 		data += list("cd_main_left" = timer, "cd_main_full" = reload_time)
 
 		if(active_hp)
@@ -98,13 +122,25 @@
 		else
 			data += list("main_gun_sel" = FALSE)
 
-		if(HP5.clips.len > 0)
-			data += list("main_gun_cur_ammo" = HP5.clips[1].current_rounds, "main_gun_max_ammo" = HP5.clips[1].max_rounds, "main_gun_cur_mags" = (HP5.clips.len - 1))
-		else
-			data += list("main_gun_cur_ammo" = 0, "main_gun_max_ammo" = 0, "main_gun_cur_mags" = 0)
+		for(var/i = 1; i <= HP5.clips.len; i++)
+			if(HP5.clips[i].len > 1)
+				data += list("main_gun_ammo_type_[i]" = HP5.clips[i][1])
+			var/ammo = 0
+			for(var/j = 2; j <= HP5.clips[i].len; j++)
+				var /obj/item/ammo_magazine/tank/A = HP5.clips[i][j]
+				ammo += A.current_rounds
+			data += list("main_gun_ammo_[i]" = ammo)
+		
+		switch(HP5.cur_ammo_type)
+			if(1)
+				data += list("main_gun_ammo_type_cur_1" = TRUE, "main_gun_ammo_type_cur_2" = FALSE, "main_gun_ammo_type_cur_3" = FALSE)
+			if(2)
+				data += list("main_gun_ammo_type_cur_1" = FALSE, "main_gun_ammo_type_cur_2" = TRUE, "main_gun_ammo_type_cur_3" = FALSE)
+			if(3)
+				data += list("main_gun_ammo_type_cur_1" = FALSE, "main_gun_ammo_type_cur_2" = FALSE, "main_gun_ammo_type_cur_3" = TRUE)
 
 	else
-		data += list("main_gun_name" = null, "cd_main_left" = null, "cd_main_full" = null, "main_gun_hp" = -1, "main_gun_cur_ammo" = -1, "main_gun_max_ammo" = -1, "main_gun_cur_mags" = -1, "main_gun_max_mags" = -1)
+		data += list("main_gun_name" = null, "main_gun_hp" = -100, "cd_main_left" = null, "cd_main_full" = null, "main_gun_sel" = FALSE, "main_gun_ammo_1" = -1, "main_gun_ammo_2" = -1, "main_gun_ammo_3" = -1, "main_gun_ammo_type_1" = null, "main_gun_ammo_type_2" = null, "main_gun_ammo_type_3" = null, "main_gun_ammo_type_cur_1" = FALSE, "main_gun_ammo_type_cur_2" = FALSE, "main_gun_ammo_type_cur_3" = FALSE)
 
 //part regarding tankers
 	if(user == gunner)
@@ -131,7 +167,8 @@
 			else
 				data += list("second_AC" = null)
 		else
-			to_chat(user, "<span class='debuginfo'>Error WU3 occurred. It is known bug, no need to report it, just close the window manually, please.</span>")
+			to_chat(user, "<span class='debuginfo'>Error WrUs4 occurred. Please, report this bug.</span>")
+			ui.close()
 			return
 
 	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
@@ -157,16 +194,19 @@
 			var/selected = text2num(href_list["weapon"])
 			select_hp(selected, usr)
 
-		if (href_list["reload"])
-			var/selected = text2num(href_list["reload"])
-			reload_wep(selected)
+		if (href_list["ammo"])
+			var/selected = text2num(href_list["ammo"])
+			select_ammo(selected, usr)
+
+		if (href_list["unload"])
+			var/selected = text2num(href_list["unload"])
+			unload_mag(selected, usr)	
 
 		if (href_list["crew"])
 			var/selected = text2num(href_list["crew"])
 			crew_interaction(selected)
 
 		ui_interact(usr) //updates the nanoUI window
-
 
 /obj/vehicle/multitile/root/cm_armored/proc/select_hp(var/selected, var/mob/living/carbon/human/M)
 
@@ -207,34 +247,23 @@
 	if(isliving(M))
 		M.set_interaction(src)
 
-/obj/vehicle/multitile/root/cm_armored/proc/reload_wep(var/selected)
+/obj/vehicle/multitile/root/cm_armored/proc/select_ammo(var/selected, var/mob/M)
 
-	if(!can_use_hp(usr))
+	if(!can_use_hp(M))
 		return
 
-	var/slot
+	var/obj/item/hardpoint/tank/HP = hardpoints[HDPT_PRIMARY]
+	HP.change_ammo(selected, M)
+	return
+	
+/obj/vehicle/multitile/root/cm_armored/proc/unload_mag(var/selected, var/mob/M)
 
-	switch(selected)
-		if(5)
-			slot = HDPT_PRIMARY
-		if(4)
-			slot = HDPT_SECDGUN
+	if(!can_use_hp(M))
+		return
 
-	var/obj/item/hardpoint/tank/HP = hardpoints[slot]
-
-	to_chat(usr, "<span class='notice'>You begin emptying [HP.name].</span>")
-
-	sleep(20)
-	var/obj/item/ammo_magazine/A = HP.clips[1]
-	HP.clips[1].Move(entrance.loc)	//LISTS START AT 1 REEEEEEEEEEEE
-	HP.clips[1].update_icon()
-	HP.clips.Remove(A)
-	if(HP.clips.len > 0)
-		to_chat(usr, "<span class='notice'>You reload the [HP.name].</span>")
-	else
-		to_chat(usr, "<span class='notice'>You empty the [HP.name].</span>")
-	playsound(src, 'sound/weapons/gun_mortar_unpack.ogg', 40, 1)
-
+	var/obj/item/hardpoint/tank/HP = hardpoints[HDPT_PRIMARY]
+	HP.unload_mag(selected, M)
+	return
 
 //proc that will be pushing another unconcious AC out of tank
 /obj/vehicle/multitile/root/cm_armored/tank/proc/crew_interaction(var/choice)
