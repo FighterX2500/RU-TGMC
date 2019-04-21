@@ -906,6 +906,15 @@
 	penetration= config.low_armor_penetration
 	shrapnel_chance = config.med_shrapnel_chance
 
+/datum/ammo/bullet/minigun/tank
+	name = "minigun bullet"
+
+/datum/ammo/bullet/minigun/tank/New()
+	..()
+	accurate_range = config.short_shell_range
+	damage = config.hlow_hit_damage
+
+
 /datum/ammo/bullet/front_cannon		//APC front cannon bullets
 	name = "frontcannon bullet"
 	icon_state = "bullet"
@@ -913,7 +922,7 @@
 
 /datum/ammo/bullet/front_cannon/New()
 	..()
-	accurate_range = config.short_shell_range
+	accurate_range = config.screen_shell_range
 	damage = config.llow_hit_damage
 	penetration = config.low_armor_penetration
 
@@ -1000,31 +1009,220 @@
 	smoke.set_up(1, get_turf(P))
 	smoke.start()
 
+/datum/ammo/rocket/tow
+	name = "TOW rocket"
+	damage_falloff = 0
+	flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET
+
+/datum/ammo/rocket/tow/New()
+	..()
+	accuracy = config.high_hit_accuracy
+	accurate_range = config.short_shell_range
+	max_range = config.max_shell_range
+	damage = config.low_hit_damage
+	penetration= config.max_armor_penetration
+
+/datum/ammo/rocket/tow/on_hit_mob(mob/M, obj/item/projectile/P)
+	explosion(get_turf(M), 1, 1, 1, 3)
+
+/datum/ammo/rocket/tow/on_hit_obj(obj/O, obj/item/projectile/P)
+	explosion(get_turf(P), 1, 1, 1, 3)
+
+/datum/ammo/rocket/tow/on_hit_turf(turf/T, obj/item/projectile/P)
+	explosion(get_turf(P), 1, 1, 1, 3)
+
+/datum/ammo/rocket/tow/do_at_max_range(obj/item/projectile/P)
+	explosion(get_turf(P), 1, 1, 1, 3)
+
+/datum/ammo/rocket/tow/m8_1_tow
+	name = "TOW emplacement rocket"
+
 /datum/ammo/rocket/ltb
 	name = "cannon round"
 	icon_state = "ltb"
 	flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET
 
 /datum/ammo/rocket/ltb/New()
-	. = ..()
-	accuracy = config.max_hit_accuracy
-	accurate_range = config.short_shell_range
+	..()
+	accuracy = config.med_hit_accuracy
+	accurate_range = config.long_shell_range
 	max_range = config.max_shell_range
 	penetration = config.ltb_armor_penetration
-	damage = config.ltb_hit_damage
+	damage = config.low_hit_damage
 	shell_speed = config.fast_shell_speed
 
 /datum/ammo/rocket/ltb/on_hit_mob(mob/M, obj/item/projectile/P)
-	explosion(get_turf(M), -1, 3, 5, 6)
+	explosion(get_turf(M), 1, 1, 5, 6)
 
 /datum/ammo/rocket/ltb/on_hit_obj(obj/O, obj/item/projectile/P)
-	explosion(get_turf(P), -1, 3, 5, 6)
+	explosion(get_turf(P), 1, 1, 5, 6)
 
 /datum/ammo/rocket/ltb/on_hit_turf(turf/T, obj/item/projectile/P)
-	explosion(get_turf(P), -1, 3, 5, 6)
+	explosion(get_turf(P), 1, 1, 5, 6)
 
 /datum/ammo/rocket/ltb/do_at_max_range(obj/item/projectile/P)
-	explosion(get_turf(P), -1, 3, 5, 6)
+	explosion(get_turf(P), 1, 1, 5, 6)
+
+/datum/ammo/rocket/ltb/ap
+	name = "AP cannon round"
+	icon_state = "ltb_ap"
+	flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET
+
+/datum/ammo/rocket/ltb/ap/New()
+	. = ..()
+	accuracy = config.high_hit_accuracy
+	accurate_range = config.short_shell_range
+	damage = config.med_hit_damage
+
+/datum/ammo/rocket/ltb/on_hit_mob(mob/M, obj/item/projectile/P)
+	explosion(get_turf(M), 1, 1, 1, 3)
+
+/datum/ammo/rocket/ltb/on_hit_obj(obj/O, obj/item/projectile/P)
+	explosion(get_turf(P), 1, 1, 1, 3)
+
+/datum/ammo/rocket/ltb/on_hit_turf(turf/T, obj/item/projectile/P)
+	explosion(get_turf(P), 1, 1, 1, 3)
+
+/datum/ammo/rocket/ltb/do_at_max_range(obj/item/projectile/P)
+	explosion(get_turf(P), 1, 1, 1, 3)
+
+/datum/ammo/rocket/ltb/he
+	name = "HE cannon round"
+	icon_state = "ltb_he"
+	flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET
+
+/datum/ammo/rocket/ltb/he/New()
+	. = ..()
+	accuracy = config.high_hit_accuracy
+	accurate_range = config.short_shell_range
+	penetration = config.low_armor_penetration
+	damage = config.high_hit_damage
+
+/datum/ammo/rocket/ltb/he/on_hit_mob(mob/M, obj/item/projectile/P)
+	explosion(get_turf(M), -1, -1, 5, 6)
+
+/datum/ammo/rocket/ltb/he/on_hit_obj(obj/O, obj/item/projectile/P)
+	explosion(get_turf(P), -1, -1, 5, 6)
+
+/datum/ammo/rocket/ltb/he/on_hit_turf(turf/T, obj/item/projectile/P)
+	explosion(get_turf(P), -1, -1, 5, 6)
+
+/datum/ammo/rocket/ltb/he/do_at_max_range(obj/item/projectile/P)
+	explosion(get_turf(P), -1, -1, 5, 6)
+
+/datum/ammo/rocket/ltb/heat
+	name = "HEAT cannon round"
+	icon_state = "ltb_heat"
+	flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET
+
+/datum/ammo/rocket/ltb/heat/New()
+	. = ..()
+	accuracy = config.high_hit_accuracy
+	accurate_range = config.short_shell_range
+	penetration = config.low_armor_penetration
+	damage = config.high_hit_damage
+
+/datum/ammo/rocket/ltb/heat/on_hit_mob(mob/M, obj/item/projectile/P)
+	explosion(get_step(get_turf(M), P.dir), -1, 2, 3, 4)
+
+/datum/ammo/rocket/ltb/heat/on_hit_turf(turf/T, obj/item/projectile/P)
+	var/turf/closed/wall/W = T
+	if(istype(W) && !W.hull)
+		explosion(get_step(W, P.dir), -1, 2, 3, 4)
+		qdel(W)
+	explosion(T, -1, 2, 3, 4)
+
+/datum/ammo/rocket/ltb/heat/on_hit_obj(obj/O, obj/item/projectile/P)
+	if(!O.unacidable)
+		var/turf/closed/wall/T = get_turf(O)
+		if(istype(T) && !T.hull)
+			qdel(T)
+		explosion(get_step(O, P.dir), -1, 2, 3, 4)
+	else
+		explosion(get_turf(O), -1, 2, 3, 4)
+
+/datum/ammo/rocket/ltb/heat/do_at_max_range(obj/item/projectile/P)
+	explosion(get_turf(P), -1, 2, 3, 4)
+
+/datum/ammo/rocket/autocannon
+	name = "autocannon round"
+	icon_state = "autocannon_ap"
+	iff_signal = ACCESS_IFF_MARINE
+	flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET|AMMO_SKIPS_HUMANS
+
+/datum/ammo/rocket/autocannon/New()
+	..()
+	accuracy = config.med_hit_accuracy
+	accurate_range = config.long_shell_range
+	max_range = config.max_shell_range
+	damage = config.hlow_hit_damage
+	penetration= config.mlow_armor_penetration
+	shell_speed = config.fast_shell_speed
+
+/datum/ammo/rocket/autocannon/scr
+	name = "autocannon round"
+	icon_state = "autocannon_scr"
+
+/datum/ammo/rocket/autocannon/scr/on_hit_mob(mob/M, obj/item/projectile/P)
+	staggerstun(M, P, config.max_shell_range, 0, 0, 3, 7, 0, 1, 3, 2)
+
+/datum/ammo/rocket/autocannon/scr/on_hit_obj(obj/O, obj/item/projectile/P)
+	area_stagger_burst(get_turf(P), P, 0, 0, 3, 5, 0, 1, 3, 2)
+
+/datum/ammo/rocket/autocannon/scr/on_hit_turf(turf/T, obj/item/projectile/P)
+	area_stagger_burst(get_turf(P), P, 0, 0, 3, 5, 0, 1, 3, 2)
+
+/datum/ammo/rocket/autocannon/scr/do_at_max_range(obj/item/projectile/P)
+	area_stagger_burst(get_turf(P), P, 0, 0, 3, 5, 0, 1, 3, 2)
+
+/datum/ammo/rocket/autocannon/scr/apc
+	name = "autocannon round"
+	icon_state = "autocannon_scr_apc"
+
+/datum/ammo/rocket/autocannon/ap
+	name = "autocannon round"
+	icon_state = "autocannon_ap"
+
+/datum/ammo/rocket/autocannon/ap/New()
+	..()
+	accuracy = config.med_hit_accuracy
+	accurate_range = config.long_shell_range
+	max_range = config.max_shell_range
+	damage = config.lmmed_hit_damage
+	penetration= config.hmed_armor_penetration
+
+/datum/ammo/rocket/autocannon/ap/on_hit_mob(mob/M, obj/item/projectile/P)
+	return
+
+/datum/ammo/rocket/autocannon/ap/on_hit_obj(obj/O, obj/item/projectile/P)
+	return
+
+/datum/ammo/rocket/autocannon/ap/on_hit_turf(turf/T, obj/item/projectile/P)
+	return
+
+/datum/ammo/rocket/autocannon/ap/do_at_max_range(obj/item/projectile/P)
+	return
+
+//no IFF for communistic pigs!
+/datum/ammo/rocket/autocannon/ap/upp
+	iff_signal = null
+	flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET
+
+/datum/ammo/rocket/autocannon/ap/upp/New()
+	..()
+	damage = config.hmed_hit_damage
+
+/datum/ammo/rocket/autocannon/ap/upp/on_hit_mob(mob/M, obj/item/projectile/P)
+	return
+
+/datum/ammo/rocket/autocannon/ap/upp/on_hit_obj(obj/O, obj/item/projectile/P)
+	return
+
+/datum/ammo/rocket/autocannon/ap/upp/on_hit_turf(turf/T, obj/item/projectile/P)
+	return
+
+/datum/ammo/rocket/autocannon/ap/upp/do_at_max_range(obj/item/projectile/P)
+	return
 
 /datum/ammo/rocket/wp
 	name = "white phosphorous rocket"
@@ -1715,56 +1913,3 @@
 	name = "smoke grenade shell"
 	nade_type = /obj/item/explosive/grenade/smokebomb
 	icon_state = "smoke_shell"
-
-/datum/ammo/rocket/autocannon
-	name = "autocannon round"
-	icon_state = "redbullet"
-	iff_signal = ACCESS_IFF_MARINE
-	flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET|AMMO_SKIPS_HUMANS
-
-/datum/ammo/rocket/autocannon/New()
-	..()
-	accuracy = config.med_hit_accuracy
-	accurate_range = config.long_shell_range
-	max_range = config.max_shell_range
-	damage = config.hlow_hit_damage
-	penetration= config.mlow_armor_penetration
-	shell_speed = config.fast_shell_speed
-
-/datum/ammo/rocket/autocannon/on_hit_mob(mob/M, obj/item/projectile/P)
-	staggerstun(M, P, config.max_shell_range, 0, 0, 3, 7, 0, 1, 3, 2)
-
-/datum/ammo/rocket/autocannon/on_hit_obj(obj/O, obj/item/projectile/P)
-	area_stagger_burst(get_turf(P), P, 0, 0, 3, 5, 0, 1, 3, 2)
-
-/datum/ammo/rocket/autocannon/on_hit_turf(turf/T, obj/item/projectile/P)
-	area_stagger_burst(get_turf(P), P, 0, 0, 3, 5, 0, 1, 3, 2)
-
-/datum/ammo/rocket/autocannon/do_at_max_range(obj/item/projectile/P)
-	area_stagger_burst(get_turf(P), P, 0, 0, 3, 5, 0, 1, 3, 2)
-
-//no IFF for communistic pigs!
-/datum/ammo/rocket/autocannon/upp
-	icon_state = "bullet"
-	flags_ammo_behavior = AMMO_EXPLOSIVE|AMMO_ROCKET
-
-/datum/ammo/rocket/autocannon/upp/New()
-	..()
-	accuracy = config.med_hit_accuracy
-	accurate_range = config.long_shell_range
-	max_range = config.max_shell_range
-	damage = config.med_hit_damage
-	penetration= config.mlow_armor_penetration
-	shell_speed = config.fast_shell_speed
-
-/datum/ammo/rocket/autocannon/upp/on_hit_mob(mob/M, obj/item/projectile/P)
-	staggerstun(M, P, config.max_shell_range, 0, 0, 3, 7, 0, 1, 3, 2)
-
-/datum/ammo/rocket/autocannon/upp/on_hit_obj(obj/O, obj/item/projectile/P)
-	area_stagger_burst(get_turf(P), P, 0, 0, 3, 5, 0, 1, 3, 2)
-
-/datum/ammo/rocket/autocannon/upp/on_hit_turf(turf/T, obj/item/projectile/P)
-	area_stagger_burst(get_turf(P), P, 0, 0, 3, 5, 0, 1, 3, 2)
-
-/datum/ammo/rocket/autocannon/upp/do_at_max_range(obj/item/projectile/P)
-	area_stagger_burst(get_turf(P), P, 0, 0, 3, 5, 0, 1, 3, 2)
