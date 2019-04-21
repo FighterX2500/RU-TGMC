@@ -164,7 +164,7 @@ var/list/apc_dmg_distributions = list(
 //e.g. from the minigun to the smoke launcher
 //Only the active hardpoint module can be used
 /obj/vehicle/multitile/root/cm_transport/verb/switch_active_hp()
-	set name = "Change Active Weapon"
+	set name = "W Change Active Weapon"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -205,7 +205,7 @@ var/list/apc_dmg_distributions = list(
 
 //verb shows only to TCs status update on their APC including: ammo and backup clips in weapons and combined health of all modules showed in %
 /obj/vehicle/multitile/root/cm_transport/verb/apc_status()
-	set name = "Check Vehicle Status"
+	set name = "G Check Vehicle Status"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -263,7 +263,7 @@ var/list/apc_dmg_distributions = list(
 			to_chat(usr, "<span class='warning'>Secondary weapon: [HP3.name]. Ammo: [HP3.clips[1].current_rounds]/[HP3.clips[1].max_rounds]. [HP3.clips.len - 1]/[HP3.max_clips - 1] spare magazines available.</span><br>")
 
 /obj/vehicle/multitile/root/cm_transport/verb/reload_hp()
-	set name = "Reload Weapon"
+	set name = "W Reload Weapon"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -832,7 +832,7 @@ var/list/apc_dmg_distributions = list(
 	else if (istype(A, /obj/vehicle/walker))
 		var/obj/vehicle/walker/WL = A
 		WL.visible_message("<span class='danger'>[root] smashes into [WL]!</span>")
-		WL.take_damage(20)
+		WL.take_damage(200)
 		playsound(WL, 'sound/effects/metal_crash.ogg', 35)
 		playsound(WL, pick('sound/mecha/powerloader_step.ogg', 'sound/mecha/powerloader_step2.ogg'), 25)
 		step_away(WL,root,0)
