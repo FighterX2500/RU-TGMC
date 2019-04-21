@@ -114,6 +114,7 @@
 	var/const/deafness = 2//Carbon
 	var/const/muteness = 4//Carbon
 
+	var/artmod_use = 0 // Artillery Module Meson Vision check.
 
 	var/datum/dna/dna = null//Carbon
 	var/radiation = 0.0//Carbon
