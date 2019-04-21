@@ -93,7 +93,7 @@
 
 	del(src)
 
-/obj/effect/multitile_spawner/cm_armored/tank/prebuilt/New()
+/obj/effect/multitile_spawner/cm_armored/tank/prebuilt/ltb/New()
 
 	var/obj/vehicle/multitile/root/cm_armored/tank/R = new(src.loc)
 	R.dir = EAST
@@ -115,6 +115,76 @@
 	R.add_hardpoint(new /obj/item/hardpoint/tank/secondary/m56cupola, R.hardpoints[HDPT_SECDGUN])
 	R.add_hardpoint(new /obj/item/hardpoint/tank/support/artillery_module, R.hardpoints[HDPT_SUPPORT])
 	R.add_hardpoint(new /obj/item/hardpoint/tank/armor/ballistic, R.hardpoints[HDPT_ARMOR])
+	R.add_hardpoint(new /obj/item/hardpoint/tank/treads/standard, R.hardpoints[HDPT_TREADS])
+	R.update_damage_distribs()
+
+	R.load_hitboxes(dimensions, root_pos)
+	R.load_entrance_marker(entr_mark)
+	R.healthcheck()
+
+	R.camera = new /obj/machinery/camera(R)
+	R.camera.network = list("almayer")	//changed network from military to almayer,because Cams computers on Almayer have this network
+	R.camera.c_tag = "Armored Vehicle #[rand(1,10)]" //ARMORED VEHICLE to be at the start of cams list, numbers in case of events with multiple tanks and for APC
+
+	del(src)
+
+/obj/effect/multitile_spawner/cm_armored/tank/prebuilt/autocannon/New()
+
+	var/obj/vehicle/multitile/root/cm_armored/tank/R = new(src.loc)
+	R.dir = EAST
+
+	var/datum/coords/dimensions = new
+	dimensions.x_pos = width
+	dimensions.y_pos = height
+	var/datum/coords/root_pos = new
+	root_pos.x_pos = 1
+	root_pos.y_pos = 1
+
+	//Entrance relative to the root object. The tank spawns with the root centered on the marker
+	var/datum/coords/entr_mark = new
+	entr_mark.x_pos = -2
+	entr_mark.y_pos = 0
+
+	//Manually adding those hardpoints
+	R.add_hardpoint(new /obj/item/hardpoint/tank/primary/autocannon, R.hardpoints[HDPT_PRIMARY])
+	R.add_hardpoint(new /obj/item/hardpoint/tank/secondary/towlauncher, R.hardpoints[HDPT_SECDGUN])
+	R.add_hardpoint(new /obj/item/hardpoint/tank/support/overdrive_enhancer, R.hardpoints[HDPT_SUPPORT])
+	R.add_hardpoint(new /obj/item/hardpoint/tank/armor/concussive, R.hardpoints[HDPT_ARMOR])
+	R.add_hardpoint(new /obj/item/hardpoint/tank/treads/standard, R.hardpoints[HDPT_TREADS])
+	R.update_damage_distribs()
+
+	R.load_hitboxes(dimensions, root_pos)
+	R.load_entrance_marker(entr_mark)
+	R.healthcheck()
+
+	R.camera = new /obj/machinery/camera(R)
+	R.camera.network = list("almayer")	//changed network from military to almayer,because Cams computers on Almayer have this network
+	R.camera.c_tag = "Armored Vehicle #[rand(1,10)]" //ARMORED VEHICLE to be at the start of cams list, numbers in case of events with multiple tanks and for APC
+
+	del(src)
+
+/obj/effect/multitile_spawner/cm_armored/tank/prebuilt/minigun/New()
+
+	var/obj/vehicle/multitile/root/cm_armored/tank/R = new(src.loc)
+	R.dir = EAST
+
+	var/datum/coords/dimensions = new
+	dimensions.x_pos = width
+	dimensions.y_pos = height
+	var/datum/coords/root_pos = new
+	root_pos.x_pos = 1
+	root_pos.y_pos = 1
+
+	//Entrance relative to the root object. The tank spawns with the root centered on the marker
+	var/datum/coords/entr_mark = new
+	entr_mark.x_pos = -2
+	entr_mark.y_pos = 0
+
+	//Manually adding those hardpoints
+	R.add_hardpoint(new /obj/item/hardpoint/tank/primary/minigun, R.hardpoints[HDPT_PRIMARY])
+	R.add_hardpoint(new /obj/item/hardpoint/tank/secondary/grenade_launcher, R.hardpoints[HDPT_SECDGUN])
+	R.add_hardpoint(new /obj/item/hardpoint/tank/support/weapons_sensor, R.hardpoints[HDPT_SUPPORT])
+	R.add_hardpoint(new /obj/item/hardpoint/tank/armor/concussive, R.hardpoints[HDPT_ARMOR])
 	R.add_hardpoint(new /obj/item/hardpoint/tank/treads/standard, R.hardpoints[HDPT_TREADS])
 	R.update_damage_distribs()
 
@@ -271,7 +341,7 @@
 
 //little QoL won't be bad, aight?
 /obj/vehicle/multitile/root/cm_armored/tank/verb/megaphone()
-	set name = "Use Megaphone"
+	set name = "G Use Megaphone"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -279,7 +349,7 @@
 
 //Built in smoke launcher system verb.
 /obj/vehicle/multitile/root/cm_armored/tank/verb/smoke_cover()
-	set name = "Activate Smoke Deploy System"
+	set name = "G Activate Smoke Deploy System"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -293,7 +363,7 @@
 
 //Naming done right
 /obj/vehicle/multitile/root/cm_armored/tank/verb/name_tank()
-	set name = "Name The Tank (Single Use)"
+	set name = "G Name The Tank (Single Use)"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -312,7 +382,7 @@
 
 //Let's you switch into the other seat, if someone is another seat they will be asked if they are agree to switch
 /obj/vehicle/multitile/root/cm_armored/tank/verb/switch_seats()
-	set name = "Swap Seats"
+	set name = "G Swap Seats"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -490,6 +560,7 @@
 				to_chat(M, "<span class='notice'>You climb onto the tank and enter the driver's seat through an auxiliary top hatchet.</span>")
 
 			M.set_interaction(src)
+			ui_interact(M)
 			return
 
 		if("Gunner")
@@ -520,6 +591,7 @@
 			else
 				to_chat(M, "<span class='notice'>You climb onto the tank and enter the gunner's seat through an auxiliary top hatchet.</span>")
 			M.set_interaction(src)
+			ui_interact(M)
 			if(M.client)
 				M.client.mouse_pointer_icon = file("icons/mecha/mecha_mouse.dmi")
 

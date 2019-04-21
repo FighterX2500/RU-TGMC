@@ -697,34 +697,57 @@ HARDPOINT MODULES (and their ammo)
 	containername = "hardpoint module assembly crate"
 	group = "Tank Hardpoint Modules"
 
-/datum/supply_packs/ltb_cannon_ammo
-	name = "M5 LTB Cannon Magazines (x8)"
+/datum/supply_packs/ltb_cannon_ammo/ap
+	name = "M5 LTB Cannon AP Magazine (x2)"
 	contains = list(
-					/obj/item/ammo_magazine/tank/ltb_cannon,
-					/obj/item/ammo_magazine/tank/ltb_cannon,
-					/obj/item/ammo_magazine/tank/ltb_cannon,
-					/obj/item/ammo_magazine/tank/ltb_cannon,
-					/obj/item/ammo_magazine/tank/ltb_cannon,
-					/obj/item/ammo_magazine/tank/ltb_cannon,
-					/obj/item/ammo_magazine/tank/ltb_cannon,
-					/obj/item/ammo_magazine/tank/ltb_cannon
+					/obj/item/ammo_magazine/tank/ltb_cannon/ap,
+					/obj/item/ammo_magazine/tank/ltb_cannon/ap
 					)
-	cost = RO_PRICE_CHEAP
+	cost = RO_PRICE_NEAR_FREE
 	containertype = /obj/structure/closet/crate/ammo
 	containername = "tank ammo crate"
 	group = "Tank Hardpoint Modules"
 
-/datum/supply_packs/autocannon_ammo
-	name = "M21 Autocannon Magazine (x6)"
+/datum/supply_packs/ltb_cannon_ammo/he
+	name = "M5 LTB Cannon HE Magazine (x2)"
 	contains = list(
-					/obj/item/ammo_magazine/tank/autocannon,
-					/obj/item/ammo_magazine/tank/autocannon,
-					/obj/item/ammo_magazine/tank/autocannon,
-					/obj/item/ammo_magazine/tank/autocannon,
-					/obj/item/ammo_magazine/tank/autocannon,
-					/obj/item/ammo_magazine/tank/autocannon
+					/obj/item/ammo_magazine/tank/ltb_cannon/he,
+					/obj/item/ammo_magazine/tank/ltb_cannon/he
 					)
-	cost = RO_PRICE_CHEAP
+	cost = RO_PRICE_NEAR_FREE
+	containertype = /obj/structure/closet/crate/ammo
+	containername = "tank ammo crate"
+	group = "Tank Hardpoint Modules"
+
+/datum/supply_packs/ltb_cannon_ammo/heat
+	name = "M5 LTB Cannon HEAT Magazine (x2)"
+	contains = list(
+					/obj/item/ammo_magazine/tank/ltb_cannon/heat,
+					/obj/item/ammo_magazine/tank/ltb_cannon/heat
+					)
+	cost = RO_PRICE_VERY_CHEAP
+	containertype = /obj/structure/closet/crate/ammo
+	containername = "tank ammo crate"
+	group = "Tank Hardpoint Modules"
+
+/datum/supply_packs/autocannon_ammo/scr
+	name = "M21 Autocannon SCR Magazine (x2)"
+	contains = list(
+					/obj/item/ammo_magazine/tank/autocannon/scr,
+					/obj/item/ammo_magazine/tank/autocannon/scr
+					)
+	cost = RO_PRICE_NEAR_FREE
+	containertype = /obj/structure/closet/crate/ammo
+	containername = "tank ammo crate"
+	group = "Tank Hardpoint Modules"
+
+/datum/supply_packs/autocannon_ammo/ap
+	name = "M21 Autocannon AP Magazine (x2)"
+	contains = list(
+					/obj/item/ammo_magazine/tank/autocannon/ap,
+					/obj/item/ammo_magazine/tank/autocannon/ap
+					)
+	cost = RO_PRICE_NEAR_FREE
 	containertype = /obj/structure/closet/crate/ammo
 	containername = "tank ammo crate"
 	group = "Tank Hardpoint Modules"

@@ -1372,8 +1372,8 @@
 				<li>All modules can be fixed in special Module Repair Station in the Garage next to Tank Vendor.</li>
 
 				<h1><a name="Primary"><B>Primary Weaponry</B></a></h1>
-				<li><I>M21 Autocannon.</I> 1RW. A primary light autocannon for tank. Designed for light scout tank. Shoots 30mm light HE rounds. Fire rate was reduced with adding IFF support.</li>
-				<li><I>M5 LTB Cannon.</I> 2RW. A primary 86mm cannon for tank that shoots explosive rounds.</li>
+				<li><I>M21 Autocannon.</I> 1RW. A primary light autocannon for tank. Designed for light scout tank. Fire rate was reduced with adding IFF support. Supports two ammo types: AP - 30mm Armor-Piercing shell; SCR - Special Concussion Round for suppressing enemy infantry.</li>
+				<li><I>M5 LTB Cannon.</I> 2RW. A primary 86mm cannon for tank. Supports three shell types: AP - Armor-Piercing; HE - High-Explosive shell used against enemy infantry; HEAT - High-Explosive Anti-Tank ammunition, for dealing with targets behind armor or fortifications.</li>
 				<li><I>M74 LTAA-AP Minigun.</I> 3RW. It's a minigun, what is not clear? Just go pew-pew-pew.</li>
 
 				<h1><a name="Secondary"><B>Secondary Weaponry</B></a></h1>
@@ -1462,8 +1462,8 @@
 				<li>¬се модули могут быть починены в —танции –емонта ћодулей в √араже возле “акнового ¬ендора.</li>
 
 				<h1><a name="Primary_ru"><B>ќсновные ќружейные ћодули</B></a></h1>
-				<li><I>M21 Autocannon.</I> 1RW. ќснованя легкая танковая автопушка. —проектирована для легких разведовательных танков. —треляет 30мм легкими взрывающимися зарядами. —корость стрельбы была снижена для введения поддержки IFF системы.</li>
-				<li><I>M5 LTB Cannon.</I> 2RW. ќсновное 86мм танковое орудие, стреляющее мощными взрывчатыми снарядами.</li>
+				<li><I>M21 Autocannon.</I> 1RW. ќсновная легкая танковая автопушка. —проектирована для легких разведовательных танков. —корость стрельбы была снижена для введения поддержки IFF системы. ѕоддерживает два типа снарядов: AP(ЅЅ) - 30мм бронебойный; SCR(— —) - специальный контузящий снаряд для подавления живой силы противника.</li>
+				<li><I>M5 LTB Cannon.</I> 2RW. ќсновное 86мм танковое орудие. ѕоддерживает три типа снарядов: AP(ЅЅ) - бронебойный снаряд; HE(ќ‘) - осколочно-фугасный снаряд, для поражения живой силы противника; HEAT( ”) - кумулятивный снаряд для поражения целей за броней или укреплениями.</li>
 				<li><I>M74 LTAA-AP Minigun.</I> 3RW. Ќу, это миниган. „то еще добавить. ∆мите на гашетку и не пробуйте считать пули, голова заболит.</li>
 
 				<h1><a name="Secondary_ru"><B>ƒополнительные ќружейные ћодули</B></a></h1>
@@ -1489,7 +1489,7 @@
 				<li><I>M2-R Tank Treads.</I> 3RW. ”крепленные траки. ¬ три раза тяжеле стандартных, однако значительно крепче. ѕрисутствует слой схожего с покрытием брони ћ70.</li><BR><BR>
 
 				<h1><a name="Updates_ru"><B>Ќовые ќсобенности</B></a></h1>
-				<li>»нженеры обновили системы ћ46 и установили улучшенное программное обеспечение. ѕредставляем: ѕользовательский »нтерфейс. “еперь при нажатии новой кнопки "ACtivate UI" откроетс€ окно пользовательского интерфейса.</li>
+				<li>»нженеры обновили системы ћ46 и установили улучшенное программное обеспечение. ѕредставляем: ѕользовательский »нтерфейс. “еперь при нажатии новой кнопки "ACtivate UI" откроется окно пользовательского интерфейса.</li>
 				<li>¬нимание! ‘ункционал системы не был протестирован полностью, сообщайте об ошибках в “ехнический ќтдел ќЎ ћѕ.</li>
 
 				<h1><a name="Tips_1_ru"><B>—оветы ƒля новичков</B></a></h1>

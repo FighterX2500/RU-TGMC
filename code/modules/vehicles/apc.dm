@@ -310,14 +310,14 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 
 //little QoL won't be bad, aight?
 /obj/vehicle/multitile/root/cm_transport/apc/verb/megaphone()
-	set name = "Use Megaphone"
+	set name = "G Use Megaphone"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
 	use_megaphone(usr)
 
 /obj/vehicle/multitile/root/cm_transport/apc/verb/use_interior_camera()
-	set name = "Use Interior Camera"
+	set name = "G Use Interior Camera"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -347,7 +347,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 
 //Let's you switch into the other seat, doesn't work if it's occupied or gunner is not an AC
 /obj/vehicle/multitile/root/cm_transport/apc/verb/switch_seats()
-	set name = "Swap Seats"
+	set name = "G Swap Seats"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -443,7 +443,7 @@ var/list/free_modules = list("Medical Modification", "Supply Modification", "Com
 
 //Naming done right
 /obj/vehicle/multitile/root/cm_transport/apc/verb/name_apc()
-	set name = "Name The APC (Single Use)"
+	set name = "G Name The APC (Single Use)"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 

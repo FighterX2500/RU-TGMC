@@ -294,7 +294,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 //e.g. from the minigun to the smoke launcher
 //Only the active hardpoint module can be used
 /obj/vehicle/multitile/root/cm_armored/verb/switch_active_hp()
-	set name = "Change Active Weapon"
+	set name = "W Change Active Weapon"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -382,7 +382,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 
 //verb shows only to TCs status update on their tank including: ammo and backup clips in weapons and combined health of all modules showed in %
 /obj/vehicle/multitile/root/cm_armored/verb/tank_status()
-	set name = "Check Vehicle Status"
+	set name = "G Check Vehicle Status"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -426,25 +426,82 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 
 	to_chat(usr, "<span class='warning'>Vehicle Status:</span><br>")
 	to_chat(usr, "<span class='warning'>Overall vehicle integrity: [tank_health] percent.</span>")
-	to_chat(usr, "<span class='warning'>M75 Smoke Deploy System: [smoke_ammo_current / 2] uses left.</span>")
+	to_chat(usr, "<span class='warning'>M75 Smoke Deploy System: [smoke_ammo_current / 2] uses left.</span><br>")
 
 	if(HP5 == null || HP5.health <= 0)
-		to_chat(usr, "<span class='warning'>Primary weapon: Unavailable.</span>")
+		to_chat(usr, "<span class='danger'>Primary weapon: Unavailable.</span>")
 	else
-		if(HP5.clips.len <= 0)
-			to_chat(usr, "<span class='warning'>Primary weapon: [HP5.name]. Ammo: 0/0. 0/0 spare magazines available.</span>")
-		else
-			to_chat(usr, "<span class='warning'>Primary weapon: [HP5.name]. Ammo: [HP5.clips[1].current_rounds]/[HP5.clips[1].max_rounds]. [HP5.clips.len - 1]/[HP5.max_clips - 1] spare magazines available.</span>")
-	if(HP4 == null || HP4.health <= 0)
-		to_chat(usr, "<span class='warning'>Secondary weapon: Unavailable.</span>")
-	else
-		if(HP4.clips.len <= 0)
-			to_chat(usr, "<span class='warning'>Secondary weapon: [HP4.name]. Ammo: 0/0. 0/0 spare magazines available.</span>")
-		else
-			to_chat(usr, "<span class='warning'>Secondary weapon: [HP4.name]. Ammo: [HP4.clips[1].current_rounds]/[HP4.clips[1].max_rounds]. [HP4.clips.len - 1]/[HP4.max_clips - 1] spare magazines available.</span><br>")
+		to_chat(usr, "<span class='notice'>Primary weapon: [HP5.name].</span>")
+		var/empty = TRUE
+		for(var/i = 1; i <= HP5.clips.len; i++)
+			if(HP5.clips[i].len > 1)
+				empty = FALSE
+				var/ammo = 0
+				for(var/j = 2; j <= HP5.clips[i].len; j++)
+					var /obj/item/ammo_magazine/tank/A = HP5.clips[i][j]
+					ammo += A.current_rounds
+				to_chat(usr, "<span class='notice'>[HP5.clips[i][1]] ammunition: [ammo].</span>")
+		if(empty)
+			to_chat(usr, "<span class='danger'>Ammunition depleted.</span>")
 
-/obj/vehicle/multitile/root/cm_armored/verb/reload_hp()
-	set name = "Reload Weapon"
+	if(HP4 == null || HP4.health <= 0)
+		to_chat(usr, "<span class='danger'>Secondary weapon: Unavailable.</span>")
+	else
+		to_chat(usr, "<br><span class='notice'>Secondary weapon: [HP4.name].</span>")
+		var/empty = TRUE
+		for(var/i = 1; i <= HP4.clips.len; i++)
+			if(HP4.clips[i].len > 1)
+				empty = FALSE
+				var/ammo = 0
+				for(var/j = 2; j <= HP4.clips[i].len; j++)
+					var /obj/item/ammo_magazine/tank/A = HP4.clips[i][j]
+					ammo += A.current_rounds
+				to_chat(usr, "<span class='notice'>[HP4.clips[i][1]] ammunition: [ammo].</span><br>")
+		if(empty)
+			to_chat(usr, "<span class='danger'>Ammunition depleted.</span><br>")
+
+/obj/vehicle/multitile/root/cm_armored/verb/switch_hp_ammo()
+	set name = "W Switch Ammo"
+	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
+	set src = usr.loc
+
+	if(!can_use_hp(usr)) return
+
+	var/list/slots = get_activatable_hardpoints()
+
+	if(!slots.len)
+		to_chat(usr, "<span class='warning'>All of the modules can't be unloaded or are broken.</span>")
+		return
+
+	var/slot = input("Select a slot.") in slots
+
+	if(slot != HDPT_PRIMARY && slot != HDPT_SECDGUN)
+		to_chat(usr, "<span class='warning'>Error. Unsupported module selected. Stopping operation.</span>")
+		return
+
+	var/obj/item/hardpoint/tank/HP = hardpoints[slot]
+	
+	if(!HP)
+		to_chat(usr, "<span class='warning'>Primary weapon is not installed.</span>")
+		return
+
+	if(HP.health < 0)
+		to_chat(usr, "<span class='danger'>Warning! [HP.name] sustained critical damage and is not operatable!</span>")
+		return
+
+	var/list/ammo_type
+	for(var/i = 1; i <= HP.clips.len; i++)
+		if(HP.clips[i].len > 1)
+			ammo_type += list(HP.clips[i][1])
+	var/choice = input("Select a ammo type to reload.") in ammo_type
+	for(var/i = 1; i <= ammo_type.len; i++)
+		if(choice == ammo_type[i])
+			choice = i
+			break
+	HP.change_ammo(choice, usr)
+
+/obj/vehicle/multitile/root/cm_armored/verb/unload_hp()
+	set name = "W Unload Weapon"
 	set category = "Vehicle"	//changed verb category to new one, because Object category is bad.
 	set src = usr.loc
 
@@ -463,27 +520,23 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 
 	var/slot = input("Select a slot.") in slots
 
-	var/obj/item/hardpoint/tank/HP = hardpoints[slot]
-	if(HP.clips.len < 1)
-		to_chat(usr, "<span class='warning'>[HP.name] has no clips left in it!</span>")
+	if(slot != HDPT_PRIMARY && slot != HDPT_SECDGUN)
+		to_chat(usr, "<span class='warning'>Error. Unsupported module selected. Stopping operation.</span>")
 		return
 
-	//if(!A)
-	//	to_chat(usr, "<span class='danger'>Something went wrong! PM a staff member! Code: T_RHPN</span>")
-	//	return
+	var/obj/item/hardpoint/tank/HP = hardpoints[slot]
+	var/list/ammo_type
+	for(var/i = 1; i <= HP.clips.len; i++)
+		if(HP.clips[i].len > 1)
+			ammo_type += list(HP.clips[i][1])
+	var/choice = input("Select a ammo type to reload.") in ammo_type
+	for(var/i = 1; i <= ammo_type.len; i++)
+		if(choice == ammo_type[i])
+			choice = i
+			break
 
-	to_chat(usr, "<span class='notice'>You begin emptying [HP.name].</span>")
-
-	sleep(20)
-	var/obj/item/ammo_magazine/A = HP.clips[1]
-	HP.clips[1].Move(entrance.loc)	//LISTS START AT 1 REEEEEEEEEEEE
-	HP.clips[1].update_icon()
-	HP.clips.Remove(A)
-	if(HP.clips.len > 0)
-		to_chat(usr, "<span class='notice'>You reload the [HP.name].</span>")
-	else
-		to_chat(usr, "<span class='notice'>You empty the [HP.name].</span>")
-	playsound(src, 'sound/weapons/gun_mortar_unpack.ogg', 40, 1)
+	to_chat(usr, "<span class='warning'>[HP.name]'s [HP.clips[choice][1]] magazine will be unloaded.</span>")
+	HP.unload_mag(choice, usr)
 
 /obj/vehicle/multitile/root/cm_armored/proc/get_activatable_hardpoints()
 	var/list/slots = list()
@@ -1063,7 +1116,7 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 	else if (istype(A, /obj/vehicle/walker))
 		var/obj/vehicle/walker/WL = A
 		WL.visible_message("<span class='danger'>[root] smashes into [WL]!</span>")
-		WL.take_damage(30)
+		WL.take_damage(300)
 		playsound(WL, 'sound/effects/metal_crash.ogg', 35)
 		playsound(WL, pick('sound/mecha/powerloader_step.ogg', 'sound/mecha/powerloader_step2.ogg'), 25)
 		step_away(WL,root,0)
@@ -1545,18 +1598,8 @@ var/list/TANK_HARDPOINT_OFFSETS = list(
 	if(!do_after(user, 30*num_delays, TRUE, num_delays, BUSY_ICON_FRIENDLY))
 		user.visible_message("<span class='warning'>[user] stops removing \the [old] on [src].</span>", "<span class='warning'>You stop removing \the [old] on [src].</span>")
 		return
-
-	if((old == hardpoints[HDPT_PRIMARY] || old == hardpoints[HDPT_SECDGUN]) && old.health > 0)
-		if(old.clips.len > 0)
-			var i
-			var/obj/item/ammo_magazine/A
-			for(i = 0; i <= old.clips.len; i++)
-				A = old.clips[1]
-				old.clips[1].Move(entrance.loc)
-				old.clips[1].update_icon()
-				old.clips.Remove(A)
-			user.visible_message("<span class='notice'>[user] removes ammunition from \the [old].</span>", "<span class='notice'>You remove ammunition from \the [old].</span>")
-
+	if(old == hardpoints[HDPT_PRIMARY] || old == hardpoints[HDPT_SECDGUN])
+		old.remove_buff(user)
 
 	user.visible_message("<span class='notice'>[user] removes \the [old] on [src].</span>", "<span class='notice'>You remove \the [old] on [src].</span>")
 
